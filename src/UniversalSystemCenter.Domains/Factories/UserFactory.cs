@@ -56,7 +56,7 @@ namespace UniversalSystemCenter.Domains.Factories {
             string realName,
             int sex,
             Guid? referrer,
-            byte isLocked,
+            bool isLocked,
             DateTime? lockBeginTime,
             int? lockDuration,
             string lockMessage,

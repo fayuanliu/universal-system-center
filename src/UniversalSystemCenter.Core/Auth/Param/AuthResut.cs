@@ -46,7 +46,7 @@ namespace UniversalSystemCenter.Core.Auth.Param
         /// <summary>
         /// 主键
         /// </summary>
-        public string Id { get; set; }
+        public Guid Id { get; set; }
 
         /// <summary>
         /// 密码
@@ -61,7 +61,7 @@ namespace UniversalSystemCenter.Core.Auth.Param
         /// <summary>
         /// 用户名称
         /// </summary>       
-        public string UserName { get; set; }
+        public string Account { get; set; }
 
         /// <summary>
         /// 昵称
@@ -131,7 +131,7 @@ namespace UniversalSystemCenter.Core.Auth.Param
         /// <summary>
         /// 角色
         /// </summary>
-        public List<string> RoleIdList { get; set; }
+        public List<Guid> RoleIdList { get; set; }
        
         /// <summary>
         /// 性别
@@ -154,13 +154,13 @@ namespace UniversalSystemCenter.Core.Auth.Param
         public int StoresType { get; set; }
 
         /// <summary>
-        /// 团队编号
+        /// 商户编号
         /// </summary>
-        public string StoresId { get; set; }
+        public Guid? MerchantId { get; set; }
 
         /// <summary>
-        /// 团队姓名
+        /// 商户名称
         /// </summary>
-        public string StoresName { get; set; }
+        public string MerchantName { get; set; }
     }
 }

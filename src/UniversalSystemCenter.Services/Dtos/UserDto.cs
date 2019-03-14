@@ -119,7 +119,7 @@ namespace UniversalSystemCenter.Service.Dtos {
         [Required(ErrorMessage = "锁定不能为空")]
         [Display( Name = "锁定" )]
         [DataMember]
-        public byte IsLocked { get; set; }
+        public bool IsLocked { get; set; }
         /// <summary>
         /// 锁定起始时间
         /// </summary>

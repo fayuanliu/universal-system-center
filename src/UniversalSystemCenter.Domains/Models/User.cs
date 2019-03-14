@@ -123,7 +123,7 @@ namespace UniversalSystemCenter.Domain.Models {
         /// </summary>
         [DisplayName( "锁定" )]
         [Required(ErrorMessage = "锁定不能为空")]
-        public byte IsLocked { get; set; }
+        public bool IsLocked { get; set; }
         /// <summary>
         /// 锁定起始时间
         /// </summary>
@@ -274,5 +274,19 @@ namespace UniversalSystemCenter.Domain.Models {
             AddChange( t => t.LastModifierId, other.LastModifierId );
             AddChange( t => t.IsDeleted, other.IsDeleted );
         }
+    }
+
+    public enum UserStateEnums
+    {
+        /// <summary>
+        /// 在用
+        /// </summary>
+        [Description("在用")]
+        InUse,
+        /// <summary>
+        /// 失效
+        /// </summary>
+        [Description("失效")]
+        Invalid
     }
 }
