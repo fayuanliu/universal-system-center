@@ -1,0 +1,31 @@
+<div class="modal-header">
+  <div class="modal-title">{{Id!=null ? '编辑' : '添加'}}-区域</div>
+</div>
+<nz-spin [nzSpinning]="_AreaService.http.loading">
+  <form #f="ngForm" [formGroup]="form" nz-form [nzLayout]="'horizontal'">
+    <nz-form-item [nzGutter]="24">
+      <nz-form-label nzRequired nz-col [nzSpan]="4">区域名称</nz-form-label>
+      <nz-form-control nz-col [nzSpan]="8">
+        <input nz-input formControlName="name" maxlength="100" required/>
+      </nz-form-control>
+
+      <nz-form-label nzRequired nz-col [nzSpan]="4">排序</nz-form-label>
+      <nz-form-control nz-col [nzSpan]="8">
+        <input nz-input formControlName="sortId" type="number" required/>
+      </nz-form-control>
+
+      <nz-form-label nzRequired nz-col [nzSpan]="4">是否启用</nz-form-label>
+      <nz-form-control nz-col [nzSpan]="8">
+        <nz-switch formControlName="Enabled">
+          <span checked>是</span>
+          <span unchecked>否</span>
+        </nz-switch>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-spin>
+
+<div class="modal-footer">
+  <button nz-button type="button" (click)="close(false)">关闭</button>
+  <button nz-button (click)="save()" [disabled]="!form.valid || !form.dirty || _AreaService.http.loading" [nzType]="'primary'">保存</button>
+</div>

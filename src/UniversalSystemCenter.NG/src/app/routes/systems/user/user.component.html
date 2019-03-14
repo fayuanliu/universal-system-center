@@ -1,0 +1,106 @@
+<page-header [title]="''"></page-header>
+<nz-card [nzBordered]="false" class="main__content">
+    <form nz-form (ngSubmit)="load()" [nzLayout]="'inline'" class="mb-md">
+      <nz-form-item>
+        <nz-form-label>用户名称</nz-form-label>
+        <nz-form-control>
+          <input nz-input [(ngModel)]="page.args.userName" name="userName" placeholder="请输入用户名称">
+        </nz-form-control>
+      </nz-form-item>
+  
+      <nz-form-item>
+        <nz-form-label>是否在职</nz-form-label>
+        <nz-form-control>
+          <nz-select [nzPlaceHolder]="'请选择'" [(ngModel)]="page.args.state" name="state" [nzShowSearch]="true" style=" width: 200px;">
+            <nz-option [nzLabel]="'在职'" [nzValue]="'0'"></nz-option>
+            <nz-option [nzLabel]="'离职'" [nzValue]="'1'"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+  
+      <nz-form-item>
+        <nz-form-control>
+          <button nzFlex nz-button type="submit" [nzType]="'primary'">查询</button>
+          <button nzFlex nz-button type="button" (click)="load(true)" class="mx-sm">重置</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  
+   <div class="mb-md">
+      <button nz-button (click)="edit({Id:null})" [nzType]="'primary'">
+        <i class="anticon anticon-plus"></i>
+        <span>新建</span>
+     </button>
+      <nz-divider nzType="vertical"></nz-divider>
+     <button nz-button [nzType]="'danger'" (click)="del()">
+        <i class="anticon anticon-delete"></i>
+        <span>删除</span>
+      </button>
+    </div>
+  
+    <div class="mb-md">
+      <nz-alert [nzType]="'info'" nzShowIcon [nzMessage]="nzMessage">
+        <ng-template #nzMessage>
+          已选择
+          <strong class="text-primary">{{page.selectedRows.length}}</strong> 项&nbsp;&nbsp;
+        </ng-template>
+      </nz-alert>
+    </div>
+  
+    <nz-table #nzTable [nzData]="page.data" [nzTotal]="page.totalCount" [nzShowSizeChanger]="true" [(nzPageIndex)]="page.page"
+     [(nzPageSize)]="page.pageSize" [nzLoading]="page.loading" [nzShowTotal]="showtotal" [nzFrontPagination]="false" (nzPageIndexChange)="load()"
+      (nzPageSizeChange)="load()" [nzSize]="'middle'">
+      <ng-template #showtotal>
+        共 {{page.totalCount}} 条
+      </ng-template>
+      <thead>
+        <tr>
+          <th nzShowCheckbox [(nzChecked)]="page.allChecked" [nzIndeterminate]="page.indeterminate" (nzCheckedChange)="page.checkAll($event)"></th>
+          <th>
+            <span>用户编号</span>
+          </th>
+          <th>
+            <span>所属部门</span>
+          </th>
+          <th>
+            <span>用户名称</span>
+          </th>
+          <th>
+            <span>角色</span>
+          </th>
+          <th>
+            <span>头像</span>
+          </th>
+          <th>
+            <span>状态</span>
+          </th>
+          <th>
+            <span>操作</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let i of nzTable.data">
+          <td nzShowCheckbox [(nzChecked)]="i.checked" (nzCheckedChange)="page.refreshStatus($event)"></td>
+          <td>{{i.id}}</td>
+          <td>{{i.organizationsName}}</td>
+          <td>{{i.userName}}</td>
+          <td>
+            <li *ngFor="let item of i.roleNames">
+              {{item}}
+            </li>
+          </td>
+          <td>
+            <nz-avatar  [nzSrc]="i.head.indexOf('http')>-1?i.head:imageServer+i.head"></nz-avatar>
+          </td>
+          <td>
+            <nz-tag *ngIf="i.state==0" [nzColor]="'green'">在职</nz-tag>
+            <nz-tag *ngIf="i.state==1" [nzColor]="'pink'">离职</nz-tag>
+          </td>
+          <td>
+            <a (click)="edit(i)">编辑</a>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </nz-card>

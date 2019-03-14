@@ -1,0 +1,99 @@
+<page-header [title]="''"></page-header>
+<nz-card [nzBordered]="false" class="main__content">
+  <nz-card>
+    <nz-breadcrumb nzSeparator=">">
+      <nz-breadcrumb-item>
+        <a (click)="all()" *ngIf="Breadcrumb_Items.length > 0">
+          <i class="anticon anticon-flag mr-sm"></i>区域</a>
+        <span *ngIf="Breadcrumb_Items.length == 0">
+          <i class="anticon anticon-flag mr-sm"></i>区域</span>
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item *ngFor="let item of Breadcrumb_Items;let i = index;">
+        <a *ngIf="i < (Breadcrumb_Items.length - 1)" (click)="returnTo(i)">{{item.label}}</a>
+        <span *ngIf="i == (Breadcrumb_Items.length - 1)">{{item.label}}</span>
+      </nz-breadcrumb-item>
+    </nz-breadcrumb>
+  </nz-card>
+
+  <form nz-form (ngSubmit)="load()" [nzLayout]="'inline'" class="mb-md">
+    <nz-form-item>
+      <nz-form-label>区域名称</nz-form-label>
+      <nz-form-control>
+        <input nz-input [(ngModel)]="page.args.Name" name="Name" placeholder="区域名称" nzId="Name">
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-control>
+        <button nzFlex nz-button type="submit" [nzType]="'primary'">查询</button>
+        <nz-divider nzType="vertical" acl [acl-ability]="'mall_resources_set_permission'" ></nz-divider>
+        <button nz-button type="button" (click)="addOrEdit()" [nzType]="'primary'" acl [acl-ability]="'mall_area_add'" >
+          <i class="anticon anticon-plus"></i>
+          <span>新建</span>
+        </button>
+        <nz-divider nzType="vertical" ></nz-divider>
+        <!-- <button nz-button type="button" (click)="toHandleCoord()" [nzType]="'primary'">
+          <i class="anticon anticon-environment-o"></i>
+          <span>批量处理坐标</span>
+        </button> -->
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+
+
+  <nz-table #nzTable [nzData]="page.data" [nzTotal]="page.totalCount" [nzShowSizeChanger]="true" [(nzPageIndex)]="page.page"
+    [(nzPageSize)]="page.pageSize" [nzLoading]="page.loading" [nzShowTotal]="showtotal" [nzFrontPagination]="false" (nzPageIndexChange)="load()"
+    (nzPageSizeChange)="load()" [nzSize]="'middle'">
+    <ng-template #showtotal>
+      共 {{page.totalCount}} 条
+    </ng-template>
+    <thead>
+      <tr>
+        <th>
+          <span>操作</span>
+        </th>
+        <th>
+          <span>区域名称</span>
+        </th>
+        <th>
+          <span>编码</span>
+        </th>
+        <th>
+          <span>全路径</span>
+        </th>
+        <th>
+          <span>经纬度</span>
+        </th>
+        <th>
+          <span>级别</span>
+        </th>
+        <th>
+          <span>是否启用</span>
+        </th>
+        <th>
+          <span>排序</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let i of nzTable.data">
+        <td>
+          <a (click)="addOrEdit(i.id)" acl [acl-ability]="'mall_area_edit'" >编辑</a>
+          <!-- <nz-divider nzType="vertical" *ngIf="i.isLeave" acl [acl-ability]="'mall_resources_set_permission'" ></nz-divider>
+          <nz-popconfirm [nzTitle]="'确定要删除该区域？'" (nzOnConfirm)="delete(i.id)" acl [acl-ability]="'mall_resources_set_permission'" > 
+            <a *ngIf="i.isLeave" nz-popconfirm>删除</a>
+          </nz-popconfirm> -->
+        </td>
+        <td>
+          <a (click)="intoChildren(i.id,i.name)">{{i.name}}</a>
+        </td>
+        <td>{{i.code}}</td>
+        <td>{{i.fullPath}}</td> 
+        <td>{{i.longitude}},{{i.latitude}}</td>
+        <td>{{i.level}}</td>
+        <td [innerHtml]="i.enabled | yn"></td>
+        <td>{{i.sortId}}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+</nz-card>

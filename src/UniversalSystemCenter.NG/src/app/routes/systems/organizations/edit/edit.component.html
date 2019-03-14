@@ -1,0 +1,79 @@
+<div class="modal-header">
+    <div class="modal-title">{{entity.id !=null ? '编辑' : '添加'}}-组织机构</div>
+</div>
+<nz-spin [nzSpinning]="servcie._http.loading">
+    <form #f="ngForm" [formGroup]="form" (ngSubmit)="save()" nz-form [nzLayout]="'horizontal'">
+        <nz-form-item [nzGutter]="24">
+
+            <nz-form-label nzRequired nz-col [nzSpan]="4">部门名称</nz-form-label>
+            <nz-form-control nz-col [nzSpan]="7">
+                <input nz-input formControlName="name" maxlength="30" required />
+            </nz-form-control>
+            <nz-form-label nzRequired nz-col [nzSpan]="4">部门负责人</nz-form-label>
+            <nz-form-control nz-col [nzSpan]="7">
+                <nz-select style="width: 100%" formControlName="orgChargeUid" [nzPlaceHolder]="'请输入人员名称或手机号码'"
+                    [nzServerSearch]="true" nzShowSearch (nzOnSearch)="nzOnSearch($event,1)">
+                    <nz-option *ngFor="let option of UseroptionList" [nzLabel]="option.label" [nzValue]="option.value">
+                    </nz-option>
+                </nz-select>
+            </nz-form-control>
+
+            <nz-form-label nzRequired nz-col [nzSpan]="4">部门类型</nz-form-label>
+            <nz-form-control nz-col [nzSpan]="7">
+                <nz-select formControlName="type">
+                    <nz-option [nzLabel]="'公司'" [nzValue]=0></nz-option>
+                    <nz-option [nzLabel]="'分公司'" [nzValue]=1></nz-option>
+                    <nz-option [nzLabel]="'经销商'" [nzValue]=2></nz-option>
+                </nz-select>
+            </nz-form-control>
+
+            <nz-form-label nzRequired nz-col [nzSpan]="4">所在区域</nz-form-label>
+            <nz-form-control nz-col [nzSpan]="7">
+                <nz-cascader [nzExpandTrigger]="'hover'" #nzTablecascader [nzOptions]="region" formControlName="RegionStr"
+                    [nzPlaceHolder]="'请选择'" (ngModelChange)="_console($event)" [nzChangeOnSelect]="'true'"></nz-cascader>
+            </nz-form-control>
+
+            <nz-form-label nz-col [nzSpan]="4">详细地址</nz-form-label>
+            <nz-form-control nz-col [nzSpan]="7">
+                <input nz-input formControlName="addressDetail" maxlength="300" />
+            </nz-form-control>
+
+            <nz-form-label nzRequired nz-col [nzSpan]="4">排序</nz-form-label>
+            <nz-form-control nz-col [nzSpan]="7">
+                <input nz-input formControlName="sortId" type="number" minlength="0" value="0" required />
+            </nz-form-control>
+
+            <nz-form-label nzRequired nz-col [nzSpan]="4">状态</nz-form-label>
+            <nz-form-control nz-col [nzSpan]="7">
+
+                <nz-switch formControlName="state" nzCheckedChildren="在用" nzUnCheckedChildren="失效">
+                    <span checked>在用</span>
+                    <span unchecked>失效</span>
+                </nz-switch>
+            </nz-form-control>
+
+            <nz-form-label nzRequired nz-col [nzSpan]="4">是否启用</nz-form-label>
+            <nz-form-control nz-col [nzSpan]="7">
+                <nz-switch formControlName="Enabled">
+                    <span checked>是</span>
+                    <span unchecked>否</span>
+                </nz-switch>
+            </nz-form-control>
+            <nz-form-label nzRequired nz-col [nzSpan]="4">是否隐藏</nz-form-label>
+            <nz-form-control nz-col [nzSpan]="7">
+                <nz-switch formControlName="isOpen">
+                    <span checked>是</span>
+                    <span unchecked>否</span>
+                </nz-switch>
+            </nz-form-control>
+        </nz-form-item>
+        <input nz-input formControlName="id" type="hidden" />
+        <input nz-input formControlName="parentId" type="hidden" />
+        <input nz-input formControlName="regionid" type="hidden" />
+        <input nz-input formControlName="referenceDetpId" type="hidden" />
+    </form>
+</nz-spin>
+<div class="modal-footer">
+    <button nz-button type="button" (click)="close(false)">关闭</button>
+    <button nz-button (click)="save()" [disabled]="!form.valid || !form.dirty||servcie._http.loading" [nzType]="'primary'">保存</button>
+</div>

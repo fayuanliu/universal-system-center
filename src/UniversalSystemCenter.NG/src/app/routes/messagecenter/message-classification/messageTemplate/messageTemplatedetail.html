@@ -1,0 +1,116 @@
+<div class="modal-header">
+    <div class="modal-title">{{classificationName}} --消息模板</div>
+</div>
+<nz-card [nzBordered]="false" class="main__content">
+    <nz-spin [nzSpinning]="_messageClassificationService.http.loading">
+        <form #f="ngForm" [formGroup]="form" nz-form [nzLayout]="'horizontal'">
+            <nz-form-item [nzGutter]="24">
+                <nz-form-label nzRequired nz-col [nzSpan]="4">模板名称</nz-form-label>
+                <nz-form-control nz-col [nzSpan]="7">
+                    <input nz-input formControlName="name" maxlength="200" required/>
+                </nz-form-control>
+
+                <nz-form-label nzRequired nz-col [nzSpan]="4">发送对象</nz-form-label>
+                <nz-form-control nz-col [nzSpan]="7">
+                    <nz-select [nzPlaceHolder]="'请选择！'" formControlName="sendObject" required>
+                        <nz-option *ngFor="let option of codeoption" [nzLabel]="option.label" [nzValue]="option.value">
+                        </nz-option>
+                    </nz-select>
+                </nz-form-control>
+
+                <nz-form-label nz-col [nzSpan]="4">是否启用</nz-form-label>
+                <nz-form-control nz-col [nzSpan]="7">
+                    <nz-switch formControlName="isEnabled">
+                        <span checked>是</span>
+                        <span unchecked>否</span>
+                    </nz-switch>
+                </nz-form-control>
+
+                <nz-form-label nzRequired nz-col [nzSpan]="4">标题</nz-form-label>
+                <nz-form-control nz-col [nzSpan]="7">
+                    <input nz-input formControlName="title" required />
+                </nz-form-control>
+
+                <nz-form-label nz-col [nzSpan]="4">资源编号</nz-form-label>
+                <nz-form-control nz-col [nzSpan]="7">
+                    <input nz-input formControlName="sourceId" />
+                </nz-form-control>
+
+                <nz-form-label nz-col [nzSpan]="4">排序号</nz-form-label>
+                <nz-form-control nz-col [nzSpan]="7">
+                    <input nz-input formControlName="sortId" type="number" />
+                </nz-form-control>
+
+
+
+                <nz-form-label nz-col nzRequired [nzSpan]="4">模板内容</nz-form-label>
+                <nz-form-control nz-col [nzSpan]="18">
+                    <textarea nz-input formControlName="content" rows="5"></textarea>
+                </nz-form-control>
+
+            </nz-form-item>
+        </form>
+    </nz-spin>
+    <div class="modal-footer">
+        <button nz-button type="button" (click)="close()">关闭</button>
+        <button nz-button type="button" class="mx-sm" (click)="reset()">重置</button>
+        <button nz-button (click)="save()" [disabled]="!form.valid || !form.dirty||_messageClassificationService.http.loading" [nzType]="'primary'">保存</button>
+    </div>
+</nz-card>
+<nz-card [nzBordered]="false">
+    <nz-table #nzTable [nzData]="page.data" [nzTotal]="page.totalCount" [nzShowSizeChanger]="true" [(nzPageIndex)]="page.page"
+        [(nzPageSize)]="page.pageSize" [nzLoading]="page.loading" [nzShowTotal]="showtotal" [nzFrontPagination]="false" (nzPageIndexChange)="load()"
+        (nzPageSizeChange)="load()" [nzSize]="'middle'">
+        <ng-template #showtotal>
+            共 {{page.totalCount}} 条
+        </ng-template>
+        <thead>
+            <tr>
+                <th nzShowCheckbox [(nzChecked)]="page.allChecked" [nzIndeterminate]="page.indeterminate" (nzCheckedChange)="page.checkAll($event)"></th>
+                <th>
+                    <span>操作</span>
+                </th>
+                <th>
+                    <span>模板名称</span>
+                </th>
+                <th>
+                    <span>发送对象</span>
+                </th>
+                <th>
+                    <span>标题</span>
+                </th>
+                <th>
+                    <span>资源编号</span>
+                </th>
+                <th>
+                    <span>模板内容</span>
+                </th>
+                <th>
+                    <span>是否启用</span>
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let i of nzTable.data">
+                <td nzShowCheckbox [(nzChecked)]="i.checked" (nzCheckedChange)="page.refreshStatus($event)"></td>
+                <td>
+                    <a (click)="edit(i)">编辑</a>
+                </td>
+                <td>{{i.name}}</td>
+                <td>
+                    <span *ngIf="i.sendObject==1">
+                        平台
+                    </span>
+                    <span *ngIf="i.sendObject==2">
+                        微信
+                    </span>
+                </td>
+                <td>{{i.title}}</td>
+                <td>{{i.sourceId}}</td>
+                <td>{{i.content}}</td>
+                <td [innerHTML]="i.isEnabled | yn"></td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-card>

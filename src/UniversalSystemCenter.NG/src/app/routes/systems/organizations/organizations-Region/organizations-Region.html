@@ -1,0 +1,82 @@
+<nz-card [nzBordered]="false" class="main__content">
+    <div class="modal-header">
+        <div class="modal-title">部门区域</div>
+    </div>
+    <nz-spin [nzSpinning]="service._http.loading">
+        <form #f="ngForm" [formGroup]="form" (ngSubmit)="save()" nz-form [nzLayout]="'horizontal'">
+                <nz-form-item [nzGutter]="24">        
+                    <nz-form-label nzRequired nz-col [nzSpan]="4">所属公司</nz-form-label>
+                    <nz-form-control nz-col [nzSpan]="7">
+                            <input nz-input formControlName="organizationsName" maxlength="30"/>
+                    </nz-form-control>
+
+        
+                    <nz-form-label nz-col [nzSpan]="4">所在区域</nz-form-label>
+                    <nz-form-control nz-col [nzSpan]="7">
+                            <nz-cascader [nzExpandTrigger]="'hover'" #nzTablecascader  [nzOptions]="region" formControlName="regionStr" [nzPlaceHolder]="'请选择'"
+                            [nzChangeOnSelect]="'true'"></nz-cascader>
+                        <p nz-form-explain></p>
+                    </nz-form-control>   
+
+                    <input nz-input formControlName="id" type="hidden" />
+                    <input nz-input formControlName="regionid" type="hidden" />
+                    <input nz-input formControlName="organizationsId" type="hidden" />
+                </nz-form-item>    
+            </form>
+    </nz-spin>
+    <div class="modal-footer">
+        <button nz-button type="button" (click)="close(false)">关闭</button>
+        <button nz-button type="button" class="mx-sm" (click)="reset()">重置</button>
+        <button nz-button (click)="save()" [disabled]="!form.valid || !form.dirty" >保存</button>
+    </div>
+</nz-card>
+<nz-card [nzBordered]="false">
+    <nz-table #nzTable [nzData]="page.data" [nzTotal]="page.totalCount" [nzShowSizeChanger]="true" [(nzPageIndex)]="page.page"
+        [(nzPageSize)]="page.pageSize" [nzLoading]="page.loading" (nzPageSizeChange)="load()" [nzFrontPagination]="false" [nzSize]="'middle'" (nzPageIndexChange)="load()">
+        <thead nz-thead>
+            <tr>
+                <th nz-th>
+                    <label nz-checkbox [(ngModel)]="page.allChecked" [nzIndeterminate]="page.indeterminate" (ngModelChange)="page.checkAll($event)"></label>
+                </th>
+                <th nz-th acl [acl-ability]="'mall_jurisdictional_area_edit'">
+                    <span>操作</span>
+                </th>
+                <th nz-th>
+                    <span>部门名称 </span>
+                </th>
+                <th nz-th>
+                    <span>省</span>
+                </th>
+                <th nz-th>
+                    <span>市</span>
+                </th>
+                <th nz-th>
+                    <span>区/县</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody nz-tbody>
+            <tr nz-tbody-tr *ngFor="let i of nzTable.data">
+                <td nz-td >
+                    <label nz-checkbox [(ngModel)]="i.checked" (ngModelChange)="page.refreshStatus($event)">
+                    </label>
+                </td>
+                <td nz-td acl [acl-ability]="'mall_jurisdictional_area_edit'">
+                    <a (click)="edit(i)">编辑</a>
+                    <span nz-table-divider></span>
+                </td>
+                <td nz-td>{{entity.label}}</td>
+                <td nz-td>{{i.province}}</td>
+                <td nz-td>
+                    {{i.city}}
+                </td>
+                <td nz-td>
+                        {{i.quarter}}
+                </td>
+                <td nz-td hidden="hidden">
+                        {{i.regionid}}
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-card>
