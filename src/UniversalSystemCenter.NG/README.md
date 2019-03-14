@@ -18,14 +18,15 @@ npm run test
 npm run build
 ```
 
-## Links
-
-+ [Document](https://ng-alain.com)
-+ [DEMO](https://ng-alain.github.io/ng-alain/)
-
 ## 采用框架/组件库
 
 + [angular7](https://www.angular.cn/)
 + [ng-zorro-antd](https://ng.ant.design/docs/introduce/zh)
 + [ng-alain](https://ng-alain.com/zh)
+
+
+## 参与人员
+
++ `HeRunKang`
++ `fayuanliu`
 
