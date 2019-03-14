@@ -11,6 +11,11 @@ import { DelonFormModule } from '@delon/form';
 // #region third libs
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { CountdownModule } from 'ngx-countdown';
+import { TimestampFormatPipe } from './pipe/timestampFormat';
+import { EmptyFormatPipe } from './pipe/emptyFormat';
+import { FormatUrlPipe } from './pipe/formatUrl';
+import { BackgroundUrlPipe } from './pipe/backgroundUrl';
+import { ST_UploadImgSingle } from './component/upload-img-single/upload-img-single';
 const THIRDMODULES = [
   NgZorroAntdModule,
   CountdownModule
@@ -18,8 +23,16 @@ const THIRDMODULES = [
 // #endregion
 
 // #region your componets & directives
-const COMPONENTS = [];
+const COMPONENTS = [
+  ST_UploadImgSingle
+];
 const DIRECTIVES = [];
+const PIPES = [
+  TimestampFormatPipe,
+  EmptyFormatPipe,
+  FormatUrlPipe,
+  BackgroundUrlPipe
+];
 // #endregion
 
 @NgModule({
@@ -38,7 +51,8 @@ const DIRECTIVES = [];
   declarations: [
     // your components
     ...COMPONENTS,
-    ...DIRECTIVES
+    ...DIRECTIVES,
+    ...PIPES
   ],
   exports: [
     CommonModule,
@@ -53,7 +67,8 @@ const DIRECTIVES = [];
     ...THIRDMODULES,
     // your components
     ...COMPONENTS,
-    ...DIRECTIVES
+    ...DIRECTIVES,
+    ...PIPES
   ]
 })
 export class SharedModule { }

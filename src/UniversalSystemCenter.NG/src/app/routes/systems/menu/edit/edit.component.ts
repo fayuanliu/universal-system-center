@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
-import { ModalHelper } from '@delon/theme';
-import { FormGroup, FormBuilder, Validators, FormControl, AsyncValidatorFn, AbstractControl } from '@angular/forms';
 import { ServiceMenuService } from '../menu.servcie';
-import { validateConfig } from '@angular/router/src/config';
-import { appId } from '../../../../app.global';
 import { ServiceApplicationService } from '../../application/application.service';
 
 @Component({
@@ -14,42 +10,47 @@ import { ServiceApplicationService } from '../../application/application.service
 })
 
 export class MenuEditComponent implements OnInit {
-    _options: any[];
-    Id;
-    ParentId;
-    form: FormGroup;
+    /**
+     * 由其它页面传过来的参数
+     */
+    qModel;
+    /**
+     * 0 新增 ，  1 编辑
+     */
+    action = 0;
+
     app_option: any[];
+    params = {
+        id: null,
+        name: null,
+        isGroup: false,
+        link: '',
+        icon: '',
+        code: 'code',
+        isOpen: false,
+        parentId: null,
+        enabled: true,
+        sortId: 0,
+        appId: null
+    };
     constructor(
-        private modalHelper: ModalHelper,
         private subject: NzModalRef,
         public msgSrv: NzMessageService,
         public _menuService: ServiceMenuService,
-        public _serviceApplicationService: ServiceApplicationService,
-        private fb: FormBuilder
+        public _serviceApplicationService: ServiceApplicationService
     ) { }
 
     ngOnInit() {
-        this.form = this.fb.group({
-            id: [this.Id],
-            name: [null, [Validators.required]],
-            isGroup: [(this.ParentId == null || this.ParentId === ''), [Validators.required]],
-            link: ['',],
-            icon: [''],
-            code: ['code'],
-            isOpen: [false],
-            parentId: [this.ParentId],
-            enabled: [true, [Validators.required]],
-            sortId: [0, [Validators.required]],
-            appId: ['', [Validators.required]]
-        });
         this.loadAppOption();
-        if (this.Id != null) {
-            this._menuService.getById(this.Id).subscribe(res => {
-                this.form.reset(res);
+        this.action = this.qModel.id ? 1 : 0;
+        this.params.id = this.qModel.id;
+        this.params.isGroup = this.qModel.parentId ? false : true;
+        this.params.parentId = this.qModel.parentId;
+        if (this.action == 1) {
+            this._menuService.getById(this.params.id).subscribe((res: any) => {
+                this.params = res;
             });
         }
-        // //获取树结构
-        // this.getCascader();
     }
     loadAppOption() {
         this._serviceApplicationService.getAppOptionList().subscribe((res: any) => {
@@ -58,40 +59,20 @@ export class MenuEditComponent implements OnInit {
     }
     save() {
         let resut;
-        if (this.Id == null) {
-            resut = this._menuService.add(this.form.value);
+        if (this.action == 0) {
+            resut = this._menuService.add(this.params);
         } else {
-            resut = this._menuService.edit(this.form.value);
+            resut = this._menuService.edit(this.params);
         }
         resut.subscribe((res) => {
             this.msgSrv.success(res.message);
-
-            //保存成功 返回修改后的数据到列表
             if (res.result == 0) {
                 this.close(true);
             }
-
         });
     }
 
     close(opt) {
         this.subject.destroy(opt);
     }
-
-
-    // appSelectChange(value) {
-    //     this.getCascader();
-    // }
-
-    // /**
-    //  * 获取树结构
-    //  */
-    // getCascader() {
-    //     this._menuService.getcascader({ Id: this.Id, appId: this.form.controls["appId"].value }).subscribe((res: any) => {
-    //         this._options = res.data.optionsList;
-    //         setTimeout(() => {
-    //             this.form.controls['parentIdStr'].setValue(res.data.defaultList);
-    //         }, 100);
-    //     });
-    // }
 }

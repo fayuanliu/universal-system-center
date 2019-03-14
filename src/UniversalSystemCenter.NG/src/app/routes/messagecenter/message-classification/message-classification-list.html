@@ -1,5 +1,6 @@
-<nz-card [nzBordered]="false" class="main__content">
-  <form nz-form (ngSubmit)="load()" [nzLayout]="'inline'" class="mb-md">
+<page-header [title]="''"></page-header>
+<nz-card [nzBordered]="false">
+  <form nz-form [nzLayout]="'inline'" class="mb-md">
     <nz-form-item>
       <nz-form-label>消息场景名称</nz-form-label>
       <nz-form-control>
@@ -9,29 +10,26 @@
 
     <nz-form-item>
       <nz-form-control>
-        <button nzFlex nz-button type="submit" [nzType]="'primary'">查询</button>
-        <button nzFlex nz-button type="button" (click)="load(true)" class="mx-sm">重置</button>
+        <button nz-button nzType="primary" (click)="load()"><i nz-icon type="search"></i>查询</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button nz-button nzType="primary" (click)="load(true)"><i nz-icon type="redo"></i>重置</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button nz-button nzType="primary" (click)="addOrEdit({Id:null})" acl [acl-ability]="'shop_menu_add'"><i
+            nz-icon type="plus"></i>新建</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <nz-popconfirm [nzTitle]="'确定要删除所选记录？'" (nzOnConfirm)="del()">
+          <button nz-button [nzType]="'danger'" nz-popconfirm>
+            <i nz-icon type="delete"></i>
+            删除
+          </button>
+        </nz-popconfirm>
       </nz-form-control>
     </nz-form-item>
   </form>
 
-  <div class="mb-md">
-    <button nz-button (click)="addOrEdit({Id:null})" [nzType]="'primary'">
-      <i class="anticon anticon-plus"></i>
-      <span>新建</span>
-    </button>
-    <nz-divider nzType="vertical"></nz-divider>
-    <nz-popconfirm [nzTitle]="'确定要删除所选记录？'" (nzOnConfirm)="del()">
-      <button nz-button nz-popconfirm [nzType]="'danger'">
-        <i class="anticon anticon-delete"></i>
-        <span>删除</span>
-      </button>
-    </nz-popconfirm>
-  </div>
-
   <nz-table #nzTable [nzData]="page.data" [nzTotal]="page.totalCount" [nzShowSizeChanger]="true" [(nzPageIndex)]="page.page"
-    [(nzPageSize)]="page.pageSize" [nzLoading]="page.loading" [nzShowTotal]="showtotal" [nzFrontPagination]="false" (nzPageIndexChange)="load()"
-    (nzPageSizeChange)="load()" [nzSize]="'middle'">
+    [(nzPageSize)]="page.pageSize" [nzLoading]="_MessageClassificationService.http.loading" [nzShowTotal]="showtotal"
+    [nzFrontPagination]="false" (nzPageIndexChange)="load()" (nzPageSizeChange)="load()" [nzSize]="'middle'">
     <ng-template #showtotal>
       共 {{page.totalCount}} 条
     </ng-template>

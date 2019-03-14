@@ -75,13 +75,11 @@ export class OrganizationsRegion implements OnInit {
             this.page.allChecked = false;
         }
         this.page.args.OrganizationsId = this.entity.value;
-        this.page.loading = true;
         this.service.getOrgRegionPage(this.page).subscribe((data: any) => {
             this.page.page = data.page;
             this.page.totalCount = data.totalCount;
             this.page.pageSize = data.pageSize;
             this.page.data = data.data;
-            this.page.loading = false;
         });
     }
     edit(entity) {

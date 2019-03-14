@@ -45,7 +45,7 @@ import { PageHeaderConfig } from '@delon/abc';
 export function fnPageHeaderConfig(): PageHeaderConfig {
   return {
     ...new PageHeaderConfig(),
-    ...{ homeI18n: 'home' } as PageHeaderConfig
+    ...{ homeI18n: '首页' } as PageHeaderConfig
   };
 }
 
@@ -53,7 +53,11 @@ import { DelonAuthConfig } from '@delon/auth';
 export function fnDelonAuthConfig(): DelonAuthConfig {
   return {
     ...new DelonAuthConfig(),
-    ...{ login_url: '/passport/login' } as DelonAuthConfig
+    ...{
+      login_url: '/passport/login',
+      token_send_template: 'Bearer ${token}',
+      token_send_key: 'Authorization'
+    } as DelonAuthConfig
   };
 }
 

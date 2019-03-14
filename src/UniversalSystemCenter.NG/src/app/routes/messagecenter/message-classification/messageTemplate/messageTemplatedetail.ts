@@ -61,13 +61,11 @@ export class MessageTemplateDetail implements OnInit {
             this.page.page = 1;
             this.page.allChecked = false;
         }
-        this.page.loading = true;
         this._messageClassificationService.getListTemplate(this.page).subscribe((data: any) => {
             this.page.page = data.page;
             this.page.totalCount = data.totalCount;
             this.page.pageSize = data.pageSize;
             this.page.data = data.data;
-            this.page.loading = false;
         });
     }
 

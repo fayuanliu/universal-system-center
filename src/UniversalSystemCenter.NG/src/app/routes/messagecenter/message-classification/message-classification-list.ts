@@ -20,7 +20,7 @@ export class MessageClassificationList implements OnInit {
     page = new Page();
 
     constructor(
-        private _MessageClassificationService: MessageClassificationService,
+        public _MessageClassificationService: MessageClassificationService,
         private _ModalHelper: ModalHelper,
         private _NzMessageService: NzMessageService
     ) {
@@ -38,13 +38,11 @@ export class MessageClassificationList implements OnInit {
             this.page.args = { name: '' };
             this.page.allChecked = false;
         }
-        this.page.loading = true;
         this._MessageClassificationService.getList(this.page).subscribe((data: any) => {
             this.page.page = data.page;
             this.page.totalCount = data.totalCount;
             this.page.pageSize = data.pageSize;
             this.page.data = data.data;
-            this.page.loading = false;
         });
     }
 

@@ -24,7 +24,7 @@ class BreadcrumbItem {
 @Component({
     selector: 'menu-list',
     templateUrl: 'menu.component.html',
-    providers: [ServiceMenuService,ServiceApplicationService]
+    providers: [ServiceMenuService, ServiceApplicationService]
 })
 
 export class MenuComponent implements OnInit {
@@ -33,8 +33,8 @@ export class MenuComponent implements OnInit {
     app_option: any[];
     constructor(
         private message: NzMessageService,
-        private menuservice: ServiceMenuService,
-        public _serviceApplicationService :ServiceApplicationService,
+        public menuservice: ServiceMenuService,
+        public _serviceApplicationService: ServiceApplicationService,
         private modalHelper: ModalHelper
     ) { }
 
@@ -44,8 +44,8 @@ export class MenuComponent implements OnInit {
     }
 
     loadAppOption() {
-        this._serviceApplicationService.getAppOptionList().subscribe((res:any)=>{
-            this.app_option=res.data;
+        this._serviceApplicationService.getAppOptionList().subscribe((res: any) => {
+            this.app_option = res.data;
         });
     }
 
@@ -54,7 +54,7 @@ export class MenuComponent implements OnInit {
      * @param reset 是否重置
      * @param isturn 是否点击顶部菜单跳转
      */
-    load(reset = false,isturn = false) {
+    load(reset = false, isturn = false) {
 
         //重置所有参数
         if (reset) {
@@ -62,10 +62,9 @@ export class MenuComponent implements OnInit {
             this.page.args = { name: '' };
             this.page.allChecked = false;
         }
-        this.page.loading = true;
 
         //重置页码，不重置表单参数
-        if(isturn){
+        if (isturn) {
             this.page.page = 1;
             this.page.allChecked = false;
         }
@@ -81,45 +80,47 @@ export class MenuComponent implements OnInit {
             this.page.totalCount = data.totalCount;
             this.page.pageSize = data.pageSize;
             this.page.data = data.data;
-            this.page.loading = false;
         });
     }
 
     intoChildren(id, name) {
         let lastLeave = new BreadcrumbItem(id, name);
         this.Breadcrumb_Items.push(lastLeave);
-        this.load(false,true);
+        this.load(false, true);
     }
 
     returnTo(i) {
         this.Breadcrumb_Items.splice(i + 1, this.Breadcrumb_Items.length - i + 1);
-        this.load(false,true);
+        this.load(false, true);
     }
 
-    all(){
+    all() {
         this.Breadcrumb_Items = [];
-        this.load(false,true);
+        this.load(false, true);
     }
 
     addOrEdit(id = null) {
-        let ParentId = '';
+        let qModel = {
+            id: id,
+            parentId: null,
+            parentName: '无上级菜单'
+        };
         if (this.Breadcrumb_Items.length > 0) {
-            ParentId = this.Breadcrumb_Items[this.Breadcrumb_Items.length - 1].value;
+            qModel.parentId = this.Breadcrumb_Items[this.Breadcrumb_Items.length - 1].value;
+            qModel.parentName = this.Breadcrumb_Items[this.Breadcrumb_Items.length - 1].label;
         }
-        this.modalHelper.static(MenuEditComponent, { Id: id, ParentId: ParentId }).subscribe((res) => {
-            if (res) {
-                this.load(false,true);
+        this.modalHelper.static(MenuEditComponent, { qModel: qModel }).subscribe((res) => {
+            if (res == true) {
+                this.load(false, true);
             }
         });
     }
 
     delete(id) {
-        this.page.loading = true;
         this.menuservice.delete(id).subscribe((res: any) => {
             this.message.success(res.message);
-            this.page.loading = false;
             if (res.result == 0) {
-                this.load(false,true);
+                this.load(false, true);
             }
         });
     }
