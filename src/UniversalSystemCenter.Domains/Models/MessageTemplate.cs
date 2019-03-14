@@ -25,7 +25,6 @@ namespace UniversalSystemCenter.Domain.Models {
         /// </summary>
         /// <param name="id">消息模板标识</param>
         public MessageTemplate( Guid id ) : base( id ) {
-            MessageContents = new List<MessageContent>();
         }
 
         /// <summary>
@@ -74,8 +73,7 @@ namespace UniversalSystemCenter.Domain.Models {
         /// 启用
         /// </summary>
         [DisplayName( "启用" )]
-        [Required(ErrorMessage = "启用不能为空")]
-        public byte IsEnabled { get; set; }
+        public bool IsEnabled { get; set; }
         /// <summary>
         /// 排序号
         /// </summary>
@@ -106,16 +104,13 @@ namespace UniversalSystemCenter.Domain.Models {
         /// 是否删除
         /// </summary>
         [DisplayName( "是否删除" )]
-        [Required(ErrorMessage = "是否删除不能为空")]
         public bool IsDeleted { get; set; }
         /// <summary>
         /// 消息类型
         /// </summary>
         [ForeignKey( "CategoryId" )]
         public MessageCategory MessageCategory { get; set; }
-
-        public virtual ICollection<MessageContent> MessageContents { get; set; }
-
+        
         /// <summary>
         /// 添加描述
         /// </summary>
@@ -134,7 +129,6 @@ namespace UniversalSystemCenter.Domain.Models {
             AddDescription( t => t.CreatorId );
             AddDescription( t => t.LastModifierId );
             AddDescription( t => t.LastModificationTime );
-            AddDescription( t => t.IsDeleted );
         }
         
         /// <summary>
@@ -155,7 +149,6 @@ namespace UniversalSystemCenter.Domain.Models {
             AddChange( t => t.CreatorId, other.CreatorId );
             AddChange( t => t.LastModifierId, other.LastModifierId );
             AddChange( t => t.LastModificationTime, other.LastModificationTime );
-            AddChange( t => t.IsDeleted, other.IsDeleted );
         }
     }
 }

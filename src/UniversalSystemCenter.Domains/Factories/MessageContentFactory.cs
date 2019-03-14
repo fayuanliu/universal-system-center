@@ -10,7 +10,7 @@ namespace UniversalSystemCenter.Domains.Factories {
         /// 创建消息内容表
         /// </summary>
         /// <param name="messageContentId">消息内容编号（MessageContentId）</param>
-        /// <param name="templateId">消息分类编号（MessageCategoryId）</param>
+        /// <param name="categoryId">消息分类编号（MessageCategoryId）</param>
         /// <param name="title">消息标题（Title）</param>
         /// <param name="senderId">发送人编号（SenderId）</param>
         /// <param name="sender">发送人（Sender)</param>
@@ -24,7 +24,7 @@ namespace UniversalSystemCenter.Domains.Factories {
         /// <param name="version">版本号</param>
         public static MessageContent Create( 
             Guid messageContentId,
-            Guid templateId,
+            Guid? categoryId,
             string title,
             Guid? senderId,
             string sender,
@@ -39,7 +39,7 @@ namespace UniversalSystemCenter.Domains.Factories {
         ) {
             MessageContent result;
             result = new MessageContent( messageContentId );
-            result.TemplateId = templateId;
+            result.CategoryId = categoryId;
             result.Title = title;
             result.SenderId = senderId;
             result.Sender = sender;

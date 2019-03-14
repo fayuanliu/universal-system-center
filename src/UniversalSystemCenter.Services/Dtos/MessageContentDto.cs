@@ -1,22 +1,21 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-
+using Util.Ui.Attributes;
 using Util.Applications.Dtos;
 
 namespace UniversalSystemCenter.Service.Dtos {
     /// <summary>
     /// 消息内容表数据传输对象
     /// </summary>
-    
+    [Model("model")]
     public class MessageContentDto : DtoBase {
         /// <summary>
         /// 消息分类编号（MessageCategoryId）
         /// </summary>
-        [Required(ErrorMessage = "消息分类编号（MessageCategoryId）不能为空")]
         [Display( Name = "消息分类编号（MessageCategoryId）" )]
         [DataMember]
-        public Guid TemplateId { get; set; }
+        public Guid? CategoryId { get; set; }
         /// <summary>
         /// 消息标题（Title）
         /// </summary>
@@ -76,7 +75,6 @@ namespace UniversalSystemCenter.Service.Dtos {
         /// <summary>
         /// 是否删除
         /// </summary>
-        [Required(ErrorMessage = "是否删除不能为空")]
         [Display( Name = "是否删除" )]
         [DataMember]
         public bool IsDeleted { get; set; }

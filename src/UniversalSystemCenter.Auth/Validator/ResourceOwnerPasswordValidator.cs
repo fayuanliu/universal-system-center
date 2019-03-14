@@ -10,6 +10,7 @@ using UniversalSystemCenter.Core.Auth.Param;
 using UniversalSystemCenter.Service.Abstractions;
 using Util.Webs.Commons;
 using UniversalSystemCenter.Core.Result;
+using System;
 
 namespace UniversalSystemCenter.Auth
 {
@@ -53,10 +54,10 @@ namespace UniversalSystemCenter.Auth
                 var data = result.Data as LoginUser;
                 var claim = new Claim[]
                 {
-                    new Claim(JwtClaimTypes.Id, data.Id),
-                    new Claim(JwtClaimTypes.Name, data.UserName??string.Empty),
+                    new Claim(JwtClaimTypes.Id, data.Id.ToString()),
+                    new Claim(JwtClaimTypes.Name, data.Account??string.Empty),
                     new Claim("RoleIds", data.RoleIdList.Join()),
-                    new Claim("OrganizationsId", data.OrganizationsId??string.Empty),
+                    new Claim("OrganizationsId", data.OrganizationsId??Guid.Empty.ToString()),
                     new Claim("Head", data.Head??string.Empty),
                     new Claim("RealName", data.RealName??string.Empty),
                 };

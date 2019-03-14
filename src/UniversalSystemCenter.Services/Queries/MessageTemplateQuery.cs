@@ -72,7 +72,7 @@ namespace UniversalSystemCenter.Service.Queries {
         /// 启用
         /// </summary>
         [Display(Name="启用")]
-        public byte? IsEnabled { get; set; }
+        public bool? IsEnabled { get; set; }
         /// <summary>
         /// 排序号
         /// </summary>
@@ -108,10 +108,5 @@ namespace UniversalSystemCenter.Service.Queries {
         /// </summary>
         [Display( Name = "结束最后修改时间" )]
         public DateTime? EndLastModificationTime { get; set; }
-        /// <summary>
-        /// 是否删除
-        /// </summary>
-        [Display(Name="是否删除")]
-        public byte? IsDeleted { get; set; }
     }
 }

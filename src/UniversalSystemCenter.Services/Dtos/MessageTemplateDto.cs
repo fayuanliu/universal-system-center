@@ -1,14 +1,14 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-
+using Util.Ui.Attributes;
 using Util.Applications.Dtos;
 
 namespace UniversalSystemCenter.Service.Dtos {
     /// <summary>
     /// 消息模板数据传输对象
     /// </summary>
-    
+    [Model("model")]
     public class MessageTemplateDto : DtoBase {
         /// <summary>
         /// 所属消息分类
@@ -62,10 +62,9 @@ namespace UniversalSystemCenter.Service.Dtos {
         /// <summary>
         /// 启用
         /// </summary>
-        [Required(ErrorMessage = "启用不能为空")]
         [Display( Name = "启用" )]
         [DataMember]
-        public byte IsEnabled { get; set; }
+        public bool IsEnabled { get; set; }
         /// <summary>
         /// 排序号
         /// </summary>
@@ -100,7 +99,6 @@ namespace UniversalSystemCenter.Service.Dtos {
         /// <summary>
         /// 是否删除
         /// </summary>
-        [Required(ErrorMessage = "是否删除不能为空")]
         [Display( Name = "是否删除" )]
         [DataMember]
         public bool IsDeleted { get; set; }

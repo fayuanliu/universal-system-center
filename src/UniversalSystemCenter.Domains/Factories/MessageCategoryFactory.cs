@@ -11,10 +11,14 @@ namespace UniversalSystemCenter.Domains.Factories {
         /// </summary>
         /// <param name="categoryId">消息分类编号（MessageCategoryId）</param>
         /// <param name="name">分类名称</param>
-        /// <param name="isEnabled">启用</param>
         /// <param name="type">消息类型(通知、代办)</param>
         /// <param name="appId">所属平台</param>
         /// <param name="module">模块</param>
+        /// <param name="parentId">父编号</param>
+        /// <param name="path">路径</param>
+        /// <param name="level">级数</param>
+        /// <param name="isLeave">是否末级</param>
+        /// <param name="enabled">启用</param>
         /// <param name="sortId">排序号</param>
         /// <param name="creationTime">创建时间</param>
         /// <param name="creatorId">创建人</param>
@@ -25,10 +29,14 @@ namespace UniversalSystemCenter.Domains.Factories {
         public static MessageCategory Create( 
             Guid categoryId,
             string name,
-            byte isEnabled,
             int type,
             int appId,
             string module,
+            Guid? parentId,
+            string path,
+            int level,
+            bool isLeave,
+            bool enabled,
             int sortId,
             DateTime? creationTime,
             Guid? creatorId,
@@ -38,12 +46,14 @@ namespace UniversalSystemCenter.Domains.Factories {
             Byte[] version
         ) {
             MessageCategory result;
-            result = new MessageCategory( categoryId );
+            result = new MessageCategory( categoryId,"",1 );
             result.Name = name;
-            result.IsEnabled = isEnabled;
             result.Type = type;
             result.AppId = appId;
             result.Module = module;
+            result.ParentId = parentId;
+            result.IsLeave = isLeave;
+            result.Enabled = enabled;
             result.SortId = sortId;
             result.CreationTime = creationTime;
             result.CreatorId = creatorId;

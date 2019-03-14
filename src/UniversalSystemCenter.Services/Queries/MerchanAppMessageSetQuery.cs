@@ -33,10 +33,5 @@ namespace UniversalSystemCenter.Service.Queries {
         /// </summary>
         [Display(Name="会员（MemberId）")]
         public Guid? MerchanId { get; set; }
-        /// <summary>
-        /// 是否删除
-        /// </summary>
-        [Display(Name="是否删除")]
-        public byte? IsDeleted { get; set; }
     }
 }

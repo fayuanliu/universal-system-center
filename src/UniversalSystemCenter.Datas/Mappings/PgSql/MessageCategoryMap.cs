@@ -22,6 +22,8 @@ namespace UniversalSystemCenter.Data.Mappings.PgSql {
             builder.Property(t => t.Id)
                 .HasColumnName("CategoryId");
             builder.HasQueryFilter( t => t.IsDeleted == false );
+            builder.Property( t => t.Path ).HasColumnName( "Path" );
+            builder.Property( t => t.Level ).HasColumnName( "Level" );
         }
     }
 }

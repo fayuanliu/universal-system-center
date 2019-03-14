@@ -11,7 +11,7 @@ namespace UniversalSystemCenter.Data.Mappings.MySql {
         /// 映射表
         /// </summary>
         protected override void MapTable( EntityTypeBuilder<MerchanAppMessageSet> builder ) {
-            builder.ToTable( "MerchanAppMessageSet" );
+            builder.ToTable( "dbo.MerchanAppMessageSet" );
         }
         
         /// <summary>

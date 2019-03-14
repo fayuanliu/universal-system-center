@@ -54,6 +54,7 @@ namespace UniversalSystemCenter.Service.Configs {
             builder.AddScoped<IRoleMenuRepository,RoleMenuRepository>();
             builder.AddScoped<IRolePermissionRepository,RolePermissionRepository>();
             builder.AddScoped<IUserRepository,UserRepository>();
+            builder.AddScoped<IAccountRepository, AccountRepository>();
             builder.AddScoped<IUserPermissionRepository,UserPermissionRepository>();
             builder.AddScoped<IUserPositionRepository,UserPositionRepository>();
             builder.AddScoped<IUserRoleRepository,UserRoleRepository>();
@@ -90,6 +91,7 @@ namespace UniversalSystemCenter.Service.Configs {
             builder.AddScoped<IRoleMenuService,RoleMenuService>().PropertiesAutowired();
             builder.AddScoped<IRolePermissionService,RolePermissionService>().PropertiesAutowired();
             builder.AddScoped<IUserService,UserService>().PropertiesAutowired();
+            builder.AddScoped<IAccountService, AccountService>().PropertiesAutowired();
             builder.AddScoped<IUserPermissionService,UserPermissionService>().PropertiesAutowired();
             builder.AddScoped<IUserPositionService,UserPositionService>().PropertiesAutowired();
             builder.AddScoped<IUserRoleService,UserRoleService>().PropertiesAutowired();

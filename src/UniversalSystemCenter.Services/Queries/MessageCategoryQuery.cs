@@ -1,13 +1,13 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using Util;
-using Util.Datas.Queries;
+using Util.Datas.Queries.Trees;
 
 namespace UniversalSystemCenter.Service.Queries {
     /// <summary>
     /// 消息类型查询参数
     /// </summary>
-    public class MessageCategoryQuery : QueryParameter {
+    public class MessageCategoryQuery : TreeQueryParameter {
         /// <summary>
         /// 消息分类编号（MessageCategoryId）
         /// </summary>
@@ -23,11 +23,6 @@ namespace UniversalSystemCenter.Service.Queries {
             get => _name == null ? string.Empty : _name.Trim();
             set => _name = value;
         }
-        /// <summary>
-        /// 启用
-        /// </summary>
-        [Display(Name="启用")]
-        public byte? IsEnabled { get; set; }
         /// <summary>
         /// 消息类型(通知、代办)
         /// </summary>
@@ -48,11 +43,21 @@ namespace UniversalSystemCenter.Service.Queries {
             get => _module == null ? string.Empty : _module.Trim();
             set => _module = value;
         }
+        
+        private string _path = string.Empty;
         /// <summary>
-        /// 排序号
+        /// 路径
         /// </summary>
-        [Display(Name="排序号")]
-        public int? SortId { get; set; }
+        [Display(Name="路径")]
+        public string Path {
+            get => _path == null ? string.Empty : _path.Trim();
+            set => _path = value;
+        }
+        /// <summary>
+        /// 是否末级
+        /// </summary>
+        [Display(Name="是否末级")]
+        public bool? IsLeave { get; set; }
         /// <summary>
         /// 起始创建时间
         /// </summary>
@@ -62,7 +67,7 @@ namespace UniversalSystemCenter.Service.Queries {
         /// 结束创建时间
         /// </summary>
         [Display( Name = "结束创建时间" )]
-        public DateTime? EndCreationTime { get; set; }
+        public DateTime? EndCreationTime { get; set; }        
         /// <summary>
         /// 创建人
         /// </summary>
@@ -77,16 +82,11 @@ namespace UniversalSystemCenter.Service.Queries {
         /// 结束最后修改时间
         /// </summary>
         [Display( Name = "结束最后修改时间" )]
-        public DateTime? EndLastModificationTime { get; set; }
+        public DateTime? EndLastModificationTime { get; set; }        
         /// <summary>
         /// 最后修改人
         /// </summary>
         [Display(Name="最后修改人")]
         public Guid? LastModifierId { get; set; }
-        /// <summary>
-        /// 是否删除
-        /// </summary>
-        [Display(Name="是否删除")]
-        public byte? IsDeleted { get; set; }
     }
 }

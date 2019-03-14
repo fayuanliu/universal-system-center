@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:3251",
+      "applicationUrl": "http://localhost:5000/.well-known/openid-configuration",
       "sslPort": 44346
     }
   },
@@ -21,12 +21,12 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:5001;http://localhost:5000"
+      "applicationUrl": "https://localhost:5000/.well-known/openid-configuration;http://localhost:5000/.well-known/openid-configuration"
     },
     "Docker": {
       "commandName": "Docker",
       "launchBrowser": true,
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}"
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/.well-known/openid-configuration"
     }
   }
 }

@@ -34,7 +34,7 @@ namespace UniversalSystemCenter.Domains.Factories {
             string sourceId,
             string title,
             string content,
-            byte isEnabled,
+            bool isEnabled,
             int sortId,
             DateTime? creationTime,
             Guid? creatorId,

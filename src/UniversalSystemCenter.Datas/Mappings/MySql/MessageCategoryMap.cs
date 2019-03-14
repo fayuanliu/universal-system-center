@@ -11,7 +11,7 @@ namespace UniversalSystemCenter.Data.Mappings.MySql {
         /// 映射表
         /// </summary>
         protected override void MapTable( EntityTypeBuilder<MessageCategory> builder ) {
-            builder.ToTable( "MessageCategory" );
+            builder.ToTable( "dbo.MessageCategory" );
         }
         
         /// <summary>
@@ -22,6 +22,8 @@ namespace UniversalSystemCenter.Data.Mappings.MySql {
             builder.Property(t => t.Id)
                 .HasColumnName("CategoryId");
             builder.HasQueryFilter( t => t.IsDeleted == false );
+            builder.Property( t => t.Path ).HasColumnName( "Path" );
+            builder.Property( t => t.Level ).HasColumnName( "Level" );
         }
     }
 }
