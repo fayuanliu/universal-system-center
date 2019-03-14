@@ -33,13 +33,13 @@ namespace UniversalSystemCenter.Service.Dtos.Extensions {
                 SourceId = dto.SourceId,
                 Title = dto.Title,
                 Content = dto.Content,
-                IsEnabled = dto.IsEnabled,
+                    IsEnabled = dto.IsEnabled,
                 SortId = dto.SortId,
                 CreationTime = dto.CreationTime,
                 CreatorId = dto.CreatorId,
                 LastModifierId = dto.LastModifierId,
                 LastModificationTime = dto.LastModificationTime,
-                IsDeleted = dto.IsDeleted,
+                    IsDeleted = dto.IsDeleted,
                 Version = dto.Version,
             };
         }

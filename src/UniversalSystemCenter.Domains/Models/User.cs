@@ -31,6 +31,12 @@ namespace UniversalSystemCenter.Domain.Models {
         }
 
         /// <summary>
+        /// 员工编号
+        /// </summary>
+        [DisplayName( "员工编号" )]
+        [StringLength( 50, ErrorMessage = "员工编号输入过长，不能超过50位" )]
+        public string EId { get; set; }
+        /// <summary>
         /// 组织机构编号(OrganizationsId)
         /// </summary>
         [DisplayName( "组织机构编号(OrganizationsId)" )]
@@ -41,36 +47,10 @@ namespace UniversalSystemCenter.Domain.Models {
         [DisplayName( "商户编号" )]
         public Guid? MerchantId { get; set; }
         /// <summary>
-        /// 用户名称（UserName）
+        /// 账户编号
         /// </summary>
-        [DisplayName( "用户名称（UserName）" )]
-        [Required(ErrorMessage = "用户名称（UserName）不能为空")]
-        [StringLength( 100, ErrorMessage = "用户名称（UserName）输入过长，不能超过100位" )]
-        public string Account { get; set; }
-        /// <summary>
-        /// 昵称
-        /// </summary>
-        [DisplayName( "昵称" )]
-        [StringLength( 100, ErrorMessage = "昵称输入过长，不能超过100位" )]
-        public string Nickname { get; set; }
-        /// <summary>
-        /// 密码（Password）
-        /// </summary>
-        [DisplayName( "密码（Password）" )]
-        [StringLength( 100, ErrorMessage = "密码（Password）输入过长，不能超过100位" )]
-        public string Password { get; set; }
-        /// <summary>
-        /// 头像（Head）
-        /// </summary>
-        [DisplayName( "头像（Head）" )]
-        [StringLength( 200, ErrorMessage = "头像（Head）输入过长，不能超过200位" )]
-        public string Head { get; set; }
-        /// <summary>
-        /// 手机号
-        /// </summary>
-        [DisplayName( "手机号" )]
-        [StringLength( 20, ErrorMessage = "手机号输入过长，不能超过20位" )]
-        public string Mobile { get; set; }
+        [DisplayName( "账户编号" )]
+        public Guid? AccountId { get; set; }
         /// <summary>
         /// 注册日期（RegisterTime）
         /// </summary>
@@ -78,51 +58,9 @@ namespace UniversalSystemCenter.Domain.Models {
         [Required(ErrorMessage = "注册日期（RegisterTime）不能为空")]
         public DateTime RegisterTime { get; set; }
         /// <summary>
-        /// 类型
-        /// </summary>
-        [DisplayName( "类型" )]
-        [Required(ErrorMessage = "类型不能为空")]
-        public int Type { get; set; }
-        /// <summary>
-        /// 状态
-        /// </summary>
-        [DisplayName( "状态" )]
-        [Required(ErrorMessage = "状态不能为空")]
-        public int State { get; set; }
-        /// <summary>
-        /// 盐值
-        /// </summary>
-        [DisplayName( "盐值" )]
-        [StringLength( 10, ErrorMessage = "盐值输入过长，不能超过10位" )]
-        public string Saltd { get; set; }
-        /// <summary>
-        /// 用户编号
-        /// </summary>
-        [DisplayName( "用户编号" )]
-        [StringLength( 18, ErrorMessage = "用户编号输入过长，不能超过18位" )]
-        public string IdCard { get; set; }
-        /// <summary>
-        /// 真实姓名
-        /// </summary>
-        [DisplayName( "真实姓名" )]
-        [StringLength( 20, ErrorMessage = "真实姓名输入过长，不能超过20位" )]
-        public string RealName { get; set; }
-        /// <summary>
-        /// 性别
-        /// </summary>
-        [DisplayName( "性别" )]
-        [Required(ErrorMessage = "性别不能为空")]
-        public int Sex { get; set; }
-        /// <summary>
-        /// 推荐人
-        /// </summary>
-        [DisplayName( "推荐人" )]
-        public Guid? Referrer { get; set; }
-        /// <summary>
         /// 锁定
         /// </summary>
         [DisplayName( "锁定" )]
-        [Required(ErrorMessage = "锁定不能为空")]
         public bool IsLocked { get; set; }
         /// <summary>
         /// 锁定起始时间
@@ -186,18 +124,22 @@ namespace UniversalSystemCenter.Domain.Models {
         /// 是否删除
         /// </summary>
         [DisplayName( "是否删除" )]
-        [Required(ErrorMessage = "是否删除不能为空")]
         public bool IsDeleted { get; set; }
         /// <summary>
         /// 商户
         /// </summary>
-        [ForeignKey( "MerchantId" )]
+        [ForeignKey("MerchantId")]
         public Merchant Merchant { get; set; }
         /// <summary>
         /// 组织机构
         /// </summary>
-        [ForeignKey( "OrganizationsId" )]
+        [ForeignKey("OrganizationsId")]
         public Organizations Organizations { get; set; }
+        /// <summary>
+        /// 账户
+        /// </summary>
+        [ForeignKey( "AccountId" )]
+        public Account Account { get; set; }
 
         public virtual ICollection<UserPermission> UserPermissions { get; set; }
 
@@ -205,26 +147,17 @@ namespace UniversalSystemCenter.Domain.Models {
 
         public virtual ICollection<UserRole> UserRoles { get; set; }
 
+
         /// <summary>
         /// 添加描述
         /// </summary>
         protected override void AddDescriptions() {
             AddDescription( t => t.Id );
+            AddDescription( t => t.EId );
             AddDescription( t => t.OrganizationsId );
             AddDescription( t => t.MerchantId );
-            AddDescription( t => t.Account );
-            AddDescription( t => t.Nickname );
-            AddDescription( t => t.Password );
-            AddDescription( t => t.Head );
-            AddDescription( t => t.Mobile );
+            AddDescription( t => t.AccountId );
             AddDescription( t => t.RegisterTime );
-            AddDescription( t => t.Type );
-            AddDescription( t => t.State );
-            AddDescription( t => t.Saltd );
-            AddDescription( t => t.IdCard );
-            AddDescription( t => t.RealName );
-            AddDescription( t => t.Sex );
-            AddDescription( t => t.Referrer );
             AddDescription( t => t.IsLocked );
             AddDescription( t => t.LockBeginTime );
             AddDescription( t => t.LockDuration );
@@ -237,7 +170,6 @@ namespace UniversalSystemCenter.Domain.Models {
             AddDescription( t => t.CreatorId );
             AddDescription( t => t.LastModificationTime );
             AddDescription( t => t.LastModifierId );
-            AddDescription( t => t.IsDeleted );
         }
         
         /// <summary>
@@ -245,21 +177,11 @@ namespace UniversalSystemCenter.Domain.Models {
         /// </summary>
         protected override void AddChanges( User other ) {
             AddChange( t => t.Id, other.Id );
+            AddChange( t => t.EId, other.EId );
             AddChange( t => t.OrganizationsId, other.OrganizationsId );
             AddChange( t => t.MerchantId, other.MerchantId );
-            AddChange( t => t.Account, other.Account );
-            AddChange( t => t.Nickname, other.Nickname );
-            AddChange( t => t.Password, other.Password );
-            AddChange( t => t.Head, other.Head );
-            AddChange( t => t.Mobile, other.Mobile );
+            AddChange( t => t.AccountId, other.AccountId );
             AddChange( t => t.RegisterTime, other.RegisterTime );
-            AddChange( t => t.Type, other.Type );
-            AddChange( t => t.State, other.State );
-            AddChange( t => t.Saltd, other.Saltd );
-            AddChange( t => t.IdCard, other.IdCard );
-            AddChange( t => t.RealName, other.RealName );
-            AddChange( t => t.Sex, other.Sex );
-            AddChange( t => t.Referrer, other.Referrer );
             AddChange( t => t.IsLocked, other.IsLocked );
             AddChange( t => t.LockBeginTime, other.LockBeginTime );
             AddChange( t => t.LockDuration, other.LockDuration );
@@ -272,21 +194,6 @@ namespace UniversalSystemCenter.Domain.Models {
             AddChange( t => t.CreatorId, other.CreatorId );
             AddChange( t => t.LastModificationTime, other.LastModificationTime );
             AddChange( t => t.LastModifierId, other.LastModifierId );
-            AddChange( t => t.IsDeleted, other.IsDeleted );
         }
-    }
-
-    public enum UserStateEnums
-    {
-        /// <summary>
-        /// 在用
-        /// </summary>
-        [Description("在用")]
-        InUse,
-        /// <summary>
-        /// 失效
-        /// </summary>
-        [Description("失效")]
-        Invalid
     }
 }

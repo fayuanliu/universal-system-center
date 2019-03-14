@@ -17,7 +17,7 @@ namespace UniversalSystemCenter.Service.Queries {
         /// 消息分类编号（MessageCategoryId）
         /// </summary>
         [Display(Name="消息分类编号（MessageCategoryId）")]
-        public Guid? TemplateId { get; set; }
+        public Guid? CategoryId { get; set; }
         
         private string _title = string.Empty;
         /// <summary>
@@ -83,11 +83,6 @@ namespace UniversalSystemCenter.Service.Queries {
         /// </summary>
         [Display(Name="消息状态（State）")]
         public int? State { get; set; }
-        /// <summary>
-        /// 是否删除
-        /// </summary>
-        [Display(Name="是否删除")]
-        public byte? IsDeleted { get; set; }
         
         private string _remark = string.Empty;
         /// <summary>

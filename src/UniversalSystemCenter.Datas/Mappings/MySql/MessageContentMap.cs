@@ -11,7 +11,7 @@ namespace UniversalSystemCenter.Data.Mappings.MySql {
         /// 映射表
         /// </summary>
         protected override void MapTable( EntityTypeBuilder<MessageContent> builder ) {
-            builder.ToTable( "MessageContent" );
+            builder.ToTable( "dbo.MessageContent" );
         }
         
         /// <summary>

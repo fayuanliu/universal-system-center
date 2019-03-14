@@ -1,15 +1,13 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-
-using Util.Applications.Dtos;
+using Util.Applications.Trees;
 
 namespace UniversalSystemCenter.Service.Dtos {
     /// <summary>
     /// 消息类型数据传输对象
     /// </summary>
-    
-    public class MessageCategoryDto : DtoBase {
+    public class MessageCategoryDto : TreeDtoBase {
         /// <summary>
         /// 分类名称
         /// </summary>
@@ -18,13 +16,6 @@ namespace UniversalSystemCenter.Service.Dtos {
         [Display( Name = "分类名称" )]
         [DataMember]
         public string Name { get; set; }
-        /// <summary>
-        /// 启用
-        /// </summary>
-        [Required(ErrorMessage = "启用不能为空")]
-        [Display( Name = "启用" )]
-        [DataMember]
-        public byte IsEnabled { get; set; }
         /// <summary>
         /// 消息类型(通知、代办)
         /// </summary>
@@ -47,12 +38,19 @@ namespace UniversalSystemCenter.Service.Dtos {
         [DataMember]
         public string Module { get; set; }
         /// <summary>
-        /// 排序号
+        /// 路径
         /// </summary>
-        [Required(ErrorMessage = "排序号不能为空")]
-        [Display( Name = "排序号" )]
+        [Required(ErrorMessage = "路径不能为空")]
+        [StringLength( 800, ErrorMessage = "路径输入过长，不能超过800位" )]
+        [Display( Name = "路径" )]
         [DataMember]
-        public int SortId { get; set; }
+        public string Path { get; set; }
+        /// <summary>
+        /// 是否末级
+        /// </summary>
+        [Display( Name = "是否末级" )]
+        [DataMember]
+        public bool? IsLeave { get; set; }
         /// <summary>
         /// 创建时间
         /// </summary>
@@ -80,7 +78,6 @@ namespace UniversalSystemCenter.Service.Dtos {
         /// <summary>
         /// 是否删除
         /// </summary>
-        [Required(ErrorMessage = "是否删除不能为空")]
         [Display( Name = "是否删除" )]
         [DataMember]
         public bool IsDeleted { get; set; }

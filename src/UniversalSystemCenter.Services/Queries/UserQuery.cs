@@ -13,6 +13,16 @@ namespace UniversalSystemCenter.Service.Queries {
         /// </summary>
         [Display(Name="用户编号（UserId)")]
         public Guid? UserId { get; set; }
+        
+        private string _eId = string.Empty;
+        /// <summary>
+        /// 员工编号
+        /// </summary>
+        [Display(Name="员工编号")]
+        public string EId {
+            get => _eId == null ? string.Empty : _eId.Trim();
+            set => _eId = value;
+        }
         /// <summary>
         /// 组织机构编号(OrganizationsId)
         /// </summary>
@@ -23,56 +33,11 @@ namespace UniversalSystemCenter.Service.Queries {
         /// </summary>
         [Display(Name="商户编号")]
         public Guid? MerchantId { get; set; }
-        
-        private string _account = string.Empty;
         /// <summary>
-        /// 用户名称（UserName）
+        /// 账户编号
         /// </summary>
-        [Display(Name="用户名称（UserName）")]
-        public string Account {
-            get => _account == null ? string.Empty : _account.Trim();
-            set => _account = value;
-        }
-        
-        private string _nickname = string.Empty;
-        /// <summary>
-        /// 昵称
-        /// </summary>
-        [Display(Name="昵称")]
-        public string Nickname {
-            get => _nickname == null ? string.Empty : _nickname.Trim();
-            set => _nickname = value;
-        }
-        
-        private string _password = string.Empty;
-        /// <summary>
-        /// 密码（Password）
-        /// </summary>
-        [Display(Name="密码（Password）")]
-        public string Password {
-            get => _password == null ? string.Empty : _password.Trim();
-            set => _password = value;
-        }
-        
-        private string _head = string.Empty;
-        /// <summary>
-        /// 头像（Head）
-        /// </summary>
-        [Display(Name="头像（Head）")]
-        public string Head {
-            get => _head == null ? string.Empty : _head.Trim();
-            set => _head = value;
-        }
-        
-        private string _mobile = string.Empty;
-        /// <summary>
-        /// 手机号
-        /// </summary>
-        [Display(Name="手机号")]
-        public string Mobile {
-            get => _mobile == null ? string.Empty : _mobile.Trim();
-            set => _mobile = value;
-        }
+        [Display(Name="账户编号")]
+        public Guid? AccountId { get; set; }
         /// <summary>
         /// 起始注册日期（RegisterTime）
         /// </summary>
@@ -84,60 +49,10 @@ namespace UniversalSystemCenter.Service.Queries {
         [Display( Name = "结束注册日期（RegisterTime）" )]
         public DateTime? EndRegisterTime { get; set; }
         /// <summary>
-        /// 类型
-        /// </summary>
-        [Display(Name="类型")]
-        public int? Type { get; set; }
-        /// <summary>
-        /// 状态
-        /// </summary>
-        [Display(Name="状态")]
-        public int? State { get; set; }
-        
-        private string _saltd = string.Empty;
-        /// <summary>
-        /// 盐值
-        /// </summary>
-        [Display(Name="盐值")]
-        public string Saltd {
-            get => _saltd == null ? string.Empty : _saltd.Trim();
-            set => _saltd = value;
-        }
-        
-        private string _idCard = string.Empty;
-        /// <summary>
-        /// 用户编号
-        /// </summary>
-        [Display(Name="用户编号")]
-        public string IdCard {
-            get => _idCard == null ? string.Empty : _idCard.Trim();
-            set => _idCard = value;
-        }
-        
-        private string _realName = string.Empty;
-        /// <summary>
-        /// 真实姓名
-        /// </summary>
-        [Display(Name="真实姓名")]
-        public string RealName {
-            get => _realName == null ? string.Empty : _realName.Trim();
-            set => _realName = value;
-        }
-        /// <summary>
-        /// 性别
-        /// </summary>
-        [Display(Name="性别")]
-        public int? Sex { get; set; }
-        /// <summary>
-        /// 推荐人
-        /// </summary>
-        [Display(Name="推荐人")]
-        public Guid? Referrer { get; set; }
-        /// <summary>
         /// 锁定
         /// </summary>
         [Display(Name="锁定")]
-        public byte? IsLocked { get; set; }
+        public bool? IsLocked { get; set; }
         /// <summary>
         /// 起始锁定起始时间
         /// </summary>
@@ -233,10 +148,5 @@ namespace UniversalSystemCenter.Service.Queries {
         /// </summary>
         [Display(Name="最后修改人")]
         public Guid? LastModifierId { get; set; }
-        /// <summary>
-        /// 是否删除
-        /// </summary>
-        [Display(Name="是否删除")]
-        public byte? IsDeleted { get; set; }
     }
 }

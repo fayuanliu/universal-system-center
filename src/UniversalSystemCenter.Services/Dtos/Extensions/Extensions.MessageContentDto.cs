@@ -26,7 +26,7 @@ namespace UniversalSystemCenter.Service.Dtos.Extensions {
             if( dto == null )
                 return new MessageContent();
             return new MessageContent( dto.Id.ToGuid() ) {
-                TemplateId = dto.TemplateId,
+                CategoryId = dto.CategoryId,
                 Title = dto.Title,
                 SenderId = dto.SenderId,
                 Sender = dto.Sender,
@@ -50,7 +50,7 @@ namespace UniversalSystemCenter.Service.Dtos.Extensions {
                 return new MessageContent();
             return MessageContentFactory.Create(
                 messageContentId : dto.Id.ToGuid(),
-                templateId : dto.TemplateId,
+                categoryId : dto.CategoryId,
                 title : dto.Title,
                 senderId : dto.SenderId,
                 sender : dto.Sender,
@@ -84,7 +84,7 @@ namespace UniversalSystemCenter.Service.Dtos.Extensions {
                 return new MessageContentDto();
             return new MessageContentDto {
                 Id = entity.Id.ToString(),
-                TemplateId = entity.TemplateId,
+                CategoryId = entity.CategoryId,
                 Title = entity.Title,
                 SenderId = entity.SenderId,
                 Sender = entity.Sender,

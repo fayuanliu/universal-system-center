@@ -33,7 +33,7 @@ namespace UniversalSystemCenter.Service.Dtos.Extensions {
                 ErrorMsg = dto.ErrorMsg,
                 ReadTime = dto.ReadTime,
                 SendTime = dto.SendTime,
-                IsDeleted = dto.IsDeleted,
+                    IsDeleted = dto.IsDeleted,
                 Version = dto.Version,
             };
         }

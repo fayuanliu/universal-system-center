@@ -71,7 +71,6 @@ namespace UniversalSystemCenter.Domain.Models {
         /// 是否删除
         /// </summary>
         [DisplayName( "是否删除" )]
-        [Required(ErrorMessage = "是否删除不能为空")]
         public bool IsDeleted { get; set; }
         /// <summary>
         /// 消息内容表
@@ -91,7 +90,6 @@ namespace UniversalSystemCenter.Domain.Models {
             AddDescription( t => t.ErrorMsg );
             AddDescription( t => t.ReadTime );
             AddDescription( t => t.SendTime );
-            AddDescription( t => t.IsDeleted );
         }
         
         /// <summary>
@@ -106,7 +104,6 @@ namespace UniversalSystemCenter.Domain.Models {
             AddChange( t => t.ErrorMsg, other.ErrorMsg );
             AddChange( t => t.ReadTime, other.ReadTime );
             AddChange( t => t.SendTime, other.SendTime );
-            AddChange( t => t.IsDeleted, other.IsDeleted );
         }
     }
 }

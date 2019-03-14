@@ -68,10 +68,5 @@ namespace UniversalSystemCenter.Service.Queries {
         /// </summary>
         [Display( Name = "结束发送时间（SendTime）" )]
         public DateTime? EndSendTime { get; set; }
-        /// <summary>
-        /// 是否删除
-        /// </summary>
-        [Display(Name="是否删除")]
-        public byte? IsDeleted { get; set; }
     }
 }

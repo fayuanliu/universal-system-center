@@ -32,8 +32,7 @@ namespace UniversalSystemCenter.Domain.Models {
         /// 消息分类编号（MessageCategoryId）
         /// </summary>
         [DisplayName( "消息分类编号（MessageCategoryId）" )]
-        [Required(ErrorMessage = "消息分类编号（MessageCategoryId）不能为空")]
-        public Guid TemplateId { get; set; }
+        public Guid? CategoryId { get; set; }
         /// <summary>
         /// 消息标题（Title）
         /// </summary>
@@ -86,7 +85,6 @@ namespace UniversalSystemCenter.Domain.Models {
         /// 是否删除
         /// </summary>
         [DisplayName( "是否删除" )]
-        [Required(ErrorMessage = "是否删除不能为空")]
         public bool IsDeleted { get; set; }
         /// <summary>
         /// 备注
@@ -95,10 +93,10 @@ namespace UniversalSystemCenter.Domain.Models {
         [StringLength( 500, ErrorMessage = "备注输入过长，不能超过500位" )]
         public string Remark { get; set; }
         /// <summary>
-        /// 消息模板
+        /// 消息类型
         /// </summary>
-        [ForeignKey( "TemplateId" )]
-        public MessageTemplate MessageTemplate { get; set; }
+        [ForeignKey( "CategoryId" )]
+        public MessageCategory MessageCategory { get; set; }
 
         public virtual ICollection<Message> Messages { get; set; }
 
@@ -107,7 +105,7 @@ namespace UniversalSystemCenter.Domain.Models {
         /// </summary>
         protected override void AddDescriptions() {
             AddDescription( t => t.Id );
-            AddDescription( t => t.TemplateId );
+            AddDescription( t => t.CategoryId );
             AddDescription( t => t.Title );
             AddDescription( t => t.SenderId );
             AddDescription( t => t.Sender );
@@ -116,7 +114,6 @@ namespace UniversalSystemCenter.Domain.Models {
             AddDescription( t => t.Content );
             AddDescription( t => t.Url );
             AddDescription( t => t.State );
-            AddDescription( t => t.IsDeleted );
             AddDescription( t => t.Remark );
         }
         
@@ -125,7 +122,7 @@ namespace UniversalSystemCenter.Domain.Models {
         /// </summary>
         protected override void AddChanges( MessageContent other ) {
             AddChange( t => t.Id, other.Id );
-            AddChange( t => t.TemplateId, other.TemplateId );
+            AddChange( t => t.CategoryId, other.CategoryId );
             AddChange( t => t.Title, other.Title );
             AddChange( t => t.SenderId, other.SenderId );
             AddChange( t => t.Sender, other.Sender );
@@ -134,7 +131,6 @@ namespace UniversalSystemCenter.Domain.Models {
             AddChange( t => t.Content, other.Content );
             AddChange( t => t.Url, other.Url );
             AddChange( t => t.State, other.State );
-            AddChange( t => t.IsDeleted, other.IsDeleted );
             AddChange( t => t.Remark, other.Remark );
         }
     }

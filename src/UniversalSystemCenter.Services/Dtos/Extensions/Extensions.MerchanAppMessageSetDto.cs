@@ -30,7 +30,7 @@ namespace UniversalSystemCenter.Service.Dtos.Extensions {
                 Type = dto.Type,
                 State = dto.State,
                 MerchanId = dto.MerchanId,
-                IsDeleted = dto.IsDeleted,
+                    IsDeleted = dto.IsDeleted,
                 Version = dto.Version,
             };
         }

@@ -10,21 +10,11 @@ namespace UniversalSystemCenter.Domains.Factories {
         /// 创建用户
         /// </summary>
         /// <param name="userId">用户编号（UserId)</param>
+        /// <param name="eId">员工编号</param>
         /// <param name="organizationsId">组织机构编号(OrganizationsId)</param>
         /// <param name="merchantId">商户编号</param>
-        /// <param name="account">用户名称（UserName）</param>
-        /// <param name="nickname">昵称</param>
-        /// <param name="password">密码（Password）</param>
-        /// <param name="head">头像（Head）</param>
-        /// <param name="mobile">手机号</param>
+        /// <param name="accountId">账户编号</param>
         /// <param name="registerTime">注册日期（RegisterTime）</param>
-        /// <param name="type">类型</param>
-        /// <param name="state">状态</param>
-        /// <param name="saltd">盐值</param>
-        /// <param name="idCard">用户编号</param>
-        /// <param name="realName">真实姓名</param>
-        /// <param name="sex">性别</param>
-        /// <param name="referrer">推荐人</param>
         /// <param name="isLocked">锁定</param>
         /// <param name="lockBeginTime">锁定起始时间</param>
         /// <param name="lockDuration">锁定持续时间</param>
@@ -41,21 +31,11 @@ namespace UniversalSystemCenter.Domains.Factories {
         /// <param name="version">版本号</param>
         public static User Create( 
             Guid userId,
+            string eId,
             Guid? organizationsId,
             Guid? merchantId,
-            string account,
-            string nickname,
-            string password,
-            string head,
-            string mobile,
+            Guid? accountId,
             DateTime registerTime,
-            int type,
-            int state,
-            string saltd,
-            string idCard,
-            string realName,
-            int sex,
-            Guid? referrer,
             bool isLocked,
             DateTime? lockBeginTime,
             int? lockDuration,
@@ -73,21 +53,11 @@ namespace UniversalSystemCenter.Domains.Factories {
         ) {
             User result;
             result = new User( userId );
+            result.EId = eId;
             result.OrganizationsId = organizationsId;
             result.MerchantId = merchantId;
-            result.Account = account;
-            result.Nickname = nickname;
-            result.Password = password;
-            result.Head = head;
-            result.Mobile = mobile;
+            result.AccountId = accountId;
             result.RegisterTime = registerTime;
-            result.Type = type;
-            result.State = state;
-            result.Saltd = saltd;
-            result.IdCard = idCard;
-            result.RealName = realName;
-            result.Sex = sex;
-            result.Referrer = referrer;
             result.IsLocked = isLocked;
             result.LockBeginTime = lockBeginTime;
             result.LockDuration = lockDuration;
