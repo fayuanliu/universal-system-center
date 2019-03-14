@@ -1,6 +1,6 @@
 <page-header [title]="''"></page-header>
-<nz-card [nzBordered]="false" class="main__content">
-  <form nz-form (ngSubmit)="load()" [nzLayout]="'inline'" class="mb-md">
+<nz-card [nzBordered]="false">
+  <form nz-form [nzLayout]="'inline'" class="mb-md">
     <nz-form-item>
       <nz-form-label>角色名称</nz-form-label>
       <nz-form-control>
@@ -10,37 +10,34 @@
 
     <nz-form-item>
       <nz-form-control>
-        <button nzFlex nz-button type="submit" [nzType]="'primary'">查询</button>
-        <button nzFlex nz-button type="button" (click)="load(true)" class="mx-sm">重置</button>
+        <button nz-button nzType="primary" (click)="load()"><i nz-icon type="search"></i>查询</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button nz-button nzType="primary" (click)="load(true)"><i nz-icon type="redo"></i>重置</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button nz-button nzType="primary" (click)="edit({Id:null})" acl [acl-ability]="'role_add'"><i nz-icon type="plus"></i>新建</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <nz-popconfirm [nzTitle]="'确定要删除所选角色？'" (nzOnConfirm)="del()">
+          <button nz-button acl [acl-ability]="'role_delete'" [nzType]="'danger'" nz-popconfirm>
+              <i nz-icon type="delete"></i>
+              删除
+          </button>
+        </nz-popconfirm>
       </nz-form-control>
     </nz-form-item>
   </form>
 
-
-  <div class="mb-md">
-    <button nz-button acl [acl-ability]="'role_add'" (click)="edit({Id:null})" [nzType]="'primary'" >
-                <i class="anticon anticon-plus"></i>
-                <span>新建</span>
-            </button>
-            <nz-divider nzType="vertical"></nz-divider>
-            <nz-popconfirm [nzTitle]="'确定要删除所选角色？'" (nzOnConfirm)="del()"> 
-              <button nz-button acl [acl-ability]="'role_delete'" [nzType]="'danger'" nz-popconfirm>
-                <i class="anticon anticon-delete"></i>
-                <span>删除</span>
-            </button>
-            </nz-popconfirm>
-
-  </div>
-
   <nz-table #nzTable [nzData]="page.data" [nzTotal]="page.totalCount" [nzShowSizeChanger]="true" [(nzPageIndex)]="page.page"
-    [(nzPageSize)]="page.pageSize" [nzLoading]="page.loading" [nzShowTotal]="showtotal" [nzFrontPagination]="false" (nzPageIndexChange)="load()"
-    (nzPageSizeChange)="load()" [nzSize]="'middle'">
+    [(nzPageSize)]="page.pageSize" [nzLoading]="service._http.loading" [nzShowTotal]="showtotal" [nzFrontPagination]="false"
+    (nzPageIndexChange)="load()" (nzPageSizeChange)="load()" [nzSize]="'middle'">
     <ng-template #showtotal>
       共 {{page.totalCount}} 条
     </ng-template>
     <thead>
       <tr>
         <th nzShowCheckbox [(nzChecked)]="page.allChecked" [nzIndeterminate]="page.indeterminate" (nzCheckedChange)="page.checkAll($event)"></th>
+        <th acl [acl-ability]="'role_edit'|| 'set_menu_role'||'authorize_role'">
+          <span>操作</span>
+        </th>
         <th>
           <span>角色名称</span>
         </th>
@@ -51,26 +48,30 @@
           <span>图标</span>
         </th>
         <th>
-            <span>值</span>
-          </th>
+          <span>值</span>
+        </th>
         <th>
           <span>是否启用</span>
         </th>
         <th>
           <span>排序号</span>
         </th>
-        <th acl [acl-ability]="'role_edit'|| 'set_menu_role'||'authorize_role'">
-          <span>操作</span>
-        </th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let i of nzTable.data">
         <td nzShowCheckbox [(nzChecked)]="i.checked" (nzCheckedChange)="page.refreshStatus($event)"></td>
+        <td>
+          <a (click)="edit(i)" acl [acl-ability]="'role_edit'">编辑</a>
+          <nz-divider nzType="vertical" acl [acl-ability]="'set_menu_role'"></nz-divider>
+          <a (click)="setMenu(i)" acl [acl-ability]="'set_menu_role'">设置菜单</a>
+          <nz-divider nzType="vertical" acl [acl-ability]="'authorize_role'"></nz-divider>
+          <a (click)="setPermission(i)" acl [acl-ability]="'authorize_role'">授权</a>
+        </td>
         <td>{{i.name}}</td>
         <td>{{i.appName}}</td>
         <td>
-            <nz-avatar [nzSrc]="(i.icon!=null)?((i.icon.indexOf('http')>-1)?i.icon:fileHost+i.icon):''"></nz-avatar>
+          <nz-avatar [nzSrc]="(i.icon!=null)?((i.icon.indexOf('http')>-1)?i.icon:fileHost+i.icon):''"></nz-avatar>
         </td>
         <td>{{i.values}}</td>
         <td>
@@ -78,13 +79,6 @@
           <nz-tag *ngIf="i.isEnabled==false" [nzColor]="'pink'">否</nz-tag>
         </td>
         <td>{{i.sortId}}</td>
-        <td>
-          <a (click)="edit(i)" acl [acl-ability]="'role_edit'">编辑</a> 
-          <nz-divider nzType="vertical"acl [acl-ability]="'set_menu_role'"></nz-divider>
-          <a (click)="setMenu(i)" acl [acl-ability]="'set_menu_role'">设置菜单</a>
-          <nz-divider nzType="vertical" acl [acl-ability]="'authorize_role'"></nz-divider>
-          <a (click)="setPermission(i)" acl [acl-ability]="'authorize_role'">授权</a>
-        </td>
       </tr>
     </tbody>
   </nz-table>

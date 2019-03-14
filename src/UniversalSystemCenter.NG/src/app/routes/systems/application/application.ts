@@ -16,7 +16,7 @@ export class ApplicationComponent implements OnInit {
 
     constructor(
         private message: NzMessageService,
-        private _service: ServiceApplicationService,
+        public _service: ServiceApplicationService,
         private modalHelper: ModalHelper
     ) { }
 
@@ -30,13 +30,11 @@ export class ApplicationComponent implements OnInit {
             this.page.args = { name: '' };
             this.page.allChecked = false;
         }
-        this.page.loading = true;
         this._service.getPage(this.page).subscribe((data: any) => {
             this.page.page = data.page;
             this.page.totalCount = data.totalCount;
             this.page.pageSize = data.pageSize;
             this.page.data = data.data;
-            this.page.loading = false;
         });
     }
 

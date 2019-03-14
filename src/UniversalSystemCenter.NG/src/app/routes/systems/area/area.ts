@@ -44,7 +44,7 @@ export class AreaManager implements OnInit {
     Breadcrumb_Items: Array<BreadcrumbItem> = [];//面包屑数组
 
     constructor(
-        private _AreaService: AreaService,
+        public _AreaService: AreaService,
         private _ModalHelper: ModalHelper,
         private _NzMessageService: NzMessageService
     ) {
@@ -62,7 +62,6 @@ export class AreaManager implements OnInit {
             this.page.args = { name: '' };
             this.page.allChecked = false;
         }
-        this.page.loading = true;
 
         if (this.Breadcrumb_Items.length > 0) {
             this.page.args.ParentId = this.Breadcrumb_Items[this.Breadcrumb_Items.length - 1].value;
@@ -75,7 +74,6 @@ export class AreaManager implements OnInit {
             this.page.totalCount = res.totalCount;
             this.page.pageSize = res.pageSize;
             this.page.data = res.data;
-            this.page.loading = false;
         });
     }
 
@@ -90,7 +88,7 @@ export class AreaManager implements OnInit {
         this.load(true);
     }
 
-    all(){
+    all() {
         this.Breadcrumb_Items = [];
         this.load(true);
     }
@@ -103,26 +101,24 @@ export class AreaManager implements OnInit {
         this._ModalHelper.static(AreaEdit, { Id: id, ParentId: ParentId }).subscribe((res) => {
             if (res) {
                 this.load();
-            } 
+            }
         });
     }
 
     delete(id) {
-        this.page.loading = true;
         this._AreaService.delete(id).subscribe((res: any) => {
             this._NzMessageService.success(res.message);
-            this.page.loading = false;
             if (res.result == 0) {
                 this.load();
             }
         });
     }
 
-    // toHandleCoord(){
-    //     this._ModalHelper.static(AreaHandleCoord).subscribe(()=>{
-            
-    //     });
-    // }
+    toHandleCoord() {
+        // this._ModalHelper.static(AreaHandleCoord).subscribe(() => {
+
+        // });
+    }
 
 }
 

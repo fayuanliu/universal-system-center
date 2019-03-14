@@ -1,3 +1,5 @@
+import { HttpParams } from '@angular/common/http';
+
 export class Page {
     /**
      * 页大小
@@ -36,7 +38,7 @@ export class Page {
      */
     selectedRows: any[] = [];
     /**
-     * 确定
+     * 半选
      */
     indeterminate = false;
     /**
@@ -95,4 +97,13 @@ export class Page {
         });
     }
 
+    formatToParams(){
+        let param = new HttpParams().set('page', '' + this.page).set('pageSize', '' + this.pageSize);
+        if (this.args) {
+            Object.keys(this.args).forEach(key => {
+                param = param.append(key, this.args[key]);
+            });
+        }
+        return param.toString();
+    }
 }

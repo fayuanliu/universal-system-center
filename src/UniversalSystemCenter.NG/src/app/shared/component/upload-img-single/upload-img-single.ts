@@ -2,7 +2,7 @@ import { Component, Input, forwardRef } from '@angular/core';
 import { UploadFile, NzMessageService } from 'ng-zorro-antd';
 import { environment } from '@env/environment';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms'
-import { ImgUploadUrl } from '../../app.global';
+import { ImgUploadUrl } from 'app/app.global';
 
 
 @Component({

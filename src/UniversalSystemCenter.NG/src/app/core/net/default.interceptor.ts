@@ -56,7 +56,7 @@ export class DefaultInterceptor implements HttpInterceptor {
     if (ev.status > 0) {
       this.injector.get(_HttpClient).end();
     }
-    this.checkStatus(ev);
+    // this.checkStatus(ev);
     // 业务处理：一些通用操作
     switch (ev.status) {
       case 200:
@@ -93,7 +93,8 @@ export class DefaultInterceptor implements HttpInterceptor {
         break;
       default:
         if (ev instanceof HttpErrorResponse) {
-          console.warn('未可知错误，大部分是由于后端不支持CORS或无效配置引起', ev);
+          this.msg.error(`请求出错`);
+          // console.warn('未可知错误，大部分是由于后端不支持CORS或无效配置引起', ev);
           return throwError(ev);
         }
         break;

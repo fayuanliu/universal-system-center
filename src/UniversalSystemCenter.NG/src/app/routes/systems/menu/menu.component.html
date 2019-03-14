@@ -1,12 +1,10 @@
 <page-header [title]="''"></page-header>
-<nz-card [nzBordered]="false" class="main__content">
+<nz-card [nzBordered]="false">
   <nz-card>
     <nz-breadcrumb nzSeparator=">">
       <nz-breadcrumb-item>
-        <a (click)="all()" *ngIf="Breadcrumb_Items.length > 0">
-          <i class="anticon anticon-flag mr-sm"></i>菜单</a>
-        <span *ngIf="Breadcrumb_Items.length == 0">
-          <i class="anticon anticon-flag mr-sm"></i>菜单</span>
+        <a (click)="all()" *ngIf="Breadcrumb_Items.length > 0"><i nz-icon type="flag" theme="outline" class="mr-sm"></i>菜单</a>
+        <span *ngIf="Breadcrumb_Items.length == 0"><i nz-icon type="flag" theme="outline" class="mr-sm"></i>菜单</span>
       </nz-breadcrumb-item>
       <nz-breadcrumb-item *ngFor="let item of Breadcrumb_Items;let i = index;">
         <a *ngIf="i < (Breadcrumb_Items.length - 1)" (click)="returnTo(i)">{{item.label}}</a>
@@ -15,18 +13,17 @@
     </nz-breadcrumb>
   </nz-card>
 
-
-  <form nz-form (ngSubmit)="load()" [nzLayout]="'inline'" class="mb-md">
+  <form nz-form [nzLayout]="'inline'" class="mb-md">
     <nz-form-item>
       <nz-form-label>菜单名称</nz-form-label>
       <nz-form-control>
-        <input nz-input [(ngModel)]="page.args.name" name="name" placeholder="请输入菜单名称" nzId="name">
+        <input nz-input [(ngModel)]="page.args.name" name="name" placeholder="请输入菜单名称">
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label>所属应用</nz-form-label>
       <nz-form-control>
-        <nz-select [(ngModel)]="page.args.appId" name="appId" style="width: 200px;">
+        <nz-select [(ngModel)]="page.args.appId" name="appId" style="width: 200px;" nzPlaceHolder="请选择所属应用">
           <nz-option *ngFor="let item of app_option" [nzLabel]="item?.label" [nzValue]="item?.value" [nzDisabled]="item?.disabled"></nz-option>
         </nz-select>
       </nz-form-control>
@@ -35,53 +32,34 @@
 
     <nz-form-item>
       <nz-form-control>
-        <button nzFlex nz-button type="submit" [nzType]="'primary'">查询</button>
-        <button nzFlex nz-button type="button" (click)="load(true)" class="mx-sm">重置</button>
-        <button nzFlex nz-button (click)="addOrEdit()" [nzType]="'primary'" acl [acl-ability]="'shop_menu_add'">
-          <i class="anticon anticon-plus"></i>
-          <span>新建</span>
-        </button>
+        <button nz-button nzType="primary" (click)="load()"><i nz-icon type="search"></i>查询</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button nz-button nzType="primary" (click)="load(true)"><i nz-icon type="redo"></i>重置</button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button nz-button nzType="primary" (click)="addOrEdit()" acl [acl-ability]="'shop_menu_add'"><i nz-icon type="plus"></i>新建</button>
       </nz-form-control>
     </nz-form-item>
   </form>
 
-  <!-- <div class="mb-md">
-    <button nz-button (click)="addOrEdit()" [nzType]="'primary'" acl [acl-ability]="'shop_menu_add'">
-      <i class="anticon anticon-plus"></i>
-      <span>新建</span>
-    </button>
-    <nz-divider nzType="vertical" acl [acl-ability]="'shop_menu_delete'"></nz-divider>
-    <button nz-button [nzType]="'danger'" (click)="remove()" acl [acl-ability]="'shop_menu_delete'">
-      <i class="anticon anticon-delete"></i>
-      <span>删除</span>
-    </button>
-  </div> -->
-
-  <!-- <div class="mb-md">
-    <nz-alert [nzType]="'info'" nzShowIcon [nzMessage]="nzMessage">
-      <ng-template #nzMessage>
-        已选择
-        <strong class="text-primary">{{page.selectedRows.length}}</strong> 项&nbsp;&nbsp;
-      </ng-template>
-    </nz-alert>
-  </div> -->
-
   <nz-table #nzTable [nzData]="page.data" [nzTotal]="page.totalCount" [nzShowSizeChanger]="true" [(nzPageIndex)]="page.page"
-    [(nzPageSize)]="page.pageSize" [nzLoading]="page.loading" [nzShowTotal]="showtotal" [nzFrontPagination]="false"
+    [(nzPageSize)]="page.pageSize" [nzLoading]="menuservice._http.loading" [nzShowTotal]="showtotal" [nzFrontPagination]="false"
     (nzPageIndexChange)="load()" (nzPageSizeChange)="load()" [nzSize]="'middle'">
     <ng-template #showtotal>
       共 {{page.totalCount}} 条
     </ng-template>
     <thead>
       <tr>
+        <th acl [acl-ability]="'shop_menu_edit'">
+          <span>操作</span>
+        </th>
         <th>
-          <span>名称</span>
+          <span>菜单名称</span>
         </th>
         <th>
           <span>所属应用</span>
         </th>
         <th>
-          <span>是否是菜单组</span>
+          <span>是否菜单组</span>
         </th>
         <th>
           <span>链接/路由</span>
@@ -101,20 +79,27 @@
         <th>
           <span>拼音</span>
         </th>
-        <th acl [acl-ability]="'shop_menu_edit'">
-          <span>操作</span>
+        <th>
+          <span>排序</span>
         </th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let i of nzTable.data">
+        <td acl [acl-ability]="'shop_menu_edit'">
+          <a (click)="addOrEdit(i.id)">编辑</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <nz-popconfirm [nzTitle]="'确定要删除该菜单？'" (nzOnConfirm)="delete(i.id)">
+            <a nz-popconfirm>删除</a>
+          </nz-popconfirm>
+        </td>
         <td>
           <a (click)="intoChildren(i.id,i.name)">{{i.name}}</a>
         </td>
         <td>{{i.appName}}</td>
         <td>
-          <nz-tag *ngIf="i.isGroup==true" [nzColor]="'cyan'">是</nz-tag>
-          <nz-tag *ngIf="i.isGroup==false" [nzColor]="'orange'">否</nz-tag>
+          <nz-tag *ngIf="i.isGroup==true" [nzColor]="'green'">是</nz-tag>
+          <nz-tag *ngIf="i.isGroup==false" [nzColor]="'pink'">否</nz-tag>
         </td>
         <td>{{i.link}}</td>
         <td>{{i.parentName==null?"无":i.parentName}}</td>
@@ -129,13 +114,7 @@
           {{i.icon}}
         </td>
         <td>{{i.pinYin}}</td>
-        <td acl [acl-ability]="'shop_menu_edit'">
-          <a (click)="addOrEdit(i.id)">编辑</a>
-          <nz-divider nzType="vertical"></nz-divider>
-          <nz-popconfirm [nzTitle]="'确定要删除该菜单？'" (nzOnConfirm)="delete(i.id)"> 
-            <a nz-popconfirm>删除</a>
-          </nz-popconfirm>
-        </td>
+        <td>{{i.sortId}}</td>
       </tr>
     </tbody>
   </nz-table>

@@ -1,4 +1,4 @@
-<nz-card [nzBordered]="false" class="main__content">
+<nz-card [nzBordered]="false">
     <div class="modal-header">
         <div class="modal-title">部门区域</div>
     </div>
@@ -32,7 +32,7 @@
 </nz-card>
 <nz-card [nzBordered]="false">
     <nz-table #nzTable [nzData]="page.data" [nzTotal]="page.totalCount" [nzShowSizeChanger]="true" [(nzPageIndex)]="page.page"
-        [(nzPageSize)]="page.pageSize" [nzLoading]="page.loading" (nzPageSizeChange)="load()" [nzFrontPagination]="false" [nzSize]="'middle'" (nzPageIndexChange)="load()">
+        [(nzPageSize)]="page.pageSize" [nzLoading]="service._http.loading" (nzPageSizeChange)="load()" [nzFrontPagination]="false" [nzSize]="'middle'" (nzPageIndexChange)="load()">
         <thead nz-thead>
             <tr>
                 <th nz-th>

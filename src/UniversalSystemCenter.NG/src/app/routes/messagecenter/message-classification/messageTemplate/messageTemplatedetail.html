@@ -1,7 +1,7 @@
 <div class="modal-header">
     <div class="modal-title">{{classificationName}} --消息模板</div>
 </div>
-<nz-card [nzBordered]="false" class="main__content">
+<nz-card [nzBordered]="false">
     <nz-spin [nzSpinning]="_messageClassificationService.http.loading">
         <form #f="ngForm" [formGroup]="form" nz-form [nzLayout]="'horizontal'">
             <nz-form-item [nzGutter]="24">
@@ -59,7 +59,7 @@
 </nz-card>
 <nz-card [nzBordered]="false">
     <nz-table #nzTable [nzData]="page.data" [nzTotal]="page.totalCount" [nzShowSizeChanger]="true" [(nzPageIndex)]="page.page"
-        [(nzPageSize)]="page.pageSize" [nzLoading]="page.loading" [nzShowTotal]="showtotal" [nzFrontPagination]="false" (nzPageIndexChange)="load()"
+        [(nzPageSize)]="page.pageSize" [nzLoading]="_messageClassificationService.http.loading" [nzShowTotal]="showtotal" [nzFrontPagination]="false" (nzPageIndexChange)="load()"
         (nzPageSizeChange)="load()" [nzSize]="'middle'">
         <ng-template #showtotal>
             共 {{page.totalCount}} 条

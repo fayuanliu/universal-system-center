@@ -19,7 +19,7 @@ export class RoleComponent implements OnInit {
     fileHost = environment.FIlE_URL
     constructor(
         private message: NzMessageService,
-        private service: RoleService,
+        public service: RoleService,
         private modalHelper: ModalHelper
     ) { }
 
@@ -32,13 +32,11 @@ export class RoleComponent implements OnInit {
             this.page.args = { name: '' };
             this.page.allChecked = false;
         }
-        this.page.loading = true;
         this.service.getPage(this.page).subscribe((data: any) => {
             this.page.page = data.page;
             this.page.totalCount = data.totalCount;
             this.page.pageSize = data.pageSize;
             this.page.data = data.data;
-            this.page.loading = false;
         });
     }
 
@@ -61,9 +59,7 @@ export class RoleComponent implements OnInit {
             this.message.warning("请选择要删除的行！");
         } else {
             ids = ids.slice(0, -1);
-            this.page.loading = true;
             this.service.delete(ids).subscribe(res => {
-                this.page.loading = false;
                 this.message.success(res.message);
                 if ((res as any).result == 0) {
                     this.load();

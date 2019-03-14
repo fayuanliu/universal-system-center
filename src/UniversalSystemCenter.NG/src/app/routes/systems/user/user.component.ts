@@ -20,7 +20,7 @@ export class UserComponent implements OnInit {
     imageServer = environment.FIlE_URL;
     constructor(
         private message: NzMessageService,
-        private userservice: UserService,
+        public userservice: UserService,
         private modalHelper: ModalHelper
     ) { }
 
@@ -31,16 +31,14 @@ export class UserComponent implements OnInit {
     load(reset = false) {
         if (reset) {
             this.page.page = 1;
-            this.page.args = { userName: '', state: 0 };
+            this.page.args = { userName: '', state: null };
             this.page.allChecked = false;
         }
-        this.page.loading = true;
         this.userservice.getPage(this.page).subscribe((data: any) => {
             this.page.page = data.page;
             this.page.totalCount = data.totalCount;
             this.page.pageSize = data.pageSize;
             this.page.data = data.data;
-            this.page.loading = false;
         });
     }
 

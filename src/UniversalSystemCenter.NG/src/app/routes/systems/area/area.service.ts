@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { _HttpClient } from "@delon/theme";
-import { HttpParams, HttpHeaders } from "@angular/common/http";
+import { HttpHeaders } from "@angular/common/http";
 import { Page } from "@shared/model/page";
 
 
@@ -18,13 +18,7 @@ export class AreaService {
      * @param page 
      */
     getList(page: Page) {
-        let param = new HttpParams().set('page', '' + page.page).set('pageSize', '' + page.pageSize);
-        if (page.args) {
-            Object.keys(page.args).forEach(key => {
-                param = param.append(key, page.args[key]);
-            });
-        }
-        return this.http.get('api/Area/page?' + param.toString());
+        return this.http.get(`api/Area/page?${page.formatToParams()}`);
     }
 
 
@@ -69,13 +63,7 @@ export class AreaService {
      * @param page 
      */
     GetHandleCoordList(page: Page) {
-        let param = new HttpParams().set('page', '' + page.page).set('pageSize', '' + page.pageSize);
-        if (page.args) {
-            Object.keys(page.args).forEach(key => {
-                param = param.append(key, page.args[key]);
-            });
-        }
-        return this.http.get('api/Area/GetHandleCoordList?' + param.toString());
+        return this.http.get(`api/Area/GetHandleCoordList?${page.formatToParams()}`);
     }
 
     /**
