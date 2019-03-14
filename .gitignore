@@ -1,0 +1,12 @@
+/src/UniversalSystemCenter/bin
+/src/UniversalSystemCenter/obj
+/src/.vs
+/src/UniversalSystemCenter.Auth/bin
+/src/UniversalSystemCenter.Auth/obj
+/src/UniversalSystemCenter.Core/obj
+/src/UniversalSystemCenter.Core/bin
+/src/UniversalSystemCenter.Domains/bin
+/src/UniversalSystemCenter.Domains/obj
+/src/UniversalSystemCenter.Services/bin
+/src/UniversalSystemCenter.Services/obj
+/src/UniversalSystemCenter.Datas/obj

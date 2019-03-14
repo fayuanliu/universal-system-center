@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp2.2\UniversalSystemCenter.Services.xml</DocumentationFile>
+    <OutputPath>bin\Debug\netcoreapp2.2\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Util.Applications" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\UniversalSystemCenter.Core\UniversalSystemCenter.Core.csproj" />
+    <ProjectReference Include="..\UniversalSystemCenter.Datas\UniversalSystemCenter.Datas.csproj" />
+    <ProjectReference Include="..\UniversalSystemCenter.Domains\UniversalSystemCenter.Domains.csproj" />
+  </ItemGroup>
+
+</Project>
