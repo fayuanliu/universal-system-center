@@ -1,0 +1,18 @@
+<div class="container">
+  <header showLangText="false" class="langs"></header>
+  <div class="wrap">
+    <div class="top">
+      <div class="head">
+        <img class="logo" src="./assets/logo-color.svg">
+        <span class="title">中央系统</span>
+      </div>
+      <div class="desc">集成用户、组织、权限、角色、岗位、应用、授权</div>
+    </div>
+    <router-outlet></router-outlet>
+    <global-footer [links]="links">
+      Copyright
+      <i class="anticon anticon-copyright"></i> 2019
+      <a href="#">SmallTeam</a>出品
+    </global-footer>
+  </div>
+</div>

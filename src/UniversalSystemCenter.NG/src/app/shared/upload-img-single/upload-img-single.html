@@ -1,0 +1,10 @@
+<nz-upload nzAction="{{ActionUrl}}" nzListType="picture-card" [(nzFileList)]="_ImgList" [nzShowButton]="_ImgList.length < _MaxNum" [nzBeforeUpload]="beforeUpload"
+    [nzPreview]="handlePreview" nzAccept="{{_ImgType}}" [nzMultiple]="false" [nzData]="_Params" [nzDisabled]="Disabled"  (nzChange)="handleChange($event)">
+    <i class="anticon anticon-plus"></i>
+    <div class="ant-upload-text">上传</div>
+</nz-upload>
+<nz-modal [nzVisible]="_PreviewVisible" [nzContent]="modalContent" [nzFooter]="null" (nzOnCancel)="_PreviewVisible=false">
+    <ng-template #modalContent>
+        <img [src]="_PreviewImage" [ngStyle]="{ 'width': '100%' }" />
+    </ng-template>
+</nz-modal>

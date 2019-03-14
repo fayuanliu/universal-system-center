@@ -1,0 +1,81 @@
+<div class="modal-header">
+  <div class="modal-title">{{Id!=null ? '编辑' : '添加'}}-菜单</div>
+</div>
+<nz-spin [nzSpinning]="_menuService._http.loading">
+  <form #f="ngForm" [formGroup]="form" nz-form [nzLayout]="'horizontal'">
+    <nz-form-item [nzGutter]="24">
+      <nz-form-label nzRequired nz-col [nzSpan]="4">菜单名称</nz-form-label>
+      <nz-form-control nz-col [nzSpan]="8">
+        <input nz-input formControlName="name" maxlength="200" required />
+        <nz-form-explain>如：商品管理、属性管理</nz-form-explain>
+      </nz-form-control>
+
+      <nz-form-label nzRequired nz-col [nzSpan]="4">所属应用平台</nz-form-label>
+      <nz-form-control nz-col [nzSpan]="8">
+        <nz-select formControlName="appId">
+          <nz-option  *ngFor="let item of app_option" [nzLabel]="item?.label" [nzValue]="item?.value" [nzDisabled]="item?.disabled"></nz-option>
+        </nz-select>
+        <nz-form-explain>必填</nz-form-explain>
+      </nz-form-control>
+
+      <nz-form-label nz-col [nzSpan]="4">菜单地址（路由）</nz-form-label>
+      <nz-form-control nz-col [nzSpan]="8">
+        <input nz-input formControlName="link" maxlength="200" />
+        <nz-form-explain>相对路径，如果没有则无需填写</nz-form-explain>
+      </nz-form-control>
+
+      <nz-form-label nz-col [nzSpan]="4">图标</nz-form-label>
+      <nz-form-control nz-col [nzSpan]="8">
+        <input nz-input formControlName="icon" maxlength="100" />
+        <nz-form-explain>菜单图标，如果没有则无需填写</nz-form-explain>
+      </nz-form-control>
+
+      <nz-form-label nz-col [nzSpan]="4">是否是菜单组</nz-form-label>
+      <nz-form-control nz-col [nzSpan]="8">
+        <nz-switch formControlName="isGroup">
+          <span checked>是</span>
+          <span unchecked>否</span>
+        </nz-switch>
+        <nz-form-explain>菜单相同模块的菜单进行的分组</nz-form-explain>
+      </nz-form-control>
+
+      <!-- <nz-form-label nz-col [nzSpan]="4">上级菜单</nz-form-label>
+      <nz-form-control nz-col [nzSpan]="8">
+        <nz-cascader [nzDisabled]="entity.id!=null" [nzExpandTrigger]="'hover'" [nzOptions]="_options" formControlName="parentIdStr"
+          [nzPlaceHolder]="'请选择'" [nzChangeOnSelect]="'true'">
+        </nz-cascader>
+        <nz-form-explain>{{entity.id!=null?"不可修改":"父级菜单，如果是顶级则无需选择"}}</nz-form-explain>
+      </nz-form-control> -->
+
+      <nz-form-label nz-col [nzSpan]="4">是否启用</nz-form-label>
+      <nz-form-control nz-col [nzSpan]="8">
+        <nz-switch formControlName="enabled">
+          <span checked>是</span>
+          <span unchecked>否</span>
+        </nz-switch>
+        <nz-form-explain>不启用，则不会在系统菜单中显示</nz-form-explain>
+      </nz-form-control>
+
+      <nz-form-label nz-col [nzSpan]="4">是否展开</nz-form-label>
+      <nz-form-control nz-col [nzSpan]="8">
+        <nz-switch formControlName="isOpen">
+          <span checked>是</span>
+          <span unchecked>否</span>
+        </nz-switch>
+        <nz-form-explain>展开，则会在菜单加载时自动显示子级菜单</nz-form-explain>
+      </nz-form-control>
+
+      <nz-form-label nz-col [nzSpan]="4">排序</nz-form-label>
+      <nz-form-control nz-col [nzSpan]="8">
+        <input nz-input formControlName="sortId" minlength="0" value="0" required />
+        <nz-form-explain>菜单在同级别下的位置，值越大，越靠前</nz-form-explain>
+      </nz-form-control>
+
+    </nz-form-item>
+  </form>
+</nz-spin>
+
+<div class="modal-footer">
+  <button nz-button type="button" (click)="close(false)">关闭</button>
+  <button nz-button (click)="save()" [disabled]="!f.form.valid || !f.form.dirty||_menuService._http.loading" [nzType]="'primary'">保存</button>
+</div>

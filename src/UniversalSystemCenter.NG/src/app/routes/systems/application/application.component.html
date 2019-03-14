@@ -1,0 +1,95 @@
+<page-header [title]="''"></page-header>
+<nz-card [nzBordered]="false" class="main__content">
+    <form nz-form (ngSubmit)="load()" [nzLayout]="'inline'" class="mb-md">
+      <nz-form-item>
+        <nz-form-label>应用名称</nz-form-label>
+        <nz-form-control>
+          <input nz-input [(ngModel)]="page.args.name" name="name" placeholder="请输入应用名称" nzId="name">
+        </nz-form-control>
+      </nz-form-item>
+  
+      <nz-form-item>
+        <nz-form-control>
+          <button nzFlex nz-button type="submit" [nzType]="'primary'">查询</button>
+          <button nzFlex nz-button type="button" (click)="load(true)" class="mx-sm">重置</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  
+    <div class="mb-md">
+      <button nz-button (click)="edit({Id:null})" [nzType]="'primary'">
+        <i class="anticon anticon-plus"></i>
+        <span>新建</span>
+      </button>
+      <nz-divider nzType="vertical" acl [acl-ability]="'shop_menu_delete'"></nz-divider>
+      <button nz-button [nzType]="'danger'" (click)="remove()" >
+        <i class="anticon anticon-delete"></i>
+        <span>删除</span>
+      </button>
+    </div>
+  
+    <div class="mb-md">
+      <nz-alert [nzType]="'info'" nzShowIcon [nzMessage]="nzMessage">
+        <ng-template #nzMessage>
+          已选择
+          <strong class="text-primary">{{page.selectedRows.length}}</strong> 项&nbsp;&nbsp;
+        </ng-template>
+      </nz-alert>
+    </div>
+  
+    <nz-table #nzTable [nzData]="page.data" [nzTotal]="page.totalCount" [nzShowSizeChanger]="true" [(nzPageIndex)]="page.page"
+      [(nzPageSize)]="page.pageSize" [nzLoading]="page.loading" [nzShowTotal]="showtotal" [nzFrontPagination]="false" (nzPageIndexChange)="load()"
+      (nzPageSizeChange)="load()" [nzSize]="'middle'">
+      <ng-template #showtotal>
+        共 {{page.totalCount}} 条
+      </ng-template>
+      <thead>
+        <tr>
+          <th nzShowCheckbox [(nzChecked)]="page.allChecked" [nzIndeterminate]="page.indeterminate" (nzCheckedChange)="page.checkAll($event)"></th>
+          <th acl [acl-ability]="'shop_menu_edit'">
+            <span>操作</span>
+          </th>
+          <th>
+            <span>编码</span>
+          </th>
+          <th>
+            <span>应用名称</span>
+          </th>
+          <th>
+            <span>ClientId</span>
+          </th>
+          <th>
+            <span>描述</span>
+          </th>
+          <th>
+            <span>是否启用</span>
+          </th>
+          <th>
+            <span>是否注册</span>
+          </th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let i of nzTable.data">
+          <td nzShowCheckbox [(nzChecked)]="i.checked" (nzCheckedChange)="page.refreshStatus($event)"></td>
+          <td acl [acl-ability]="'shop_menu_edit'">
+            <a (click)="edit(i)" >编辑</a>
+          </td>
+          <td>{{i.id}}</td>
+          <td>{{i.name}}</td>
+          <td>{{i.clientId}}</td>
+          <td>{{i.note}}</td>
+          <td>
+            <nz-tag *ngIf="i.isEnabled==true" [nzColor]="'green'">是</nz-tag>
+            <nz-tag *ngIf="i.isEnabled==false" [nzColor]="'pink'">否</nz-tag>
+          </td>
+          <td>
+            <nz-tag *ngIf="i.registerEnabled==true" [nzColor]="'cyan'">是</nz-tag>
+            <nz-tag *ngIf="i.registerEnabled==false" [nzColor]="'orange'">否</nz-tag>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </nz-card>
+  

@@ -1,0 +1,73 @@
+<div class="modal-header">
+  <div class="modal-title">{{entity.id !=null ? '编辑' : '添加'}}-资源</div>
+</div>
+<nz-spin [nzSpinning]="servcie._http.loading">
+  <form #f="ngForm" [formGroup]="form" nz-form [nzLayout]="'horizontal'">
+    <nz-form-item [nzGutter]="24">
+      <nz-form-label nzRequired nz-col [nzSpan]="4">名称</nz-form-label>
+      <nz-form-control nz-col [nzSpan]="8">
+        <input nz-input formControlName="name" maxlength="100" required/>
+      </nz-form-control>
+
+      
+      <nz-form-label nzRequired nz-col [nzSpan]="4">所属应用平台</nz-form-label>
+      <nz-form-control nz-col [nzSpan]="8">
+        <nz-select formControlName="appId">
+          <nz-option *ngFor="let item of app_option" [nzLabel]="item?.label" [nzValue]="item?.value"  ></nz-option>
+        </nz-select>
+      </nz-form-control>
+
+      <nz-form-label nzRequired nz-col [nzSpan]="4">资源标识</nz-form-label>
+      <nz-form-control nz-col [nzSpan]="8">
+        <input nz-input formControlName="uri" maxlength="30" required />
+      </nz-form-control>
+
+      <!-- <nz-form-label  nz-col [nzSpan]="4">父级资源</nz-form-label>
+      <nz-form-control nz-col [nzSpan]="8">
+        <nz-cascader [nzExpandTrigger]="'hover'" [nzDisabled]="entity.id!=null" [nzOptions]="cascader" formControlName="parentIdStr" [nzPlaceHolder]="'请选择'" (nzChange)="_console($event)"
+          [nzChangeOnSelect]="'true'">
+        </nz-cascader>
+        <nz-form-explain>上级资源，如果是顶级则无需选择</nz-form-explain>
+      </nz-form-control> -->
+
+      <nz-form-label nz-col [nzSpan]="4">备注</nz-form-label>
+      <nz-form-control nz-col [nzSpan]="8">
+        <input nz-input formControlName="name" maxlength="30" />
+      </nz-form-control>
+
+      <nz-form-label nzRequired nz-col [nzSpan]="4">类型</nz-form-label>
+      <nz-form-control nz-col [nzSpan]="8">
+        <nz-select formControlName="type" [nzDisabled]="true" >
+          <nz-option [nzLabel]="'菜单'" [nzValue]=0></nz-option>
+          <nz-option [nzLabel]="'数据'" [nzValue]=1></nz-option>
+        </nz-select>
+      </nz-form-control>
+
+      <nz-form-label nz-col [nzSpan]="4">是否启用</nz-form-label>
+      <nz-form-control nz-col [nzSpan]="8">
+        <nz-switch formControlName="isEnabled">
+          <span checked>是</span>
+          <span unchecked>否</span>
+        </nz-switch>
+      </nz-form-control>
+
+      <nz-form-label nz-col [nzSpan]="4">排序</nz-form-label>
+      <nz-form-control nz-col [nzSpan]="8">
+        <input nz-input formControlName="sortId" type="number" minlength="0" value="0" required />
+      </nz-form-control>
+
+    </nz-form-item>
+    <input nz-input formControlName="parentId" type="hidden" />
+    <!-- <div nz-form-control nz-col [nzSpan]="8" nzHasFeedback [nzValidateStatus]="getFormControl('uri')">
+                    <input nz-input formControlName="uri" maxlength="30" required />
+                    <p nz-form-explain>资源标示唯一，不能与现有的重复！</p>
+                    <div nz-form-explain *ngIf="getFormControl('uri').dirty&&getFormControl('uri').hasError('checked')">资源标示不能与现有的重复</div>
+                </div> -->
+
+  </form>
+</nz-spin>
+
+<div class="modal-footer">
+  <button nz-button type="button" (click)="close(false)">关闭</button>
+  <button nz-button (click)="save()" [disabled]="!form.valid || !form.dirty||servcie._http.loading" [nzType]="'primary'">保存</button>
+</div>

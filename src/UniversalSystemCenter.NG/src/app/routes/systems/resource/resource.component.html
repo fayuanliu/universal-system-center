@@ -1,0 +1,72 @@
+<page-header [title]="''"></page-header>
+<nz-card [nzBordered]="false" class="main__content">
+    <form nz-form (ngSubmit)="load()" [nzLayout]="'inline'" class="mb-md">
+        <nz-form-item>
+          <nz-form-label>资源类型</nz-form-label>
+          <nz-form-control style="width: 200px">
+              <nz-select [(ngModel)]="type"  (ngModelChange)="SelectChange($event)" name="type">
+                  <nz-option *ngFor="let option of resource_types" [nzLabel]="option.label" [nzValue]="option.value">
+                    </nz-option>
+                </nz-select>
+          </nz-form-control>
+        </nz-form-item>    
+        <nz-form-item>
+            <nz-form-label>所属平台</nz-form-label>
+            <nz-form-control style="width: 200px">
+                <nz-select [(ngModel)]="appId"  (ngModelChange)="appSelectChange($event)" name="type">
+                    <nz-option *ngFor="let option of app_option" [nzLabel]="option.label" [nzValue]="option.value">
+                      </nz-option>
+                  </nz-select>
+            </nz-form-control>
+          </nz-form-item>             
+      </form>
+  <nz-table #nzTable [nzData]="data" [nzSize]="'middle'" [nzLoading]="table_loading">
+
+      <thead nz-thead>
+          <tr>
+              <th nz-th>
+                  <span>
+                      资源分类
+                      <span class="ml-sm">
+                          <nz-tag [nzColor]="'#87d068'" nz-tooltip="新增资源" (click)="edit({id:null,parentId:null,type:type})" acl [acl-ability]="'resource_add'">
+                              <i class="anticon anticon-plus"></i>
+                          </nz-tag>
+                      </span>
+                  </span>
+              </th>
+              <th nz-th [nzWidth]="'160px'">
+                  <span>操作</span>
+              </th>
+          </tr>
+      </thead>
+      <tbody nz-tbody>
+          <ng-template ngFor let-data [ngForOf]="nzTable.data">
+              <ng-template ngFor let-item [ngForOf]="expandDataCache[data.value]">
+                  <tr nz-tbody-tr *ngIf="(item.parent&&item.parent.expand)||!(item.parent)">
+                      <td [nzIndentSize]="item.level*20" [nzShowExpand]="item.children.length > 0" [(nzExpand)]="item.expand" (nzExpandChange)="collapse(expandDataCache[data.value],item,$event)">
+                          {{item.label}}
+                        </td>
+                      <td nz-td>
+                          <span class="ml-sm">
+                              <nz-tag [nzColor]="'#1a6be6'" nz-tooltip="设置权限" (click)="setPermission(item)" acl [acl-ability]="'resource_set_role'">
+                                          <i class="anticon anticon-setting" ></i>
+                                      </nz-tag>
+                              <nz-tag [nzColor]="'#87d068'" nz-tooltip="新增子资源" (click)="edit({id:null,parentId:item.value,type:type})" acl [acl-ability]="'resource_add'">
+                                  <i class="anticon anticon-plus"></i>
+                              </nz-tag>
+                              <nz-tag [nzColor]="'#f50'" nz-tooltip="编辑" (click)="edit({id:item.value,parentId:null})" acl [acl-ability]="'resource_edit'">
+                                  <i class="anticon anticon-edit"></i>
+                              </nz-tag>
+                              <!-- <nz-popconfirm [nzTitle]="'确定要删除<'+item.label+'>？'" (nzOnConfirm)="del(item.value)">
+                                  <nz-tag [nzColor]="'#ff0000'" nz-tooltip="删除" *ngIf="item.children.length == 0" nz-popconfirm>
+                                      <i class="anticon anticon-minus"></i>
+                                  </nz-tag>
+                              </nz-popconfirm> -->
+                          </span>
+                      </td>
+                  </tr>
+              </ng-template>
+          </ng-template>
+      </tbody>
+  </nz-table>
+</nz-card>

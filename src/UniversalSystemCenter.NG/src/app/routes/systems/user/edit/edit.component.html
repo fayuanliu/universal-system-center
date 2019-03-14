@@ -1,0 +1,59 @@
+<div class="modal-header">
+  <div class="modal-title">{{user.id !=null ? '编辑' : '添加'}}-用户</div>
+</div>
+<nz-spin [nzSpinning]="servcie._http.loading">
+  <form #f="ngForm" [formGroup]="form" nz-form [nzLayout]="'horizontal'">
+    <nz-form-item [nzGutter]="24">
+      <nz-form-label nzRequired nz-col [nzSpan]="4">用户名</nz-form-label>
+      <nz-form-control nz-col [nzSpan]="8">
+        <input nz-input formControlName="userName" maxlength="30" required />
+        <nz-form-explain>如：张三、李四</nz-form-explain>
+      </nz-form-control>
+
+      <nz-form-label nzRequired nz-col [nzSpan]="4">状态</nz-form-label>
+      <nz-form-control nz-col [nzSpan]="8">
+        <nz-select formControlName="state">
+          <nz-option [nzLabel]="'在职'" [nzValue]=0></nz-option>
+          <nz-option [nzLabel]="'离职'" [nzValue]=1></nz-option>
+        </nz-select>
+        <nz-form-explain>用户是否在职</nz-form-explain>
+      </nz-form-control>
+
+      <nz-form-label nzRequired nz-col [nzSpan]="4">性别</nz-form-label>
+      <nz-form-control nz-col [nzSpan]="8">
+        <nz-select formControlName="sex">
+          <nz-option [nzLabel]="'男'" [nzValue]=0></nz-option>
+          <nz-option [nzLabel]="'女'" [nzValue]=1></nz-option>
+        </nz-select>
+        <nz-form-explain>用户是否在职</nz-form-explain>
+      </nz-form-control>
+
+      <nz-form-label nzRequired nz-col [nzSpan]="4">所属部门</nz-form-label>
+      <nz-form-control nz-col [nzSpan]="8">
+        <nz-cascader [nzExpandTrigger]="'hover'" formControlName="organizationsIdS" [nzOptions]="cascader" [nzPlaceHolder]="'请选择'"
+          [nzChangeOnSelect]="'true'">
+        </nz-cascader>
+        <nz-form-explain>用户所在部门</nz-form-explain>
+      </nz-form-control>
+
+      <nz-form-label nzRequired nz-col [nzSpan]="4">角色</nz-form-label>
+      <nz-form-control nz-col [nzSpan]="8">
+        <nz-select style="width: 100%" formControlName="userRoleIds" [nzPlaceHolder]="'请选择'" [nzMode]="'multiple'">
+          <nz-option *ngFor="let option of options" [nzLabel]="option.label" [nzValue]="option.value" [nzDisabled]="option.disabled">
+          </nz-option>
+        </nz-select>
+        <nz-form-explain>用户对应的角色，即相应的操作权限</nz-form-explain>
+      </nz-form-control>
+      <nz-form-label nz-col [nzSpan]="4">用户头像</nz-form-label>
+      <nz-form-control nz-col [nzSpan]="8">
+        <st-upload-img-single [Module]="_userHead" formControlName="head"></st-upload-img-single>
+        <nz-form-explain>图片不能大于200kb</nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-spin>
+
+<div class="modal-footer">
+  <button nz-button type="button" (click)="close(false)">关闭</button>
+  <button nz-button (click)="save()" [disabled]="!form.valid || !form.dirty||servcie._http.loading" [nzType]="'primary'">保存</button>
+</div>
