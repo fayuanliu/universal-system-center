@@ -42,7 +42,7 @@ export class AreaService {
 
 
     /**
-     * 新增
+     * 添加
      * @param parmas 
      */
     add(parmas) {

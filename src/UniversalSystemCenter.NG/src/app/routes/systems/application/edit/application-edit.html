@@ -1,47 +1,33 @@
 <div class="modal-header">
-    <div class="modal-title">{{entity.id!=null ? '编辑' : '添加'}}-应用</div>
-  </div>
-  <nz-spin [nzSpinning]="_service._http.loading">
-    <form #f="ngForm" [formGroup]="form" nz-form [nzLayout]="'horizontal'">
-      <nz-form-item [nzGutter]="24">
-        <nz-form-label nzRequired nz-col [nzSpan]="4">应用名称</nz-form-label>
-        <nz-form-control nz-col [nzSpan]="8">
-          <input nz-input formControlName="name" maxlength="200" required />
-        </nz-form-control>
-  
-        <nz-form-label nz-col [nzSpan]="4">描述</nz-form-label>
-        <nz-form-control nz-col [nzSpan]="8">
-          <input nz-input formControlName="note" maxlength="200" />
-        </nz-form-control>
+  <div class="modal-title">{{action == 1 ? '编辑' : '添加'}}-应用</div>
+</div>
+<nz-spin [nzSpinning]="_service._http.loading">
+  <form nz-form #f="ngForm" se-container=2 labelWidth="90" size="compact">
+    <se required label="应用名称">
+      <input nz-input required [(ngModel)]="params.name" name="name" maxlength="200" />
+    </se>
+    <se required label="clientId">
+      <input nz-input required [(ngModel)]="params.clientId" name="clientId" maxlength="200" />
+    </se>
+    <se label="描述">
+      <input nz-input [(ngModel)]="params.note" name="note" maxlength="200" />
+    </se>
+    <se label="是否注册" col="4">
+      <nz-switch [(ngModel)]="params.registerEnabled" name="registerEnabled">
+        <span checked>是</span>
+        <span unchecked>否</span>
+      </nz-switch>
+    </se>
+    <se label="是否启用" col="4">
+      <nz-switch [(ngModel)]="params.isEnabled" name="isEnabled">
+        <span checked>是</span>
+        <span unchecked>否</span>
+      </nz-switch>
+    </se>
+  </form>
+</nz-spin>
 
-        <nz-form-label nz-col [nzSpan]="4">客户端编号</nz-form-label>
-        <nz-form-control nz-col [nzSpan]="8">
-          <input nz-input formControlName="clientId" maxlength="100" />
-        </nz-form-control>
-  
-        <nz-form-label nz-col [nzSpan]="4">是否注册</nz-form-label>
-        <nz-form-control nz-col [nzSpan]="2">
-          <nz-switch formControlName="registerEnabled">
-            <span checked>是</span>
-            <span unchecked>否</span>
-          </nz-switch>
-        </nz-form-control>
-  
-        <nz-form-label nz-col [nzSpan]="4">是否启用</nz-form-label>
-        <nz-form-control nz-col [nzSpan]="2">
-          <nz-switch formControlName="isEnabled">
-            <span checked>是</span>
-            <span unchecked>否</span>
-          </nz-switch>
-        </nz-form-control>
-  
-  
-      </nz-form-item>
-    </form>
-  </nz-spin>
-  
-  <div class="modal-footer">
-    <button nz-button type="button" (click)="close(false)">关闭</button>
-    <button nz-button (click)="save()" [disabled]="!f.form.valid || !f.form.dirty||_service._http.loading" [nzType]="'primary'">保存</button>
-  </div>
-  
+<div class="modal-footer">
+  <button nz-button type="button" (click)="close(false)">关闭</button>
+  <button nz-button (click)="save()" [disabled]="f.invalid || _service._http.loading" [nzType]="'primary'">保存</button>
+</div>

@@ -1,58 +1,58 @@
 <page-header [title]="''"></page-header>
 <nz-card [nzBordered]="false">
-    <nz-table #nzTable [nzData]="data" [nzSize]="'middle'" [nzLoading]="table_loading">
-        <thead nz-thead>
-            <tr>
-                <th nz-th>
-                    <span>
-                        组织架构
-                        <span class="ml-sm">
-                            <nz-tag [nzColor]="'#87d068'" nz-tooltip="新增公司" (click)="addOrEdit({id:null,parentId:null})"
-                                acl [acl-ability]="'mall_department_add'">
-                                <i class="anticon anticon-plus"></i>
-                            </nz-tag>
-                        </span>
-                    </span>
-                </th>
-                <th nz-th [nzWidth]="'260px'">
-                    <span>操作</span>
-                </th>
-            </tr>
-        </thead>
-        <tbody nz-tbody>
-            <ng-template ngFor let-data [ngForOf]="nzTable.data">
-                <ng-template ngFor let-item [ngForOf]="expandDataCache[data.value]">
-                    <tr nz-tbody-tr *ngIf="(item.parent&&item.parent.expand)||!(item.parent)">
-                        <td [nzIndentSize]="item.level*20" [nzShowExpand]="item.children.length > 0" [(nzExpand)]="item.expand"
-                            (nzExpandChange)="collapse(expandDataCache[data.value],item,$event)">
-                            {{item.label}}
-                        </td>
-                        <td nz-td>
-                            <span class="ml-sm">
-                                <nz-tag [nzColor]="'#1a6be6'" nz-tooltip="查看和设置部门管辖区域" (click)="SetRegion(item)" *ngIf="item.children.length == 0"
-                                    acl [acl-ability]="'mall_set_jurisdictional_area'">
-                                    <i class="anticon anticon-setting"></i>
-                                </nz-tag>
-                                <nz-tag [nzColor]="'#87d068'" nz-tooltip="新增子公司" (click)="addOrEdit({id:null,parentId:item.value})"
-                                    acl [acl-ability]="'mall_department_add'">
-                                    <i class="anticon anticon-plus"></i>
-                                </nz-tag>
-                                <nz-tag [nzColor]="'#f50'" nz-tooltip="编辑" (click)="addOrEdit({id:item.value,parentId:null})"
-                                    acl [acl-ability]="'mall_department_edit'">
-                                    <i class="anticon anticon-edit"></i>
-                                </nz-tag>
-                            </span>
-                        </td>
-                    </tr>
-                </ng-template>
-            </ng-template>
-        </tbody>
-    </nz-table>
+  <nz-table #nzTable [nzData]="data" [nzSize]="'middle'" [nzLoading]="table_loading">
+    <thead nz-thead>
+      <tr>
+        <th nz-th>
+          <span>
+            部门
+            <span class="ml-sm">
+              <nz-tag [nzColor]="'#87d068'" nz-tooltip="添加顶级部门" (click)="addOrEdit({id:null,parentId:null})" acl
+                [acl-ability]="'mall_department_add'">
+                <i class="anticon anticon-plus"></i>
+              </nz-tag>
+            </span>
+          </span>
+        </th>
+        <th nz-th [nzWidth]="'260px'">
+          <span>操作</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody nz-tbody>
+      <ng-template ngFor let-data [ngForOf]="nzTable.data">
+        <ng-template ngFor let-item [ngForOf]="expandDataCache[data.value]">
+          <tr nz-tbody-tr *ngIf="(item.parent&&item.parent.expand)||!(item.parent)">
+            <td [nzIndentSize]="item.level*20" [nzShowExpand]="item.children.length > 0" [(nzExpand)]="item.expand"
+              (nzExpandChange)="collapse(expandDataCache[data.value],item,$event)">
+              {{item.label}}
+            </td>
+            <td nz-td>
+              <span class="ml-sm">
+                <!-- <nz-tag [nzColor]="'#1a6be6'" nz-tooltip="查看/设置部门管辖区域" (click)="SetRegion(item)" *ngIf="item.children.length == 0"
+                  acl [acl-ability]="'mall_set_jurisdictional_area'">
+                  <i class="anticon anticon-setting"></i>
+                </nz-tag> -->
+                <nz-tag [nzColor]="'#87d068'" nz-tooltip="添加子部门" (click)="addOrEdit({id:null,parentId:item.value})" acl
+                  [acl-ability]="'mall_department_add'">
+                  <i class="anticon anticon-plus"></i>
+                </nz-tag>
+                <nz-tag [nzColor]="'#f50'" nz-tooltip="编辑" (click)="addOrEdit({id:item.value,parentId:null})" acl
+                  [acl-ability]="'mall_department_edit'">
+                  <i class="anticon anticon-edit"></i>
+                </nz-tag>
+              </span>
+            </td>
+          </tr>
+        </ng-template>
+      </ng-template>
+    </tbody>
+  </nz-table>
 </nz-card>
 <nz-modal [nzVisible]="_previewVisible" [nzContent]="modalContent" [nzFooter]="null" (nzOnCancel)="_previewVisible=false">
-    <ng-template #modalContent class="ant-qrmodal-content">
-        <div class="qrcode-title"> <span *ngIf="isGetQVCode==true"> {{title}}-推广二维码</span></div>
-        <div>
-        </div>
-    </ng-template>
+  <ng-template #modalContent class="ant-qrmodal-content">
+    <div class="qrcode-title"> <span *ngIf="isGetQVCode==true"> {{title}}-推广二维码</span></div>
+    <div>
+    </div>
+  </ng-template>
 </nz-modal>

@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { _HttpClient } from '@delon/theme';
-import { catchError } from 'rxjs/operators';
 
 import { Page } from '@shared/model/page';
-import { ResponsePage } from '@shared/model/result';
 
 @Injectable()
 export class ResourceService {
@@ -15,16 +13,7 @@ export class ResourceService {
      * @param page 分页信息
      */
     getPage(page: Page) {
-        let param = new HttpParams().set('page', '' + page.page).set('pageSize', '' + page.pageSize);
-        if (page.args) {
-            Object.keys(page.args).forEach(key => {
-                if(page.args[key]!=null){
-                param = param.append(key, page.args[key]);
-                }
-            });
-        }
-        return this.httpClient.get<ResponsePage>('api/resource/page' + '?' + param.toString());
-
+        return this._http.get(`api/resource/page?${page.formatToParams()}`);
     }
 
     GetTreeList(Type,appId){

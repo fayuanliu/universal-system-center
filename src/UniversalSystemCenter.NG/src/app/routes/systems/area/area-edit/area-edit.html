@@ -1,31 +1,27 @@
 <div class="modal-header">
-  <div class="modal-title">{{Id!=null ? '编辑' : '添加'}}-区域</div>
+  <div class="modal-title">{{action == 1 ? '编辑' : '添加'}}-区域</div>
 </div>
 <nz-spin [nzSpinning]="_AreaService.http.loading">
-  <form #f="ngForm" [formGroup]="form" nz-form [nzLayout]="'horizontal'">
-    <nz-form-item [nzGutter]="24">
-      <nz-form-label nzRequired nz-col [nzSpan]="4">区域名称</nz-form-label>
-      <nz-form-control nz-col [nzSpan]="8">
-        <input nz-input formControlName="name" maxlength="100" required/>
-      </nz-form-control>
 
-      <nz-form-label nzRequired nz-col [nzSpan]="4">排序</nz-form-label>
-      <nz-form-control nz-col [nzSpan]="8">
-        <input nz-input formControlName="sortId" type="number" required/>
-      </nz-form-control>
+  <form nz-form #f="ngForm" se-container=2 labelWidth="90">
+    <se required label="区域名称">
+      <input required nz-input [(ngModel)]="params.name" name="name" maxlength="100" placeholder="请输入区域名称" />
+    </se>
 
-      <nz-form-label nzRequired nz-col [nzSpan]="4">是否启用</nz-form-label>
-      <nz-form-control nz-col [nzSpan]="8">
-        <nz-switch formControlName="Enabled">
-          <span checked>是</span>
-          <span unchecked>否</span>
-        </nz-switch>
-      </nz-form-control>
-    </nz-form-item>
+    <se required label="排序">
+      <nz-input-number required [(ngModel)]="params.sortId" name="sortId" nzMin="0" nzPrecision="0" [nzPlaceHolder]="'请输入排序'"></nz-input-number>
+    </se>
+
+    <se label="是否启用">
+      <nz-switch [(ngModel)]="params.Enabled" name="Enabled">
+        <span checked>是</span>
+        <span unchecked>否</span>
+      </nz-switch>
+    </se>
   </form>
 </nz-spin>
 
 <div class="modal-footer">
   <button nz-button type="button" (click)="close(false)">关闭</button>
-  <button nz-button (click)="save()" [disabled]="!form.valid || !form.dirty || _AreaService.http.loading" [nzType]="'primary'">保存</button>
+  <button nz-button (click)="save()" [disabled]="f.invalid || _AreaService.http.loading" [nzType]="'primary'">保存</button>
 </div>

@@ -15,7 +15,7 @@
         <button nz-button nzType="primary" (click)="load(true)"><i nz-icon type="redo"></i>重置</button>
         <nz-divider nzType="vertical"></nz-divider>
         <button nz-button nzType="primary" (click)="addOrEdit({Id:null})" acl [acl-ability]="'shop_menu_add'"><i
-            nz-icon type="plus"></i>新建</button>
+            nz-icon type="plus"></i>添加</button>
         <nz-divider nzType="vertical"></nz-divider>
         <nz-popconfirm [nzTitle]="'确定要删除所选记录？'" (nzOnConfirm)="del()">
           <button nz-button [nzType]="'danger'" nz-popconfirm>
@@ -70,14 +70,14 @@
         <td>{{i.name}}</td>
         <td>{{i.pinYin}}</td>
         <td>
-          <nz-tag [nzColor]="green" *ngIf="i.type==2">待办</nz-tag>
-          <nz-tag [nzColor]="lime" *ngIf="i.type==1">消息</nz-tag>
-          <nz-tag [nzColor]="green" *ngIf="i.type==0">通知</nz-tag>
+          <nz-tag [nzColor]="'green'" *ngIf="i.type==2">待办</nz-tag>
+          <nz-tag [nzColor]="'lime'" *ngIf="i.type==1">消息</nz-tag>
+          <nz-tag [nzColor]="'green'" *ngIf="i.type==0">通知</nz-tag>
         </td>
         <td>
-          <nz-tag [nzColor]="magenta" *ngIf="i.appType==2">微信公众号</nz-tag>
-          <nz-tag [nzColor]="cyan" *ngIf="i.appType==1">商家中心</nz-tag>
-          <nz-tag [nzColor]="blue" *ngIf="i.appType==0">平台</nz-tag>
+          <nz-tag [nzColor]="'magenta'" *ngIf="i.appType==2">微信公众号</nz-tag>
+          <nz-tag [nzColor]="'cyan'" *ngIf="i.appType==1">商家中心</nz-tag>
+          <nz-tag [nzColor]="'blue'" *ngIf="i.appType==0">平台</nz-tag>
         </td>
         <td [innerHTML]="i.isEnabled | yn"></td>
         <td>{{i.sortId}}</td>
