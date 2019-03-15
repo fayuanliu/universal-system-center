@@ -38,7 +38,7 @@ export class MessageClassificationService {
 
 
     /**
-     * 新增消息类型
+     * 添加消息类型
      * @param parmas 
      */
     add(parmas){
@@ -86,7 +86,7 @@ export class MessageClassificationService {
 
 
     /**
-     * 新增消息模板
+     * 添加消息模板
      * @param parmas 
      */
     addTemplate(parmas){

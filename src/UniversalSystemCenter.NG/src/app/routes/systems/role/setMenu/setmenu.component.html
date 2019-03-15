@@ -1,7 +1,7 @@
 <div class="modal-header">
-  <div class="modal-title">{{entity.name}}--设置角色菜单</div>
+  <div class="modal-title">{{entity.name}}-设置角色菜单</div>
 </div>
-<nz-spin [nzTip]="'正在读取数据...'" [nzSpinning]="_isSpinning">
+<nz-spin [nzTip]="'正在读取数据...'" [nzSpinning]="service._http.loading">
   <nz-tree  #tree [(nzData)]="treeData.nzTreeNodes" nzCheckable="true" nzMultiple="true" [nzCheckedKeys]="treeData.defaultCheckedKeys">
   </nz-tree>
 </nz-spin>

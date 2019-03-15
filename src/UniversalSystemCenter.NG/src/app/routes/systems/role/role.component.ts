@@ -40,8 +40,8 @@ export class RoleComponent implements OnInit {
         });
     }
 
-    edit(entity) {
-        this.modalHelper.static(RoleEditComponent, { id: entity.id }).subscribe((res) => {
+    addOrEdit(id = null) {
+        this.modalHelper.static(RoleEditComponent, { id: id }).subscribe((res) => {
             if (res) {
                 this.load();
             }

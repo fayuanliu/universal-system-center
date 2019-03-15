@@ -5,7 +5,6 @@ import { ResourceService } from './resource.service';
 import { ModalHelper } from '@delon/theme';
 import { ResourceEditComponent } from './edit/edit.component';
 import { ResourceSetPermissionComponent } from './setPermission/setpermission.component';
-import { appId } from '../../../app.global';
 import { ServiceApplicationService } from '../application/application.service';
 
 

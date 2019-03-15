@@ -1,69 +1,80 @@
 import { Component, OnInit } from '@angular/core';
 import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ModalHelper } from '@delon/theme';
 import { MessageClassificationService } from '../message-classification.service';
-
+import { ServiceApplicationService } from 'app/routes/systems/application/application.service';
 
 @Component({
-    templateUrl: 'message-classification-edit.html'
+  templateUrl: 'message-classification-edit.html',
+  providers: [ServiceApplicationService],
 })
 export class MessageClassificationEdit implements OnInit {
-    entity: any;
-    form: FormGroup;
-    TypeOptions = [
-        { value: 0, label: '通知' },
-        { value: 1, label: '消息' },
-        { value: 2, label: '待办' },
-    ];
-    AppTypeoption = [
-        { value: 0, label: '中央系统' },
-        { value: 1, label: '约车Wap' },
-        { value: 2, label: '平台管理' },
-    ]
-    constructor(
-        private modalHelper: ModalHelper,
-        private subject: NzModalRef,
-        public msgSrv: NzMessageService,
-        public _MessageClassificationService: MessageClassificationService,
-        private fb: FormBuilder
-    ) { }
+  entity: any;
 
-    ngOnInit() {
-        this.form = this.fb.group({
-            id: [0],
-            name: ['', [Validators.required]],
-            sortId: [0, [Validators.required]],
-            isEnabled: [true],
-            type: [0, [Validators.required]],
-            appType: [0, [Validators.required]],
-        });
-        if (this.entity.id != null) {
-            this._MessageClassificationService.getById(this.entity.id).subscribe(res => {
-                this.form.reset(res);
-            });
-        }
-    }
+  /**
+   * 0 新增  ， 1 编辑
+   */
+  action = 0;
 
+  params = {
+    id: null,
+    name: null,
+    sortId: 0,
+    isEnabled: true,
+    type: 0,
+    appType: null,
+  };
 
-    save() {
-        let resut;
-        if (this.entity.id == null) {
-            resut = this._MessageClassificationService.add(this.form.value);
-        } else {
-            resut = this._MessageClassificationService.edit(this.form.value);
-        }
-        resut.subscribe((res) => {
-            this.msgSrv.success(res.message);
+  TypeOptions = [
+    { value: 0, label: '通知' },
+    { value: 1, label: '消息' },
+    { value: 2, label: '待办' },
+  ];
+  AppTypeoption = [];
+  constructor(
+    private subject: NzModalRef,
+    public msgSrv: NzMessageService,
+    public _MessageClassificationService: MessageClassificationService,
+    public _serviceApplicationService: ServiceApplicationService,
+  ) {}
 
-            if (res.result == 0) {
-                this.close(true);
-            }
+  ngOnInit() {
+    this.loadAppOption();
+    this.action = this.entity.id ? 1 : 0;
+    this.params.id = this.entity.id;
 
+    if (this.action == 1) {
+      this._MessageClassificationService
+        .getById(this.entity.id)
+        .subscribe((res: any) => {
+          this.params = res;
         });
     }
+  }
 
-    close(opt) {
-        this.subject.destroy(opt)
+  loadAppOption() {
+    this._serviceApplicationService.getAppOptionList().subscribe((res: any) => {
+      this.AppTypeoption = res.data;
+    });
+  }
+
+  save() {
+    let resut;
+    if (this.action == 0) {
+      resut = this._MessageClassificationService.add(this.params);
+    } else {
+      resut = this._MessageClassificationService.edit(this.params);
     }
+    resut.subscribe(res => {
+      if (res.result == 0) {
+        this.msgSrv.success(res.message);
+        this.close(true);
+      } else {
+        this.msgSrv.error(res.message);
+      }
+    });
+  }
+
+  close(opt) {
+    this.subject.destroy(opt);
+  }
 }

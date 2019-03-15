@@ -1,52 +1,35 @@
 <div class="modal-header">
-  <div class="modal-title">{{id !=null ? '编辑' : '添加'}}-角色</div>
+  <div class="modal-title">{{action == 1 ? '编辑' : '添加'}}-角色</div>
 </div>
 <nz-spin [nzSpinning]="servcie._http.loading">
-  <form #f="ngForm" [formGroup]="form" nz-form [nzLayout]="'horizontal'">
-    <nz-form-item [nzGutter]="24">
-      <nz-form-label nzRequired nz-col [nzSpan]="4">名称</nz-form-label>
-      <nz-form-control nz-col [nzSpan]="8">
-        <input nz-input formControlName="name" maxlength="100" required/>
-      </nz-form-control>
-
-
-      <nz-form-label nzRequired nz-col [nzSpan]="4">所属应用平台</nz-form-label>
-      <nz-form-control nz-col [nzSpan]="8">
-        <nz-select formControlName="appId">
-          <nz-option *ngFor="let item of app_option" [nzLabel]="item?.label" [nzValue]="item?.value" [nzDisabled]="item?.disabled"></nz-option>
-        </nz-select>
-      </nz-form-control>
-
-      <nz-form-label nz-col [nzSpan]="4">值</nz-form-label>
-      <nz-form-control nz-col [nzSpan]="8">
-        <input nz-input formControlName="values" maxlength="100" />
-      </nz-form-control>
-
-      <nz-form-label nzRequired nz-col [nzSpan]="4">排序</nz-form-label>
-      <nz-form-control nz-col [nzSpan]="8">
-        <input nz-input formControlName="sortId" type="number" minlength="0" value="0" required/>
-      </nz-form-control>
-
-
-      <nz-form-label nz-col [nzSpan]="4">是否启用</nz-form-label>
-      <nz-form-control nz-col [nzSpan]="8">
-        <nz-switch formControlName="isEnabled">
-          <span checked>是</span>
-          <span unchecked>否</span>
-        </nz-switch>
-        <nz-form-explain>不启用，则不会在系统菜单中显示</nz-form-explain>
-      </nz-form-control>
-      
-      <nz-form-label nz-col [nzSpan]="4">图标</nz-form-label>
-      <nz-form-control nz-col [nzSpan]="8">
-          <st-upload-img-single [Module]="_RoleModule" [MaxSize]="100" formControlName="icon"></st-upload-img-single>
-          <nz-form-explain>图片不能大于100kb</nz-form-explain>
-      </nz-form-control>
-    </nz-form-item>
+  <form nz-form #f="ngForm" se-container labelWidth="90">
+    <se required label="角色名称" col="2">
+      <input required nz-input [(ngModel)]="params.name" name="name" maxlength="100" placeholder="请输入角色名称" />
+    </se>
+    <se required label="所属应用" col="2">
+      <nz-select required [(ngModel)]="params.appId" name="appId" nzPlaceHolder="请选择所属应用">
+        <nz-option *ngFor="let item of app_option" [nzLabel]="item?.label" [nzValue]="item?.value" [nzDisabled]="item?.disabled"></nz-option>
+      </nz-select>
+    </se>
+    <se label="值" col="2">
+      <input nz-input [(ngModel)]="params.values" name="values" maxlength="100" />
+    </se>
+    <se required label="排序" col="2">
+      <nz-input-number required [(ngModel)]="params.sortId" name="sortId" nzMin="0" nzPrecision="0"></nz-input-number>
+    </se>
+    <se label="图标" col="2" extra="图片不能大于100kb">
+      <st-upload-img-single [(ngModel)]="params.icon" name="icon" [Module]="_RoleModule" [MaxSize]="100"></st-upload-img-single>
+    </se>
+    <se label="是否启用" col="2">
+      <nz-switch [(ngModel)]="params.isEnabled" name="isEnabled">
+        <span checked>是</span>
+        <span unchecked>否</span>
+      </nz-switch>
+    </se>
   </form>
 </nz-spin>
 
 <div class="modal-footer">
   <button nz-button type="button" (click)="close(false)">关闭</button>
-  <button nz-button (click)="save()" [disabled]="!f.form.valid || !f.form.dirty||servcie._http.loading" [nzType]="'primary'">保存</button>
+  <button nz-button (click)="save()" [disabled]="f.invalid || servcie._http.loading" [nzType]="'primary'">保存</button>
 </div>

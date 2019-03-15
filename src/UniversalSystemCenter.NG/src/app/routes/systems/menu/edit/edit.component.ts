@@ -15,7 +15,7 @@ export class MenuEditComponent implements OnInit {
      */
     qModel;
     /**
-     * 0 新增 ，  1 编辑
+     * 0 添加 ，  1 编辑
      */
     action = 0;
 

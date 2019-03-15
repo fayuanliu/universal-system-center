@@ -1,48 +1,40 @@
 <div class="modal-header">
-    <div class="modal-title">{{entity.id!=null ? '编辑' : '添加'}}-消息类型</div>
-  </div>
-  <nz-spin [nzSpinning]="_MessageClassificationService.http.loading">
-    <form #f="ngForm" [formGroup]="form" nz-form [nzLayout]="'horizontal'">
-      <nz-form-item [nzGutter]="24">
-        <nz-form-label nzRequired nz-col [nzSpan]="4">消息类型名称</nz-form-label>
-        <nz-form-control nz-col [nzSpan]="7">
-          <input nz-input formControlName="name" maxlength="30" required/>
-        </nz-form-control>
-  
-        <nz-form-label nzRequired nz-col [nzSpan]="4">消息类型</nz-form-label>
-        <nz-form-control nz-col [nzSpan]="7">
-          <nz-select [nzPlaceHolder]="'请选择！'" formControlName="type">
-                <nz-option *ngFor="let option of TypeOptions" [nzLabel]="option.label" [nzValue]="option.value">
-                </nz-option>
-              </nz-select>
-        </nz-form-control>
+  <div class="modal-title">{{action == 1 ? '编辑' : '添加'}}-消息类型</div>
+</div>
+<nz-spin [nzSpinning]="_MessageClassificationService.http.loading">
 
-        <nz-form-label nzRequired nz-col [nzSpan]="4">所属平台</nz-form-label>
-        <nz-form-control nz-col [nzSpan]="7">
-          <nz-select [nzPlaceHolder]="'请选择！'" formControlName="appType">
-             <nz-option *ngFor="let option of AppTypeoption" [nzLabel]="option.label" [nzValue]="option.value">
-            </nz-option>
-          </nz-select>
-        </nz-form-control>
-  
-        <nz-form-label nzRequired nz-col [nzSpan]="4">排序号</nz-form-label>
-        <nz-form-control nz-col [nzSpan]="7">
-          <input nz-input formControlName="sortId" type="number" required/>
-        </nz-form-control>
-  
-        <nz-form-label nz-col [nzSpan]="4">是否启用</nz-form-label>
-        <nz-form-control nz-col [nzSpan]="7">
-          <nz-switch formControlName="isEnabled">
-            <span checked>是</span>
-            <span unchecked>否</span>
-          </nz-switch>
-        </nz-form-control>
-  
-      </nz-form-item>
-    </form>
-  </nz-spin>
-  <div class="modal-footer">
-    <button nz-button type="button" (click)="close(false)">关闭</button>
-    <button nz-button (click)="save()" [disabled]="!form.valid ||!form.dirty||_MessageClassificationService.http.loading" [nzType]="'primary'">保存</button>
-  </div>
-  
+  <form nz-form #f="ngForm" se-container=2 labelWidth="110">
+    <se required label="消息场景名称">
+      <input nz-input required [(ngModel)]="params.name" name="name" maxlength="30" placeholder="请输入消息类型名称,30字符以内" />
+    </se>
+    <se required label="消息类型">
+      <nz-select required [nzPlaceHolder]="'请选择消息类型'" [(ngModel)]="params.type" name="type">
+        <nz-option *ngFor="let option of TypeOptions" [nzLabel]="option.label" [nzValue]="option.value">
+        </nz-option>
+      </nz-select>
+    </se>
+
+    <se required label="所属应用">
+      <nz-select required [nzPlaceHolder]="'请选择所属应用'" [(ngModel)]="params.appType" name="appType">
+        <nz-option *ngFor="let option of AppTypeoption" [nzLabel]="option.label" [nzValue]="option.value">
+        </nz-option>
+      </nz-select>
+    </se>
+
+    <se required label="排序">
+      <nz-input-number required [(ngModel)]="params.sortId" name="sortId" [nzPlaceHolder]="'请填写排序'" nzMin="0"
+        nzPrecision="0"></nz-input-number>
+    </se>
+
+    <se label="是否启用">
+      <nz-switch [(ngModel)]="params.isEnabled" name="isEnabled">
+        <span checked>是</span>
+        <span unchecked>否</span>
+      </nz-switch>
+    </se>
+  </form>
+</nz-spin>
+<div class="modal-footer">
+  <button nz-button type="button" (click)="close(false)">关闭</button>
+  <button nz-button (click)="save()" [disabled]="f.invalid || _MessageClassificationService.http.loading" [nzType]="'primary'">保存</button>
+</div>

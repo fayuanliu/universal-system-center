@@ -1,79 +1,61 @@
 <div class="modal-header">
-    <div class="modal-title">{{entity.id !=null ? '编辑' : '添加'}}-组织机构</div>
+  <div class="modal-title">{{action == 1 ? '编辑' : '添加'}}-部门</div>
 </div>
 <nz-spin [nzSpinning]="servcie._http.loading">
-    <form #f="ngForm" [formGroup]="form" (ngSubmit)="save()" nz-form [nzLayout]="'horizontal'">
-        <nz-form-item [nzGutter]="24">
+  <form nz-form #f="ngForm" se-container=2 size="compact" labelWidth="100">
+    <se required label="部门名称">
+      <input nz-input required [(ngModel)]="params.name" name="name" maxlength="30" placeholder="请输入部门名称,30字符以内" />
+    </se>
+    <se required label="部门负责人">
+      <nz-select required [(ngModel)]="params.orgChargeUid" name="orgChargeUid" [nzPlaceHolder]="'输入名字/手机号搜索'"
+        [nzServerSearch]="true" nzShowSearch (nzOnSearch)="nzOnSearch($event,1)">
+        <nz-option *ngFor="let option of UseroptionList" [nzLabel]="option.label" [nzValue]="option.value">
+        </nz-option>
+      </nz-select>
+    </se>
+    <se required label="部门类型">
+      <nz-select required [(ngModel)]="params.type" name="type">
+        <nz-option [nzLabel]="'公司'" [nzValue]=0></nz-option>
+        <nz-option [nzLabel]="'分公司'" [nzValue]=1></nz-option>
+        <nz-option [nzLabel]="'经销商'" [nzValue]=2></nz-option>
+      </nz-select>
+    </se>
+    <se required label="排序">
+      <nz-input-number required [(ngModel)]="params.sortId" name="sortId" nzMin="0" nzPrecision="0" [nzPlaceHolder]="'请输入排序'"></nz-input-number>
+    </se>
 
-            <nz-form-label nzRequired nz-col [nzSpan]="4">部门名称</nz-form-label>
-            <nz-form-control nz-col [nzSpan]="7">
-                <input nz-input formControlName="name" maxlength="30" required />
-            </nz-form-control>
-            <nz-form-label nzRequired nz-col [nzSpan]="4">部门负责人</nz-form-label>
-            <nz-form-control nz-col [nzSpan]="7">
-                <nz-select style="width: 100%" formControlName="orgChargeUid" [nzPlaceHolder]="'请输入人员名称或手机号码'"
-                    [nzServerSearch]="true" nzShowSearch (nzOnSearch)="nzOnSearch($event,1)">
-                    <nz-option *ngFor="let option of UseroptionList" [nzLabel]="option.label" [nzValue]="option.value">
-                    </nz-option>
-                </nz-select>
-            </nz-form-control>
+    <se required label="所在区域" col="1">
+      <nz-cascader required #AreaCascader [(ngModel)]="params.RegionStr" (ngModelChange)="AreaCascader.closeMenu();AreaChange($event);"
+        name="RegionStr" nzExpandTrigger="hover" [nzOptions]="region" [nzPlaceHolder]="'请选择所在区域'" nzChangeOnSelect></nz-cascader>
+    </se>
 
-            <nz-form-label nzRequired nz-col [nzSpan]="4">部门类型</nz-form-label>
-            <nz-form-control nz-col [nzSpan]="7">
-                <nz-select formControlName="type">
-                    <nz-option [nzLabel]="'公司'" [nzValue]=0></nz-option>
-                    <nz-option [nzLabel]="'分公司'" [nzValue]=1></nz-option>
-                    <nz-option [nzLabel]="'经销商'" [nzValue]=2></nz-option>
-                </nz-select>
-            </nz-form-control>
+    <se label="详细地址" col="1">
+      <input nz-input [(ngModel)]="params.addressDetail" name="addressDetail" maxlength="300" placeholder="请输入详细地址" />
+    </se>
 
-            <nz-form-label nzRequired nz-col [nzSpan]="4">所在区域</nz-form-label>
-            <nz-form-control nz-col [nzSpan]="7">
-                <nz-cascader [nzExpandTrigger]="'hover'" #nzTablecascader [nzOptions]="region" formControlName="RegionStr"
-                    [nzPlaceHolder]="'请选择'" (ngModelChange)="_console($event)" [nzChangeOnSelect]="'true'"></nz-cascader>
-            </nz-form-control>
+    <se label="状态" col="3">
+      <nz-select [(ngModel)]="params.state" name="value">
+        <nz-option nzLabel="在用" [nzValue]=1></nz-option>
+        <nz-option nzLabel="失效" [nzValue]=0></nz-option>
+      </nz-select>
+    </se>
 
-            <nz-form-label nz-col [nzSpan]="4">详细地址</nz-form-label>
-            <nz-form-control nz-col [nzSpan]="7">
-                <input nz-input formControlName="addressDetail" maxlength="300" />
-            </nz-form-control>
+    <se label="是否启用" col="3">
+      <nz-switch [(ngModel)]="params.Enabled" name="Enabled" nzCheckedChildren="是" nzUnCheckedChildren="否">
+        <span checked>是</span>
+        <span unchecked>否</span>
+      </nz-switch>
+    </se>
 
-            <nz-form-label nzRequired nz-col [nzSpan]="4">排序</nz-form-label>
-            <nz-form-control nz-col [nzSpan]="7">
-                <input nz-input formControlName="sortId" type="number" minlength="0" value="0" required />
-            </nz-form-control>
-
-            <nz-form-label nzRequired nz-col [nzSpan]="4">状态</nz-form-label>
-            <nz-form-control nz-col [nzSpan]="7">
-
-                <nz-switch formControlName="state" nzCheckedChildren="在用" nzUnCheckedChildren="失效">
-                    <span checked>在用</span>
-                    <span unchecked>失效</span>
-                </nz-switch>
-            </nz-form-control>
-
-            <nz-form-label nzRequired nz-col [nzSpan]="4">是否启用</nz-form-label>
-            <nz-form-control nz-col [nzSpan]="7">
-                <nz-switch formControlName="Enabled">
-                    <span checked>是</span>
-                    <span unchecked>否</span>
-                </nz-switch>
-            </nz-form-control>
-            <nz-form-label nzRequired nz-col [nzSpan]="4">是否隐藏</nz-form-label>
-            <nz-form-control nz-col [nzSpan]="7">
-                <nz-switch formControlName="isOpen">
-                    <span checked>是</span>
-                    <span unchecked>否</span>
-                </nz-switch>
-            </nz-form-control>
-        </nz-form-item>
-        <input nz-input formControlName="id" type="hidden" />
-        <input nz-input formControlName="parentId" type="hidden" />
-        <input nz-input formControlName="regionid" type="hidden" />
-        <input nz-input formControlName="referenceDetpId" type="hidden" />
-    </form>
+    <se label="是否隐藏" col="3">
+      <nz-switch [(ngModel)]="params.isOpen" name="isOpen" nzCheckedChildren="是" nzUnCheckedChildren="否">
+        <span checked>是</span>
+        <span unchecked>否</span>
+      </nz-switch>
+    </se>
+  </form>
 </nz-spin>
 <div class="modal-footer">
-    <button nz-button type="button" (click)="close(false)">关闭</button>
-    <button nz-button (click)="save()" [disabled]="!form.valid || !form.dirty||servcie._http.loading" [nzType]="'primary'">保存</button>
+  <button nz-button type="button" (click)="close(false)">关闭</button>
+  <button nz-button (click)="save()" [disabled]="f.invalid || servcie._http.loading" [nzType]="'primary'">保存</button>
 </div>
