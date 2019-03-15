@@ -23,16 +23,16 @@ namespace UniversalSystemCenter.Core.Web
         /// <summary>
         /// 用户编号
         /// </summary>
-        public string UserId
+        public Guid UserId
         {
             get
             {
                 var userId = User.Claims.FirstOrDefault(a => a.Type == JwtClaimTypes.Id);
                 if (null != userId)
                 {
-                    return userId.Value;
+                    return userId.Value.ToGuid();
                 }
-                return string.Empty;
+                return Guid.Empty;
             }
         }
 
@@ -72,16 +72,16 @@ namespace UniversalSystemCenter.Core.Web
         /// <summary>
         /// 用户角色编号
         /// </summary>
-        public List<string> RoleIdList
+        public List<Guid> RoleIdList
         {
             get
             {
                 var userRoleIdStr = User.Claims.FirstOrDefault(a => a.Type == "RoleIds");
                 if (null != userRoleIdStr)
                 {
-                   return userRoleIdStr.Value.Split(',').ToList();
+                    return userRoleIdStr.Value.ToGuidList();
                 }
-                return new List<string>();
+                return new List<Guid>();
             }
         }
 
@@ -125,10 +125,10 @@ namespace UniversalSystemCenter.Core.Web
             get
             {
                 var memoryCache = Util.Helpers.Ioc.Create<IMemoryCache>();
-                LoginUser loginUser = memoryCache.Get<LoginUser>(UserId);
+                LoginUser loginUser = memoryCache.Get<LoginUser>(UserId.ToString());
                 if (null == loginUser)
                 {
-                    loginUser = RedisHelper.Get<LoginUser>(UserId);
+                    loginUser = RedisHelper.Get<LoginUser>(UserId.ToString());
                     memoryCache.Set<LoginUser>(loginUser.Id, loginUser, TimeSpan.FromHours(3));
                 }
                 return loginUser;

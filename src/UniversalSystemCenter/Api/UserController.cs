@@ -2,6 +2,9 @@
 using UniversalSystemCenter.Service.Dtos;
 using UniversalSystemCenter.Service.Queries;
 using UniversalSystemCenter.Service.Abstractions;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using UniversalSystemCenter.Core.Auth.Param;
 
 namespace UniversalSystemCenter.Apis {
     /// <summary>
@@ -20,5 +23,16 @@ namespace UniversalSystemCenter.Apis {
         /// 用户服务
         /// </summary>
         public IUserService UserService { get; }
+
+        /// <summary>
+        /// 用户登录
+        /// </summary>
+        /// <param name="loginDto"></param>
+        /// <returns></returns>
+        public async Task<JsonResult> UserLogin(LoginDto loginDto)
+        {
+            var data =await UserService.UserLoginAsync(loginDto);
+            return Json(data);
+        }
     }
 }

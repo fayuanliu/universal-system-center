@@ -6,6 +6,11 @@ using UniversalSystemCenter.Domain.Repositories;
 using UniversalSystemCenter.Data.Repositories;
 using UniversalSystemCenter.Service.Abstractions;
 using UniversalSystemCenter.Service.Implements;
+using UniversalSystemCenter.Core.Auth;
+using UniversalSystemCenter.Core.Configuration.Services;
+using UniversalSystemCenter.Core.Upload;
+using UniversalSystemCenter.Domains.DominaServices.Impl;
+using UniversalSystemCenter.Domains.DominaServices.Interface;
 
 namespace UniversalSystemCenter.Service.Configs {
     /// <summary>
@@ -27,6 +32,10 @@ namespace UniversalSystemCenter.Service.Configs {
         /// </summary>
         protected virtual void LoadInfrastructure( ContainerBuilder builder ) {
             builder.AddScoped<IUniversalSysCenterUnitOfWork, UniversalSysCenterUnitOfWork>();
+            builder.AddScoped<IAuthRequest, AuthRequest>();
+            builder.AddScoped<IUploadFile, UploadFile>();
+            builder.AddScoped<AuthHostConfigurationServices, AuthHostConfigurationServices>();
+
         }
 
         /// <summary>
@@ -63,7 +72,10 @@ namespace UniversalSystemCenter.Service.Configs {
         /// <summary>
         /// 加载领域服务
         /// </summary>
-        protected virtual void LoadDomainServices( ContainerBuilder builder ) {
+        protected virtual void LoadDomainServices( ContainerBuilder builder )
+        {
+            builder.AddScoped<IMenuDomainService, MenuDomainService>().PropertiesAutowired();
+            builder.AddScoped<IPermissionDomainService, PermissionDomainService>().PropertiesAutowired();
         }
         
         /// <summary>

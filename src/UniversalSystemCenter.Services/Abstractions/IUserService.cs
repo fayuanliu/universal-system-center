@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using UniversalSystemCenter.Core.Auth.Param;
 using UniversalSystemCenter.Core.Result;
 
-namespace UniversalSystemCenter.Service.Abstractions {
+namespace UniversalSystemCenter.Service.Abstractions
+{
     /// <summary>
     /// 用户服务
     /// </summary>
@@ -17,5 +18,12 @@ namespace UniversalSystemCenter.Service.Abstractions {
         /// <param name="loginDto"></param>
         /// <returns></returns>
         Task<Result> LoginAsync(LoginDto loginDto);
+
+        /// <summary>
+        /// 系统中心用户登录
+        /// </summary>
+        /// <param name="loginDto"></param>
+        /// <returns></returns>
+        Task<Result> UserLoginAsync(LoginDto loginDto);
     }
 }

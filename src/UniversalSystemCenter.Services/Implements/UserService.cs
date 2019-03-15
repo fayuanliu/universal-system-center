@@ -15,6 +15,7 @@ using UniversalSystemCenter.Core.Result;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System;
+using UniversalSystemCenter.Core.Auth;
 
 namespace UniversalSystemCenter.Service.Implements
 {
@@ -28,16 +29,19 @@ namespace UniversalSystemCenter.Service.Implements
         /// </summary>
         /// <param name="unitOfWork">工作单元</param>
         /// <param name="userRepository">用户仓储</param>
-        public UserService(IUniversalSysCenterUnitOfWork unitOfWork, IUserRepository userRepository)
+        public UserService(IUniversalSysCenterUnitOfWork unitOfWork, IUserRepository userRepository, IAuthRequest authRequest)
             : base(unitOfWork, userRepository)
         {
             UserRepository = userRepository;
+            _authRequest = authRequest;
         }
 
         /// <summary>
         /// 用户仓储
         /// </summary>
         public IUserRepository UserRepository { get; set; }
+
+        private IAuthRequest _authRequest { get; set; }
 
         /// <summary>
         /// 创建查询对象
@@ -46,6 +50,19 @@ namespace UniversalSystemCenter.Service.Implements
         protected override IQueryBase<User> CreateQuery(UserQuery param)
         {
             return new Query<User>(param);
+        }
+
+
+        /// <summary>
+        /// 系统中心用户登录
+        /// </summary>
+        /// <param name="loginDto"></param>
+        /// <returns></returns>
+        public async Task<Result> UserLoginAsync(LoginDto loginDto)
+        {
+            var client = new Client() { UserName = loginDto.UserName, ClientId = loginDto.ClientId, Password = loginDto.Password };
+            var result = await _authRequest.SendPasswordAuth(client);
+            return result;
         }
 
         /// <summary>
