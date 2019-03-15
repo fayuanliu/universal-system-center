@@ -5,6 +5,7 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <UserSecretsId>e884109d-c70c-45a6-90ec-d944a697e1a2</UserSecretsId>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +20,12 @@
     <ProjectReference Include="..\UniversalSystemCenter.Core\UniversalSystemCenter.Core.csproj" />
     <ProjectReference Include="..\UniversalSystemCenter.Datas\UniversalSystemCenter.Datas.csproj" />
     <ProjectReference Include="..\UniversalSystemCenter.Services\UniversalSystemCenter.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Dockerfile">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
