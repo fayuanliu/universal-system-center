@@ -1,2 +1,2 @@
-# universalSystemcenter
-系统共用配置中心
+﻿# universalSystemcenter
+通用系统配制中心

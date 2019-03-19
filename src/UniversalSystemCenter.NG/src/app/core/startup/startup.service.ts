@@ -25,39 +25,40 @@ export class StartupService {
     private titleService: TitleService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private httpClient: HttpClient,
-    private injector: Injector
+    private injector: Injector,
   ) {
     iconSrv.addIcon(...ICONS_AUTO, ...ICONS);
   }
 
   private viaHttp(resolve: any, reject: any) {
-    zip(
-      this.httpClient.get(init_Url)
-    ).pipe(
-      // 接收其他拦截器后产生的异常消息
-      catchError(([appData]) => {
+    zip(this.httpClient.get(init_Url))
+      .pipe(
+        // 接收其他拦截器后产生的异常消息
+        catchError(([appData]) => {
           resolve(null);
           return [appData];
-      })
-    ).subscribe(([appData]) => {
-
-      // application data
-      const res: any = appData;
-      // 应用信息：包括站点名、描述、年份
-      this.settingService.setApp(res.app);
-      // 用户信息：包括姓名、头像、邮箱地址
-      this.settingService.setUser(res.user);
-      // ACL：设置权限为全量
-      this.aclService.setFull(true);
-      // 初始化菜单
-      this.menuService.add(res.menu);
-      // 设置页面标题的后缀
-      this.titleService.suffix = res.app.name;
-    },
-    () => { },
-    () => {
-      resolve(null);
-    });
+        }),
+      )
+      .subscribe(
+        ([appData]) => {
+          if (appData.result == 0) {
+            // 应用信息：包括站点名、描述、年份
+            this.settingService.setApp(appData.data.app);
+            // 用户信息：包括姓名、头像、邮箱地址
+            this.settingService.setUser(appData.data.user);
+            // ACL：设置权限为全量
+            this.aclService.setFull(true);
+            // 初始化菜单
+            this.menuService.add(appData.data.menu);
+            // 设置页面标题的后缀
+            this.titleService.suffix = appData.data.app.name;
+          }
+        },
+        () => {},
+        () => {
+          resolve(null);
+        },
+      );
   }
   load(): Promise<any> {
     // only works with promises
