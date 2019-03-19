@@ -4,7 +4,6 @@ import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
 
 @Component({
   templateUrl: './area-edit.html',
-  providers: [AreaService],
 })
 /**
  * 系统管理-区域编辑
@@ -16,7 +15,7 @@ export class AreaEdit implements OnInit {
   /**
    * 0 新增 ， 1 编辑
    */
-  action = 0;
+  action: ActionEnum = ActionEnum.ADD;
 
   params = {
     id: null,
@@ -33,17 +32,17 @@ export class AreaEdit implements OnInit {
   _options: any[];
   constructor(
     private subject: NzModalRef,
-    public msgSrv: NzMessageService,
-    public _AreaService: AreaService,
+    public message: NzMessageService,
+    public service: AreaService,
   ) {}
 
   ngOnInit() {
-    this.action = this.Id ? 1 : 0;
+    this.action = this.Id ? ActionEnum.EDIT : ActionEnum.ADD;
     this.params.id = this.Id;
     this.params.parentId = this.ParentId;
 
-    if (this.action == 1) {
-      this._AreaService.getDetail(this.Id).subscribe((res: any) => {
+    if (this.action == ActionEnum.EDIT) {
+      this.service.getDetail(this.Id).subscribe((res: any) => {
         this.params = res;
       });
     }
@@ -51,18 +50,18 @@ export class AreaEdit implements OnInit {
 
   save() {
     let resut;
-    if (this.action == 0) {
-      resut = this._AreaService.add(this.params);
+    if (this.action == ActionEnum.ADD) {
+      resut = this.service.add(this.params);
     } else {
-      resut = this._AreaService.edit(this.params);
+      resut = this.service.edit(this.params);
     }
     resut.subscribe(res => {
       //保存成功 返回修改后的数据到列表
       if (res.result == 0) {
-        this.msgSrv.success(res.message);
+        this.message.success(res.message);
         this.close(true);
       } else {
-        this.msgSrv.error(res.message);
+        this.message.error(res.message);
       }
     });
   }

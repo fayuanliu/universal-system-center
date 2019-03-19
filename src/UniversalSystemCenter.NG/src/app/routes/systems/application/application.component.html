@@ -16,8 +16,8 @@
         <nz-divider nzType="vertical"></nz-divider>
         <button nz-button nzType="primary" (click)="edit({Id:null})"><i nz-icon type="plus"></i>添加</button>
         <nz-divider nzType="vertical"></nz-divider>
-        <nz-popconfirm [nzTitle]="'确定要删除所选应用？'" (nzOnConfirm)="remove()">
-          <button nz-button [nzType]="'danger'" nz-popconfirm>
+        <nz-popconfirm [nzTitle]="'确定要删除所选应用？'" (nzOnConfirm)="del()">
+          <button nz-button [nzType]="'danger'" [disabled]="page.selectedRows.length == 0" nz-popconfirm>
             <i nz-icon type="delete"></i>
             删除
           </button>
@@ -29,14 +29,13 @@
   <div class="mb-md">
     <nz-alert [nzType]="'info'" nzShowIcon [nzMessage]="nzMessage">
       <ng-template #nzMessage>
-        已选择
-        <strong class="text-primary">{{page.selectedRows.length}}</strong> 项&nbsp;&nbsp;
+        已选择 <strong class="text-primary">{{page.selectedRows.length}}</strong> 项
       </ng-template>
     </nz-alert>
   </div>
 
   <nz-table #nzTable [nzData]="page.data" [nzTotal]="page.totalCount" [nzShowSizeChanger]="true" [(nzPageIndex)]="page.page"
-    [(nzPageSize)]="page.pageSize" [nzLoading]="_service._http.loading" [nzShowTotal]="showtotal" [nzFrontPagination]="false"
+    [(nzPageSize)]="page.pageSize" [nzLoading]="service._http.loading" [nzShowTotal]="showtotal" [nzFrontPagination]="false"
     (nzPageIndexChange)="load()" (nzPageSizeChange)="load()" [nzSize]="'middle'">
     <ng-template #showtotal>
       共 {{page.totalCount}} 条
@@ -44,7 +43,7 @@
     <thead>
       <tr>
         <th nzShowCheckbox [(nzChecked)]="page.allChecked" [nzIndeterminate]="page.indeterminate" (nzCheckedChange)="page.checkAll($event)"></th>
-        <th acl [acl-ability]="'shop_menu_edit'">
+        <th>
           <span>操作</span>
         </th>
         <th>
@@ -71,7 +70,7 @@
     <tbody>
       <tr *ngFor="let i of nzTable.data">
         <td nzShowCheckbox [(nzChecked)]="i.checked" (nzCheckedChange)="page.refreshStatus($event)"></td>
-        <td acl [acl-ability]="'shop_menu_edit'">
+        <td>
           <a (click)="edit(i)">编辑</a>
         </td>
         <td>{{i.id}}</td>

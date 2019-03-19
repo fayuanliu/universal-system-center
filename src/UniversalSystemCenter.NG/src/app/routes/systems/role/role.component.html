@@ -14,10 +14,10 @@
         <nz-divider nzType="vertical"></nz-divider>
         <button nz-button nzType="primary" (click)="load(true)"><i nz-icon type="redo"></i>重置</button>
         <nz-divider nzType="vertical"></nz-divider>
-        <button nz-button nzType="primary" (click)="addOrEdit()" acl [acl-ability]="'role_add'"><i nz-icon type="plus"></i>添加</button>
+        <button nz-button nzType="primary" (click)="addOrEdit()"><i nz-icon type="plus"></i>添加</button>
         <nz-divider nzType="vertical"></nz-divider>
         <nz-popconfirm [nzTitle]="'确定要删除所选角色？'" (nzOnConfirm)="del()">
-          <button nz-button acl [acl-ability]="'role_delete'" [nzType]="'danger'" nz-popconfirm>
+          <button nz-button [nzType]="'danger'" nz-popconfirm [disabled]="page.selectedRows.length == 0">
             <i nz-icon type="delete"></i>
             删除
           </button>
@@ -35,7 +35,7 @@
     <thead>
       <tr>
         <th nzShowCheckbox [(nzChecked)]="page.allChecked" [nzIndeterminate]="page.indeterminate" (nzCheckedChange)="page.checkAll($event)"></th>
-        <th acl [acl-ability]="'role_edit'|| 'set_menu_role'||'authorize_role'">
+        <th>
           <span>操作</span>
         </th>
         <th>
@@ -62,11 +62,11 @@
       <tr *ngFor="let i of nzTable.data">
         <td nzShowCheckbox [(nzChecked)]="i.checked" (nzCheckedChange)="page.refreshStatus($event)"></td>
         <td>
-          <a (click)="addOrEdit(i.id)" acl [acl-ability]="'role_edit'">编辑</a>
-          <nz-divider nzType="vertical" acl [acl-ability]="'set_menu_role'"></nz-divider>
-          <a (click)="setMenu(i)" acl [acl-ability]="'set_menu_role'">设置菜单</a>
-          <nz-divider nzType="vertical" acl [acl-ability]="'authorize_role'"></nz-divider>
-          <a (click)="setPermission(i)" acl [acl-ability]="'authorize_role'">授权</a>
+          <a (click)="addOrEdit(i.id)">编辑</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a (click)="setMenu(i)">设置菜单</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a (click)="setPermission(i)">授权</a>
         </td>
         <td>{{i.name}}</td>
         <td>{{i.appName}}</td>

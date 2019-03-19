@@ -1,7 +1,7 @@
 <div class="modal-header">
   <div class="modal-title">{{action == 1 ? '编辑' : '添加'}}-消息类型</div>
 </div>
-<nz-spin [nzSpinning]="_MessageClassificationService.http.loading">
+<nz-spin [nzSpinning]="service.http.loading">
 
   <form nz-form #f="ngForm" se-container=2 labelWidth="110">
     <se required label="消息场景名称">
@@ -36,5 +36,5 @@
 </nz-spin>
 <div class="modal-footer">
   <button nz-button type="button" (click)="close(false)">关闭</button>
-  <button nz-button (click)="save()" [disabled]="f.invalid || _MessageClassificationService.http.loading" [nzType]="'primary'">保存</button>
+  <button nz-button (click)="save()" [disabled]="f.invalid || service.http.loading" [nzType]="'primary'">保存</button>
 </div>

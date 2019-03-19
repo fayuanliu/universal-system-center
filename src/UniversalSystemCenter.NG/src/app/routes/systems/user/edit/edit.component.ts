@@ -1,20 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
 import { UserService } from '../user.service';
-import { ServiceOrganizationservice } from '../../organizations/organizations.service';
+import { Organizationservice } from '../../organizations/organizations.service';
 import { UserHead } from 'app/app.global';
 
 @Component({
-  selector: 'user-edit',
   templateUrl: 'edit.component.html',
-  providers: [UserService, ServiceOrganizationservice],
 })
 export class UserEditComponent implements OnInit {
   user: any;
   /**
    * 0 添加  ， 1 编辑
    */
-  action = 0;
+  action: ActionEnum = ActionEnum.ADD;
 
   params = {
     id: null,
@@ -32,17 +30,17 @@ export class UserEditComponent implements OnInit {
   _userHead = UserHead;
   constructor(
     private subject: NzModalRef,
-    public msgSrv: NzMessageService,
+    public message: NzMessageService,
     public servcie: UserService,
-    public orgService: ServiceOrganizationservice,
+    public orgService: Organizationservice,
   ) {}
 
   ngOnInit() {
-    this.action = this.user.id ? 1 : 0;
+    this.action = this.user.id ? ActionEnum.EDIT : ActionEnum.ADD;
     this.params.id = this.user.id;
 
     //获取用户信息
-    if (this.action == 1) {
+    if (this.action == ActionEnum.EDIT) {
       this.servcie.getById(this.user.id).subscribe((res: any) => {
         this.params = res;
         //获取树结构
@@ -72,24 +70,28 @@ export class UserEditComponent implements OnInit {
     }
   }
 
-  DeptChange(value){
+  DeptChange(value) {
     if (value && value.length > 0) {
-        this.params.organizationsId = value[value.length - 1];
-      } else {
-        this.params.organizationsId = null;
-      }
+      this.params.organizationsId = value[value.length - 1];
+    } else {
+      this.params.organizationsId = null;
+    }
   }
 
   save() {
     let resut;
-    if (this.action == 0) {
+    if (this.action == ActionEnum.ADD) {
       resut = this.servcie.add(this.params);
     } else {
       resut = this.servcie.edit(this.params);
     }
     resut.subscribe(res => {
-      this.msgSrv.success(res.message);
-      this.close(true);
+      if (res.result == 0) {
+        this.message.success(res.message);
+        this.close(true);
+      } else {
+        this.message.error(res.message);
+      }
     });
   }
 

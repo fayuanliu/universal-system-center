@@ -27,8 +27,7 @@
           <span>
             资源
             <span class="ml-sm">
-              <nz-tag [nzColor]="'#87d068'" nz-tooltip="添加顶级资源" (click)="edit({id:null,parentId:null,type:type,parentName:'无上级资源'})"
-                acl [acl-ability]="'resource_add'">
+              <nz-tag [nzColor]="'#87d068'" nz-tooltip="添加顶级资源" (click)="edit({id:null,parentId:null,type:type,parentName:'无上级资源'})">
                 <i class="anticon anticon-plus"></i>
               </nz-tag>
             </span>
@@ -49,15 +48,13 @@
             </td>
             <td nz-td>
               <span class="ml-sm">
-                <nz-tag [nzColor]="'#1a6be6'" nz-tooltip="设置权限" (click)="setPermission(item)" acl [acl-ability]="'resource_set_role'">
+                <nz-tag [nzColor]="'#1a6be6'" nz-tooltip="设置权限" (click)="setPermission(item)">
                   <i class="anticon anticon-setting"></i>
                 </nz-tag>
-                <nz-tag [nzColor]="'#87d068'" nz-tooltip="添加子资源" (click)="edit({id:null,parentId:item.value,type:type,parentName:item.label})"
-                  acl [acl-ability]="'resource_add'">
+                <nz-tag [nzColor]="'#87d068'" nz-tooltip="添加子资源" (click)="edit({id:null,parentId:item.value,type:type,parentName:item.label})">
                   <i class="anticon anticon-plus"></i>
                 </nz-tag>
-                <nz-tag [nzColor]="'#f50'" nz-tooltip="编辑" (click)="edit({id:item.value,parentId:null,parentName:item.label})"
-                  acl [acl-ability]="'resource_edit'">
+                <nz-tag [nzColor]="'#f50'" nz-tooltip="编辑" (click)="edit({id:item.value,parentId:null,parentName:item.label})">
                   <i class="anticon anticon-edit"></i>
                 </nz-tag>
                 <!-- <nz-popconfirm [nzTitle]="'确定要删除<'+item.label+'>？'" (nzOnConfirm)="del(item.value)">

@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
 import { MessageClassificationService } from '../message-classification.service';
-import { ServiceApplicationService } from 'app/routes/systems/application/application.service';
+import { ApplicationService } from 'app/routes/systems/application/application.service';
 
 @Component({
   templateUrl: 'message-classification-edit.html',
-  providers: [ServiceApplicationService],
 })
 export class MessageClassificationEdit implements OnInit {
   entity: any;
@@ -13,7 +12,7 @@ export class MessageClassificationEdit implements OnInit {
   /**
    * 0 新增  ， 1 编辑
    */
-  action = 0;
+  action:ActionEnum = ActionEnum.ADD;
 
   params = {
     id: null,
@@ -32,18 +31,18 @@ export class MessageClassificationEdit implements OnInit {
   AppTypeoption = [];
   constructor(
     private subject: NzModalRef,
-    public msgSrv: NzMessageService,
-    public _MessageClassificationService: MessageClassificationService,
-    public _serviceApplicationService: ServiceApplicationService,
+    public message: NzMessageService,
+    public service: MessageClassificationService,
+    public ApplicationService: ApplicationService,
   ) {}
 
   ngOnInit() {
     this.loadAppOption();
-    this.action = this.entity.id ? 1 : 0;
+    this.action = this.entity.id ? ActionEnum.EDIT : ActionEnum.ADD;
     this.params.id = this.entity.id;
 
-    if (this.action == 1) {
-      this._MessageClassificationService
+    if (this.action == ActionEnum.EDIT) {
+      this.service
         .getById(this.entity.id)
         .subscribe((res: any) => {
           this.params = res;
@@ -52,24 +51,24 @@ export class MessageClassificationEdit implements OnInit {
   }
 
   loadAppOption() {
-    this._serviceApplicationService.getAppOptionList().subscribe((res: any) => {
+    this.ApplicationService.getAppOptionList().subscribe((res: any) => {
       this.AppTypeoption = res.data;
     });
   }
 
   save() {
     let resut;
-    if (this.action == 0) {
-      resut = this._MessageClassificationService.add(this.params);
+    if (this.action == ActionEnum.ADD) {
+      resut = this.service.add(this.params);
     } else {
-      resut = this._MessageClassificationService.edit(this.params);
+      resut = this.service.edit(this.params);
     }
     resut.subscribe(res => {
       if (res.result == 0) {
-        this.msgSrv.success(res.message);
+        this.message.success(res.message);
         this.close(true);
       } else {
-        this.msgSrv.error(res.message);
+        this.message.error(res.message);
       }
     });
   }

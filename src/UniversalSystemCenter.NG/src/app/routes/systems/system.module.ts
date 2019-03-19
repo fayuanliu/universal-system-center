@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { SharedModule } from '@shared/shared.module';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { DefaultInterceptor } from '@core/net/default.interceptor';
-import { MenuEditComponent } from './menu/edit/edit.component';
 
+import { MenuEditComponent } from './menu/edit/edit.component';
 import { MenuComponent } from './menu/menu.component';
 import { OrganizationsComponent } from './organizations/organizations.component';
 import { OrganizationsEditComponent } from './organizations/edit/edit.component';
@@ -17,68 +15,70 @@ import { RoleSetPermissionComponent } from './role/setPermission/setpermission.c
 import { ResourceComponent } from './resource/resource.component';
 import { ResourceEditComponent } from './resource/edit/edit.component';
 import { ResourceSetPermissionComponent } from './resource/setPermission/setpermission.component';
-import { CommonModule } from '@angular/common';
 import { ApplicationEdit } from './application/edit/application-edit';
-import { ApplicationComponent } from './application/application';
+import { ApplicationComponent } from './application/application.component';
 import { AreaManager } from './area/area';
 import { OrganizationsRegion } from './organizations/organizations-Region/organizations-Region';
 import { AreaEdit } from './area/area-edit/area-edit';
-
-
+import { ApplicationService } from './application/application.service';
+import { AreaService } from './area/area.service';
+import { Organizationservice } from './organizations/organizations.service';
+import { ResourceService } from './resource/resource.service';
+import { RoleService } from './role/role.service';
+import { UserService } from './user/user.service';
+import { RegionService } from '../public-service/region.service';
+import { MenuService } from './menu/menu.servcie';
 
 const routes: Routes = [
-    { path: '', component: UserComponent },
-    { path: 'user', component: UserComponent },
-    { path: 'menu', component: MenuComponent },
-    { path: 'organizations', component: OrganizationsComponent },
-    { path: 'role', component: RoleComponent },
-    { path: 'resource', component: ResourceComponent },
-    { path: 'area', component: AreaManager },
-    { path: 'application', component: ApplicationComponent }
+  { path: '', component: UserComponent },
+  { path: 'user', component: UserComponent },
+  { path: 'menu', component: MenuComponent },
+  { path: 'organizations', component: OrganizationsComponent },
+  { path: 'role', component: RoleComponent },
+  { path: 'resource', component: ResourceComponent },
+  { path: 'area', component: AreaManager },
+  { path: 'application', component: ApplicationComponent },
+];
+
+const COMPONENTS = [
+  UserComponent,
+  MenuComponent,
+  OrganizationsComponent,
+  RoleComponent,
+  ResourceComponent,
+  AreaManager,
+  ApplicationComponent,
 ];
 
 const COMPONENTS_NOROUNT = [
-    UserEditComponent,
-    MenuEditComponent,
-    OrganizationsEditComponent,
-    SetRoleMenuComponent,
-    ResourceEditComponent,
-    ResourceSetPermissionComponent,
-    RoleSetPermissionComponent,
-    RoleEditComponent,
-    AreaEdit,
-    ApplicationEdit,
-    OrganizationsRegion
+  UserEditComponent,
+  MenuEditComponent,
+  OrganizationsEditComponent,
+  SetRoleMenuComponent,
+  ResourceEditComponent,
+  ResourceSetPermissionComponent,
+  RoleSetPermissionComponent,
+  RoleEditComponent,
+  AreaEdit,
+  ApplicationEdit,
+  OrganizationsRegion,
+];
+
+const PROVIDERS = [
+    ApplicationService,
+    AreaService,
+    MenuService,
+    Organizationservice,
+    ResourceService,
+    RoleService,
+    UserService,
+    RegionService
 ];
 
 @NgModule({
-    imports: [
-        CommonModule,
-        SharedModule,
-        RouterModule.forChild(routes)
-    ],
-    declarations: [
-        UserComponent,
-        MenuComponent,
-        OrganizationsComponent,
-        RoleComponent,
-        ResourceComponent,
-        AreaManager,
-        ApplicationComponent,
-        SetRoleMenuComponent,
-        ResourceEditComponent,
-        ResourceSetPermissionComponent,
-        RoleSetPermissionComponent,
-        RoleEditComponent,
-        UserEditComponent,
-        ...COMPONENTS_NOROUNT
-    ],
-    entryComponents: COMPONENTS_NOROUNT,
-    exports: [
-        RouterModule
-    ],
-    providers: [
-        { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true },
-    ]
+  imports: [SharedModule, RouterModule.forChild(routes)],
+  declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT],
+  entryComponents: COMPONENTS_NOROUNT,
+  providers: PROVIDERS,
 })
-export class SystemsModule { }
+export class SystemsModule {}

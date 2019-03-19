@@ -3,7 +3,7 @@ import { _HttpClient } from '@delon/theme';
 import { Page } from '@shared/model/page';
 
 @Injectable()
-export class ServiceApplicationService {
+export class ApplicationService {
 
     constructor(public _http: _HttpClient) { }
     /**

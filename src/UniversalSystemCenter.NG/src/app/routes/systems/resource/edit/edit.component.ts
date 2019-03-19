@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
 import { ResourceService } from '../resource.service';
-import { ServiceApplicationService } from '../../application/application.service';
+import { ApplicationService } from '../../application/application.service';
 
 @Component({
-  selector: 'app-resource-edit',
   templateUrl: 'edit.component.html',
-  providers: [ResourceService, ServiceApplicationService],
 })
 export class ResourceEditComponent implements OnInit {
   /**
@@ -18,7 +16,7 @@ export class ResourceEditComponent implements OnInit {
   /**
    * 0 添加 ，  1 编辑
    */
-  action = 0;
+  action: ActionEnum = ActionEnum.ADD;
 
   params = {
     id: null,
@@ -38,19 +36,19 @@ export class ResourceEditComponent implements OnInit {
 
   constructor(
     private subject: NzModalRef,
-    public msgSrv: NzMessageService,
+    public message: NzMessageService,
     public servcie: ResourceService,
-    public _serviceApplicationService: ServiceApplicationService,
+    public ApplicationService: ApplicationService,
   ) {}
   ngOnInit() {
     this.loadAppOption();
-    
-    this.action = this.entity.id ? 1 : 0;
+
+    this.action = this.entity.id ? ActionEnum.EDIT : ActionEnum.ADD;
     this.params.id = this.entity.id;
     this.params.parentId = this.entity.parentId;
     this.params.appId = this.appId;
 
-    if (this.action == 1) {
+    if (this.action == ActionEnum.EDIT) {
       this.servcie.getById(this.entity.id).subscribe((res: any) => {
         this.params = res;
       });
@@ -58,22 +56,24 @@ export class ResourceEditComponent implements OnInit {
   }
 
   loadAppOption() {
-    this._serviceApplicationService.getAppOptionList().subscribe((res: any) => {
+    this.ApplicationService.getAppOptionList().subscribe((res: any) => {
       this.app_option = res.data;
     });
   }
 
   save() {
     let resut;
-    if (this.action == 0) {
+    if (this.action == ActionEnum.ADD) {
       resut = this.servcie.add(this.params);
     } else {
       resut = this.servcie.edit(this.params);
     }
     resut.subscribe(res => {
-      this.msgSrv.success(res.message);
       if (res.result == 0) {
+        this.message.success(res.message);
         this.close(true);
+      } else {
+        this.message.error(res.message);
       }
     });
   }

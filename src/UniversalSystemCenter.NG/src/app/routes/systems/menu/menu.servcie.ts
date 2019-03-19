@@ -3,7 +3,7 @@ import { _HttpClient } from '@delon/theme';
 import { Page } from '@shared/model/page';
 
 @Injectable()
-export class ServiceMenuService {
+export class MenuService {
     constructor(public _http: _HttpClient) { }
     /**
      * 

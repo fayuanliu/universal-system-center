@@ -10,9 +10,7 @@ import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
 import { ResourceService } from '../resource.service';
 
 @Component({
-  selector: 'set-permission',
   templateUrl: 'setpermission.component.html',
-  providers: [ResourceService],
   styles: [
     `
       nz-table {
@@ -32,7 +30,7 @@ export class ResourceSetPermissionComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private subject: NzModalRef,
-    private msgSrv: NzMessageService,
+    private message: NzMessageService,
     public servcie: ResourceService,
   ) {}
 
@@ -74,7 +72,7 @@ export class ResourceSetPermissionComponent implements OnInit {
       this.servcie
         .removePermission(this.items.at(index).value.id)
         .subscribe(res => {
-          this.msgSrv.success((res as any).message);
+          this.message.success((res as any).message);
           if ((res as any).result == 0) {
             this.editIndex = -1;
             this.isSave = true;
@@ -92,16 +90,16 @@ export class ResourceSetPermissionComponent implements OnInit {
       this.items.at(index).value.name == '' ||
       this.items.at(index).value.name == null
     ) {
-      this.msgSrv.error('请输入权限名称');
+      this.message.error('请输入权限名称');
       return;
     }
     if (!this.isSave) {
-      this.msgSrv.error(this.errMsg);
+      this.message.error(this.errMsg);
       return;
     }
     if (this.items.at(index).value.id) {
       this.servcie.editPermission(this.items.at(index).value).subscribe(res => {
-        this.msgSrv.success((res as any).message);
+        this.message.success((res as any).message);
         if ((res as any).result == 0) {
           this.editIndex = -1;
           this.isSave = true;
@@ -111,7 +109,7 @@ export class ResourceSetPermissionComponent implements OnInit {
       this.servcie
         .addPermission(this.items.at(index).value)
         .subscribe((res: any) => {
-          this.msgSrv.success((res as any).message);
+          this.message.success((res as any).message);
           if ((res as any).result == 0) {
             this.items.at(index).value.id = res.data.id;
             this.editIndex = -1;
@@ -148,7 +146,7 @@ export class ResourceSetPermissionComponent implements OnInit {
       data.push(this.items.at(index).value);
     }
     this.servcie.addPermissionList(data, this.resData.value).subscribe(res => {
-      this.msgSrv.success((res as any).message);
+      this.message.success((res as any).message);
       if ((res as any).result == 0) {
         this.close(true);
       }

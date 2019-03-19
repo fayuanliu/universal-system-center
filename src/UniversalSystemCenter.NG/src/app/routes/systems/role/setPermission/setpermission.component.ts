@@ -3,9 +3,7 @@ import { RoleService } from '../role.service';
 import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
 
 @Component({
-  selector: 'role-setPermission',
   templateUrl: 'setpermission.component.html',
-  providers: [RoleService],
   styles: [
     `
       nz-table {
@@ -22,7 +20,7 @@ export class RoleSetPermissionComponent implements OnInit {
   constructor(
     public service: RoleService,
     private subject: NzModalRef,
-    private msgSrv: NzMessageService,
+    private message: NzMessageService,
   ) {}
 
   ngOnInit() {
@@ -33,7 +31,7 @@ export class RoleSetPermissionComponent implements OnInit {
           this.expandDataCache[item.id] = this.convertTreeToList(item);
         });
       } else {
-        this.msgSrv.error(res.message);
+        this.message.error(res.message);
       }
     });
   }
@@ -83,18 +81,16 @@ export class RoleSetPermissionComponent implements OnInit {
     }
   }
 
-  close(opt) {
-    this.subject.destroy(opt);
-  }
-
   save() {
     this.data.forEach(a => {
       this.getChildren(a);
     });
-    this.service.setRolePermission(this.rolePer).subscribe(res => {
-      this.msgSrv.success((res as any).message);
-      if ((res as any).result == 0) {
+    this.service.setRolePermission(this.rolePer).subscribe((res: any) => {
+      if (res.result == 0) {
+        this.message.success(res.message);
         this.close(true);
+      } else {
+        this.message.error(res.message);
       }
     });
   }
@@ -111,5 +107,9 @@ export class RoleSetPermissionComponent implements OnInit {
         this.getChildren(a);
       });
     }
+  }
+
+  close(opt) {
+    this.subject.destroy(opt);
   }
 }

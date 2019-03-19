@@ -22,8 +22,8 @@ export class MessageTemplateDetail implements OnInit {
     CategoryList = [];
     constructor(
         private subject: NzModalRef,
-        public msgSrv: NzMessageService,
-        public _messageClassificationService: MessageClassificationService,
+        public message: NzMessageService,
+        public service: MessageClassificationService,
         private fb: FormBuilder
     ) { }
 
@@ -39,10 +39,10 @@ export class MessageTemplateDetail implements OnInit {
             sortId: [0, [Validators.required]],
             sendObject: [0, [Validators.required]],
         });
-        this._messageClassificationService.GetSelectCategory().subscribe((res: any) => {
+        this.service.GetSelectCategory().subscribe((res: any) => {
             this.CategoryList = res.data;
             if (this.id != null) {
-                this._messageClassificationService.getByIdTemplate(this.id).subscribe((res: any) => {
+                this.service.getByIdTemplate(this.id).subscribe((res: any) => {
                     this.form.reset(res);
                 });
             }
@@ -61,7 +61,7 @@ export class MessageTemplateDetail implements OnInit {
             this.page.page = 1;
             this.page.allChecked = false;
         }
-        this._messageClassificationService.getListTemplate(this.page).subscribe((data: any) => {
+        this.service.getListTemplate(this.page).subscribe((data: any) => {
             this.page.page = data.page;
             this.page.totalCount = data.totalCount;
             this.page.pageSize = data.pageSize;
@@ -72,12 +72,12 @@ export class MessageTemplateDetail implements OnInit {
     save() {
         let result;
         if (this.id == null) {
-            result = this._messageClassificationService.addTemplate(this.form.value);
+            result = this.service.addTemplate(this.form.value);
         } else {
-            result = this._messageClassificationService.editTemplate(this.form.value);
+            result = this.service.editTemplate(this.form.value);
         }
         result.subscribe((res) => {
-            this.msgSrv.success(res.message);
+            this.message.success(res.message);
             if (res.result == 0) {
                 this.load(true);
                 this.form.reset();

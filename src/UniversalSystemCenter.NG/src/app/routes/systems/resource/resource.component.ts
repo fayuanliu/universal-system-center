@@ -1,21 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { Page } from '@shared/model/page';
-import { NzMessageService } from 'ng-zorro-antd';
 import { ResourceService } from './resource.service';
 import { ModalHelper } from '@delon/theme';
 import { ResourceEditComponent } from './edit/edit.component';
 import { ResourceSetPermissionComponent } from './setPermission/setpermission.component';
-import { ServiceApplicationService } from '../application/application.service';
+import { ApplicationService } from '../application/application.service';
 
 
 @Component({
-    selector: 'resource-list',
-    templateUrl: 'resource.component.html',
-    providers: [ResourceService, ServiceApplicationService]
+    templateUrl: 'resource.component.html'
 })
 
 export class ResourceComponent implements OnInit {
-    page = new Page();
     data = [];
     table_loading = false;
     expandDataCache = {};
@@ -27,10 +22,9 @@ export class ResourceComponent implements OnInit {
         { label: "数据", value: 1 }
     ];
     constructor(
-        private message: NzMessageService,
         private resourceService: ResourceService,
         private modalHelper: ModalHelper,
-        public _serviceApplicationService: ServiceApplicationService,
+        public _serviceApplicationService: ApplicationService,
     ) { }
 
     ngOnInit() {

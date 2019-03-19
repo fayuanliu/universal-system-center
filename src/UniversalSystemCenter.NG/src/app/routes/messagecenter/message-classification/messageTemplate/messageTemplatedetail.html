@@ -2,7 +2,7 @@
     <div class="modal-title">{{classificationName}} --消息模板</div>
 </div>
 <nz-card [nzBordered]="false">
-    <nz-spin [nzSpinning]="_messageClassificationService.http.loading">
+    <nz-spin [nzSpinning]="service.http.loading">
         <form #f="ngForm" [formGroup]="form" nz-form [nzLayout]="'horizontal'">
             <nz-form-item [nzGutter]="24">
                 <nz-form-label nzRequired nz-col [nzSpan]="4">模板名称</nz-form-label>
@@ -54,12 +54,12 @@
     <div class="modal-footer">
         <button nz-button type="button" (click)="close()">关闭</button>
         <button nz-button type="button" class="mx-sm" (click)="reset()">重置</button>
-        <button nz-button (click)="save()" [disabled]="!form.valid || !form.dirty||_messageClassificationService.http.loading" [nzType]="'primary'">保存</button>
+        <button nz-button (click)="save()" [disabled]="!form.valid || !form.dirty||service.http.loading" [nzType]="'primary'">保存</button>
     </div>
 </nz-card>
 <nz-card [nzBordered]="false">
     <nz-table #nzTable [nzData]="page.data" [nzTotal]="page.totalCount" [nzShowSizeChanger]="true" [(nzPageIndex)]="page.page"
-        [(nzPageSize)]="page.pageSize" [nzLoading]="_messageClassificationService.http.loading" [nzShowTotal]="showtotal" [nzFrontPagination]="false" (nzPageIndexChange)="load()"
+        [(nzPageSize)]="page.pageSize" [nzLoading]="service.http.loading" [nzShowTotal]="showtotal" [nzFrontPagination]="false" (nzPageIndexChange)="load()"
         (nzPageSizeChange)="load()" [nzSize]="'middle'">
         <ng-template #showtotal>
             共 {{page.totalCount}} 条

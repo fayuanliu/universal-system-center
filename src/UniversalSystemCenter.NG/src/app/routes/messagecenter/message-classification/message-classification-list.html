@@ -14,11 +14,10 @@
         <nz-divider nzType="vertical"></nz-divider>
         <button nz-button nzType="primary" (click)="load(true)"><i nz-icon type="redo"></i>重置</button>
         <nz-divider nzType="vertical"></nz-divider>
-        <button nz-button nzType="primary" (click)="addOrEdit({Id:null})" acl [acl-ability]="'shop_menu_add'"><i
-            nz-icon type="plus"></i>添加</button>
+        <button nz-button nzType="primary" (click)="addOrEdit({Id:null})"><i nz-icon type="plus"></i>添加</button>
         <nz-divider nzType="vertical"></nz-divider>
         <nz-popconfirm [nzTitle]="'确定要删除所选记录？'" (nzOnConfirm)="del()">
-          <button nz-button [nzType]="'danger'" nz-popconfirm>
+          <button nz-button [nzType]="'danger'" [disabled]="page.selectedRows.length == 0" nz-popconfirm>
             <i nz-icon type="delete"></i>
             删除
           </button>

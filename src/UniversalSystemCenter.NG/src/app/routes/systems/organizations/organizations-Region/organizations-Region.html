@@ -38,7 +38,7 @@
                 <th nz-th>
                     <label nz-checkbox [(ngModel)]="page.allChecked" [nzIndeterminate]="page.indeterminate" (ngModelChange)="page.checkAll($event)"></label>
                 </th>
-                <th nz-th acl [acl-ability]="'mall_jurisdictional_area_edit'">
+                <th nz-th>
                     <span>操作</span>
                 </th>
                 <th nz-th>
@@ -61,7 +61,7 @@
                     <label nz-checkbox [(ngModel)]="i.checked" (ngModelChange)="page.refreshStatus($event)">
                     </label>
                 </td>
-                <td nz-td acl [acl-ability]="'mall_jurisdictional_area_edit'">
+                <td nz-td>
                     <a (click)="edit(i)">编辑</a>
                     <span nz-table-divider></span>
                 </td>

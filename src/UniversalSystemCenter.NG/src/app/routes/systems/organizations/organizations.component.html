@@ -7,8 +7,7 @@
           <span>
             部门
             <span class="ml-sm">
-              <nz-tag [nzColor]="'#87d068'" nz-tooltip="添加顶级部门" (click)="addOrEdit({id:null,parentId:null})" acl
-                [acl-ability]="'mall_department_add'">
+              <nz-tag [nzColor]="'#87d068'" nz-tooltip="添加顶级部门" (click)="addOrEdit({id:null,parentId:null})">
                 <i class="anticon anticon-plus"></i>
               </nz-tag>
             </span>
@@ -29,16 +28,13 @@
             </td>
             <td nz-td>
               <span class="ml-sm">
-                <!-- <nz-tag [nzColor]="'#1a6be6'" nz-tooltip="查看/设置部门管辖区域" (click)="SetRegion(item)" *ngIf="item.children.length == 0"
-                  acl [acl-ability]="'mall_set_jurisdictional_area'">
+                <!-- <nz-tag [nzColor]="'#1a6be6'" nz-tooltip="查看/设置部门管辖区域" (click)="SetRegion(item)" *ngIf="item.children.length == 0">
                   <i class="anticon anticon-setting"></i>
                 </nz-tag> -->
-                <nz-tag [nzColor]="'#87d068'" nz-tooltip="添加子部门" (click)="addOrEdit({id:null,parentId:item.value})" acl
-                  [acl-ability]="'mall_department_add'">
+                <nz-tag [nzColor]="'#87d068'" nz-tooltip="添加子部门" (click)="addOrEdit({id:null,parentId:item.value})">
                   <i class="anticon anticon-plus"></i>
                 </nz-tag>
-                <nz-tag [nzColor]="'#f50'" nz-tooltip="编辑" (click)="addOrEdit({id:item.value,parentId:null})" acl
-                  [acl-ability]="'mall_department_edit'">
+                <nz-tag [nzColor]="'#f50'" nz-tooltip="编辑" (click)="addOrEdit({id:item.value,parentId:null})">
                   <i class="anticon anticon-edit"></i>
                 </nz-tag>
               </span>

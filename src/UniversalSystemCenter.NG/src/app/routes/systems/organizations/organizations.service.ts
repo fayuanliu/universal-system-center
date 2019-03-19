@@ -7,7 +7,7 @@ import { Page } from '../../../shared/model/page';
 import { ResponsePage } from '../../../shared/model/result';
 
 @Injectable()
-export class ServiceOrganizationservice {
+export class Organizationservice {
     constructor(public httpClient: HttpClient, public _http: _HttpClient) { }
     /**
      * 

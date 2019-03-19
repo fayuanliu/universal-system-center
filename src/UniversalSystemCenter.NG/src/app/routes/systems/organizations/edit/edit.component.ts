@@ -1,17 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { NzMessageService, NzModalRef } from 'ng-zorro-antd';
-import { ServiceOrganizationservice } from '../organizations.service';
+import { Organizationservice } from '../organizations.service';
 import { RegionService } from '../../../public-service/region.service';
-import { ServiceApplicationService } from '../../application/application.service';
+import { ApplicationService } from '../../application/application.service';
 
 @Component({
-  selector: 'app-organizations-edit',
   templateUrl: 'edit.component.html',
-  providers: [
-    ServiceOrganizationservice,
-    RegionService,
-    ServiceApplicationService,
-  ],
   styles: [
     `
       ::ng-deep .ant-cascader-menu {
@@ -54,10 +48,10 @@ export class OrganizationsEditComponent implements OnInit {
 
   constructor(
     private subject: NzModalRef,
-    public msgSrv: NzMessageService,
-    public servcie: ServiceOrganizationservice,
+    public message: NzMessageService,
+    public servcie: Organizationservice,
     private _RegionService: RegionService,
-    public _serviceApplicationService: ServiceApplicationService,
+    public ApplicationService: ApplicationService,
   ) {}
 
   ngOnInit() {
@@ -117,7 +111,7 @@ export class OrganizationsEditComponent implements OnInit {
   }
 
   loadAppOption() {
-    this._serviceApplicationService.getAppOptionList().subscribe((res: any) => {
+    this.ApplicationService.getAppOptionList().subscribe((res: any) => {
       this.app_option = res.data;
     });
   }
@@ -130,7 +124,7 @@ export class OrganizationsEditComponent implements OnInit {
       resut = this.servcie.edit(this.params);
     }
     resut.subscribe(res => {
-      this.msgSrv.success(res.message);
+      this.message.success(res.message);
       this.close(true);
     });
   }

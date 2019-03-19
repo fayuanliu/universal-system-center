@@ -1,7 +1,7 @@
 <div class="modal-header">
   <div class="modal-title">{{action == 1 ? '编辑' : '添加'}}-应用</div>
 </div>
-<nz-spin [nzSpinning]="_service._http.loading">
+<nz-spin [nzSpinning]="service._http.loading">
   <form nz-form #f="ngForm" se-container=2 labelWidth="90" size="compact">
     <se required label="应用名称">
       <input nz-input required [(ngModel)]="params.name" name="name" maxlength="200" />
@@ -29,5 +29,5 @@
 
 <div class="modal-footer">
   <button nz-button type="button" (click)="close(false)">关闭</button>
-  <button nz-button (click)="save()" [disabled]="f.invalid || _service._http.loading" [nzType]="'primary'">保存</button>
+  <button nz-button (click)="save()" [disabled]="f.invalid || service._http.loading" [nzType]="'primary'">保存</button>
 </div>

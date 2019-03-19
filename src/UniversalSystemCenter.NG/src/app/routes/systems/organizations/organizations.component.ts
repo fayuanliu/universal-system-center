@@ -1,21 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { Page } from '../../../shared/model/page';
-import { NzMessageService } from 'ng-zorro-antd';
-import { ServiceOrganizationservice } from './organizations.service';
+import { Organizationservice } from './organizations.service';
 import { ModalHelper } from '@delon/theme';
 import { OrganizationsEditComponent } from './edit/edit.component';
 import { OrganizationsRegion } from './organizations-Region/organizations-Region';
-import { ServiceApplicationService } from '../application/application.service';
+import { ApplicationService } from '../application/application.service';
 
 @Component({
-    selector: 'organizations-list',
     templateUrl: 'organizations.component.html',
-    providers: [ServiceOrganizationservice, ServiceApplicationService],
     styleUrls: ['organizations.component.less']
 })
 
 export class OrganizationsComponent implements OnInit {
-    page = new Page();
     data = [];
     table_loading = false;
     searchBtn_loading = false;
@@ -27,10 +22,9 @@ export class OrganizationsComponent implements OnInit {
     app_option: any[];
     title: '';
     constructor(
-        private message: NzMessageService,
-        private service: ServiceOrganizationservice,
+        private service: Organizationservice,
         private modalHelper: ModalHelper,
-        public _serviceApplicationService: ServiceApplicationService,
+        public _serviceApplicationService: ApplicationService,
     ) { }
 
     ngOnInit() {

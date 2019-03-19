@@ -1,7 +1,7 @@
 <div class="modal-header">
   <div class="modal-title">{{action == 1 ? '编辑' : '添加'}}-菜单</div>
 </div>
-<nz-spin [nzSpinning]="_menuService._http.loading">
+<nz-spin [nzSpinning]="service._http.loading">
   <form nz-form #f="ngForm" se-container size="compact" labelWidth="90">
     <se label="上级菜单" col="2">
       <input disabled [ngModel]="qModel?.parentName" name="parentName" nz-input />
@@ -47,5 +47,5 @@
 
 <div class="modal-footer">
   <button nz-button type="button" (click)="close(false)">关闭</button>
-  <button nz-button (click)="save()" [disabled]="f.invalid ||_menuService._http.loading" [nzType]="'primary'">保存</button>
+  <button nz-button (click)="save()" [disabled]="f.invalid ||service._http.loading" [nzType]="'primary'">保存</button>
 </div>

@@ -1,41 +1,46 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { RoleService } from '../role.service';
 import { NzModalRef, NzMessageService } from 'ng-zorro-antd';
-import { appId } from 'app/app.global';
 
 @Component({
-    selector: 'role-setmenu',
-    templateUrl: 'setmenu.component.html',
-    providers: [RoleService]
+  templateUrl: 'setmenu.component.html',
 })
-
 export class SetRoleMenuComponent implements OnInit {
-    roleId: string;
-    @ViewChild('tree') tree;
-    treeData = {
-        nzTreeNodes: [],
-        defaultCheckedKeys: []
-    };
-    entity: any;
-    appId = appId;
-    constructor(public service: RoleService, private subject: NzModalRef, private msgSrv: NzMessageService, ) { }
-    ngOnInit() {
-        this.service.getMenuTreeByRole(this.entity.id, this.entity.appId).subscribe((res: any) => {
-            this.treeData = res;
-        });
-    }
+  roleId: string;
+  @ViewChild('tree') tree;
+  treeData = {
+    nzTreeNodes: [],
+    defaultCheckedKeys: [],
+  };
+  entity: any;
+  constructor(
+    public service: RoleService,
+    private subject: NzModalRef,
+    private message: NzMessageService,
+  ) {}
 
-    close(opt) {
-         this.subject.destroy(opt);
-    }
+  ngOnInit() {
+    this.service
+      .getMenuTreeByRole(this.entity.id, this.entity.appId)
+      .subscribe((res: any) => {
+        this.treeData = res;
+      });
+  }
 
-    save() {
-        this.service.setRoleMenu(this.tree.getTreeNodes(), this.entity.id).subscribe(res => {
-            this.msgSrv.success((res as any).message);
-            if ((res as any).result === 0) {
-                 this.close(true);
-            }
-        });
-    }
+  save() {
+    this.service
+      .setRoleMenu(this.tree.getTreeNodes(), this.entity.id)
+      .subscribe((res: any) => {
+        if (res.result === 0) {
+          this.message.success(res.message);
+          this.close(true);
+        } else {
+          this.message.error(res.message);
+        }
+      });
+  }
+
+  close(opt) {
+    this.subject.destroy(opt);
+  }
 }
-

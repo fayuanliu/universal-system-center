@@ -16,22 +16,23 @@ import { EmptyFormatPipe } from './pipe/emptyFormat';
 import { FormatUrlPipe } from './pipe/formatUrl';
 import { BackgroundUrlPipe } from './pipe/backgroundUrl';
 import { ST_UploadImgSingle } from './component/upload-img-single/upload-img-single';
-const THIRDMODULES = [
-  NgZorroAntdModule,
-  CountdownModule
-];
+import { ST_UploadImgMultiStr } from './component/upload-img-multi-str/upload-img-multi-str';
+import { ST_UploadImgMultiList } from './component/upload-img-multi-list/upload-img-multi-list';
+const THIRDMODULES = [NgZorroAntdModule, CountdownModule];
 // #endregion
 
 // #region your componets & directives
 const COMPONENTS = [
-  ST_UploadImgSingle
+  ST_UploadImgSingle,
+  ST_UploadImgMultiStr,
+  ST_UploadImgMultiList,
 ];
 const DIRECTIVES = [];
 const PIPES = [
   TimestampFormatPipe,
   EmptyFormatPipe,
   FormatUrlPipe,
-  BackgroundUrlPipe
+  BackgroundUrlPipe,
 ];
 // #endregion
 
@@ -46,13 +47,13 @@ const PIPES = [
     DelonACLModule,
     DelonFormModule,
     // third libs
-    ...THIRDMODULES
+    ...THIRDMODULES,
   ],
   declarations: [
     // your components
     ...COMPONENTS,
     ...DIRECTIVES,
-    ...PIPES
+    ...PIPES,
   ],
   exports: [
     CommonModule,
@@ -68,7 +69,7 @@ const PIPES = [
     // your components
     ...COMPONENTS,
     ...DIRECTIVES,
-    ...PIPES
-  ]
+    ...PIPES,
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}

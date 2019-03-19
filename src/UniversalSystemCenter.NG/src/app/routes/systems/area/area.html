@@ -27,7 +27,7 @@
       <nz-form-control>
         <button nz-button nzType="primary" (click)="load()"><i nz-icon type="search"></i>查询</button>
         <nz-divider nzType="vertical"></nz-divider>
-        <button nz-button nzType="primary" (click)="addOrEdit()" acl [acl-ability]="'mall_area_add'"><i nz-icon type="plus"></i>添加</button>
+        <button nz-button nzType="primary" (click)="addOrEdit()"><i nz-icon type="plus"></i>添加</button>
         <!-- <nz-divider nzType="vertical"></nz-divider>
         <button nz-button type="button" (click)="toHandleCoord()" [nzType]="'primary'">
           <i class="anticon anticon-environment-o"></i>
@@ -39,7 +39,7 @@
 
 
   <nz-table #nzTable [nzData]="page.data" [nzTotal]="page.totalCount" [nzShowSizeChanger]="true" [(nzPageIndex)]="page.page"
-    [(nzPageSize)]="page.pageSize" [nzLoading]="_AreaService.http.loading" [nzShowTotal]="showtotal" [nzFrontPagination]="false"
+    [(nzPageSize)]="page.pageSize" [nzLoading]="service.http.loading" [nzShowTotal]="showtotal" [nzFrontPagination]="false"
     (nzPageIndexChange)="load()" (nzPageSizeChange)="load()" [nzSize]="'middle'">
     <ng-template #showtotal>
       共 {{page.totalCount}} 条
@@ -75,9 +75,9 @@
     <tbody>
       <tr *ngFor="let i of nzTable.data">
         <td>
-          <a (click)="addOrEdit(i.id)" acl [acl-ability]="'mall_area_edit'">编辑</a>
-          <!-- <nz-divider nzType="vertical" *ngIf="i.isLeave" acl [acl-ability]="'mall_resources_set_permission'" ></nz-divider>
-          <nz-popconfirm [nzTitle]="'确定要删除该区域？'" (nzOnConfirm)="delete(i.id)" acl [acl-ability]="'mall_resources_set_permission'" > 
+          <a (click)="addOrEdit(i.id)">编辑</a>
+          <!-- <nz-divider nzType="vertical" *ngIf="i.isLeave"></nz-divider>
+          <nz-popconfirm [nzTitle]="'确定要删除该区域？'" (nzOnConfirm)="del(i.id)"> 
             <a *ngIf="i.isLeave" nz-popconfirm>删除</a>
           </nz-popconfirm> -->
         </td>

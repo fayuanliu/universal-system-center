@@ -1,7 +1,7 @@
 <div class="modal-header">
   <div class="modal-title">{{action == 1 ? '编辑' : '添加'}}-区域</div>
 </div>
-<nz-spin [nzSpinning]="_AreaService.http.loading">
+<nz-spin [nzSpinning]="service.http.loading">
 
   <form nz-form #f="ngForm" se-container=2 labelWidth="90">
     <se required label="区域名称">
@@ -23,5 +23,5 @@
 
 <div class="modal-footer">
   <button nz-button type="button" (click)="close(false)">关闭</button>
-  <button nz-button (click)="save()" [disabled]="f.invalid || _AreaService.http.loading" [nzType]="'primary'">保存</button>
+  <button nz-button (click)="save()" [disabled]="f.invalid || service.http.loading" [nzType]="'primary'">保存</button>
 </div>
