@@ -14,6 +14,10 @@ using UniversalSystemCenter.Services.Dtos;
 using System.Collections.Generic;
 using UniversalSystemCenter.Domains.DominaServices.Interface;
 using System;
+using UniversalSystemCenter.Core.Result;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using UniversalSystemCenter.Core.Auth.Param;
 
 namespace UniversalSystemCenter.Service.Implements
 {
@@ -69,11 +73,38 @@ namespace UniversalSystemCenter.Service.Implements
         /// <param name="roleIdList"></param>
         /// <param name="userName"></param>
         /// <returns></returns>
-        public async Task<ApplicationInitDto> ApplicationInitAsync(Guid appId, Guid userId, List<Guid> roleIdList, string userName)
+        public async Task<Result> ApplicationInitAsync(Guid appId, Guid userId, List<Guid> roleIdList, string userName)
         {
             ApplicationInitDto applicationInitDto = new ApplicationInitDto();
-            var userData = await _userRepository.SingleAsync(a => a.Id == userId);
+            var userData = await _userRepository.FindAsNoTracking().Include(a => a.Account).Where(a => a.Id == userId).Select(a => new LoginUser()
+            {
+                Id = a.Id,
+                Account = a.EId,
+                OrganizationsId = a.OrganizationsId.ToString(),
+                Password = a.Account.Password,
+                RoleIdList = a.UserRoles.Select(b => b.RoleId).ToList(),
+                State = a.Account.State,
+                Saltd = a.Account.Saltd,
+                Head = a.Account.Head,
+                RealName = a.Account.RealName,
+                Mobile = a.Account.Mobile,
+                Sex = a.Account.Sex,
+                IsLocked = a.IsLocked,
+                LockDuration = a.LockDuration,
+                RegisterTime = a.RegisterTime,
+                LockMessage = a.LockMessage,
+                MerchantId = a.MerchantId,
+                MerchantName = a.Merchant.Name
+            }).FirstOrDefaultAsync();
+            if (null == userData)
+            {
+                return new Result(ResultEnum.Warning, "登录用户不存在");
+            }
             var appData = await ApplicationRepository.SingleAsync(a => a.Id == appId);
+            if (null == appData)
+            {
+                return new Result(ResultEnum.Warning, "未知的应用");
+            }
             ApplicationDto appDto = new ApplicationDto()
             {
                 Note = appData.Note,
@@ -81,24 +112,21 @@ namespace UniversalSystemCenter.Service.Implements
                 Name = appData.Name,
             };
             applicationInitDto.App = appDto;
-            if (null != userData)
+            applicationInitDto.User = userData;
+            if (userName == "admin")
             {
-                applicationInitDto.User = userData.MapTo<UserDto>();
-                if (userName == "admin")
-                {
-                    applicationInitDto.Menu = _menuDomainService.LoadTree(appId);
-                    applicationInitDto.IsAcl = true;
-                }
-                else
-                {
-                    applicationInitDto.Menu = _menuDomainService.GetRoleMenus(roleIdList, appId);
-                }
-                if (null != roleIdList)
-                {
-                    applicationInitDto.Ability = _permissionDomainService.GetAbilityByRoleIds(roleIdList);
-                }
+                applicationInitDto.Menu = _menuDomainService.LoadTree(appId);
+                applicationInitDto.IsAcl = true;
             }
-            return applicationInitDto;
+            else
+            {
+                applicationInitDto.Menu = _menuDomainService.GetRoleMenus(roleIdList, appId);
+            }
+            if (null != roleIdList)
+            {
+                applicationInitDto.Ability = _permissionDomainService.GetAbilityByRoleIds(roleIdList);
+            }
+            return new Result(ResultEnum.Sucess, "", applicationInitDto);
         }
     }
 }

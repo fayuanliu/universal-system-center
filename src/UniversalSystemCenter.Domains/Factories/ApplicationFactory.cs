@@ -26,7 +26,7 @@ namespace UniversalSystemCenter.Domains.Factories {
             string name,
             string clientId,
             string note,
-            byte isEnabled,
+            bool isEnabled,
             string versionNo,
             DateTime? creationTime,
             Guid? creatorId,

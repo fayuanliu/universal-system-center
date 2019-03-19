@@ -39,7 +39,7 @@ namespace UniversalSystemCenter.Service.Dtos {
         [Required(ErrorMessage = "启用（Enabled）不能为空")]
         [Display( Name = "启用（Enabled）" )]
         [DataMember]
-        public byte IsEnabled { get; set; }
+        public bool IsEnabled { get; set; }
         /// <summary>
         /// 版本
         /// </summary>

@@ -14,6 +14,7 @@ namespace UniversalSystemCenter.Apis
     /// 应用程序控制器
     /// </summary>
     [Authorize]
+    [Route("api/Application")]
     public class ApplicationController : BaseController
     {
         /// <summary>

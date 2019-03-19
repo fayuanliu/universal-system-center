@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
+using UniversalSystemCenter.Core.Auth.Param;
 using UniversalSystemCenter.Domains.DominaServices.Param;
 using UniversalSystemCenter.Service.Dtos;
 
@@ -22,7 +23,7 @@ namespace UniversalSystemCenter.Services.Dtos
         /// 当前登录用户
         /// </summary>
         [DataMember]
-        public UserDto User { get; set; }
+        public LoginUser User { get; set; }
 
         /// <summary>
         /// 菜单

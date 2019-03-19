@@ -9,6 +9,6 @@ export class LoginService {
 
     login(username, password) {
         const authData = '&ClientId=' + clientId + '&username=' + username + '&password=' + password + '';
-        return this._http.post('api/userinfo/commonlogin?_allow_anonymous=true' + authData);
+        return this._http.post('api/User/UserLogin?_allow_anonymous=true' + authData);
     }
 }

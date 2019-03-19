@@ -11,7 +11,7 @@ namespace UniversalSystemCenter.Data.Mappings.MySql {
         /// 映射表
         /// </summary>
         protected override void MapTable( EntityTypeBuilder<User> builder ) {
-            builder.ToTable( "dbo.User" );
+            builder.ToTable( "User" );
         }
         
         /// <summary>

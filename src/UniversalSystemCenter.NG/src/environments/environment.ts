@@ -3,8 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  // SERVER_URL: `http://localhost:5001/`,
-  SERVER_URL: `https://sysapi.zftech.vip/`,
+  SERVER_URL: `http://localhost:5001/`,
+  //SERVER_URL: `https://sysapi.zftech.vip/`,
   FIlE_URL: `http://img.zftech.vip/`,
   production: false,
   useHash: true,

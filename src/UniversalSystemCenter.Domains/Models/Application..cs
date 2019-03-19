@@ -59,7 +59,7 @@ namespace UniversalSystemCenter.Domain.Models
         /// </summary>
         [DisplayName("启用（Enabled）")]
         [Required(ErrorMessage = "启用（Enabled）不能为空")]
-        public byte IsEnabled { get; set; }
+        public bool IsEnabled { get; set; }
         /// <summary>
         /// 版本
         /// </summary>

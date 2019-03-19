@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UniversalSystemCenter.Services.Dtos;
 using System;
+using UniversalSystemCenter.Core.Result;
 
 namespace UniversalSystemCenter.Service.Abstractions {
     /// <summary>
@@ -20,6 +21,6 @@ namespace UniversalSystemCenter.Service.Abstractions {
         /// <param name="roleIdList"></param>
         /// <param name="userName"></param>
         /// <returns></returns>
-        Task<ApplicationInitDto> ApplicationInitAsync(Guid appId, Guid userId, List<Guid> roleIdList, string userName);
+        Task<Result> ApplicationInitAsync(Guid appId, Guid userId, List<Guid> roleIdList, string userName);
     }
 }

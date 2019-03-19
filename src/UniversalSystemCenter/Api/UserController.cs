@@ -29,6 +29,7 @@ namespace UniversalSystemCenter.Apis {
         /// </summary>
         /// <param name="loginDto"></param>
         /// <returns></returns>
+        [HttpPost("UserLogin")]
         public async Task<JsonResult> UserLogin(LoginDto loginDto)
         {
             var data =await UserService.UserLoginAsync(loginDto);

@@ -12,10 +12,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
+using UniversalSystemCenter.Core.Configuration;
 using UniversalSystemCenter.Data;
 using UniversalSystemCenter.Data.UnitOfWorks.MySql;
 using Util;
 using Util.Datas.Ef;
+using Util.Dependency;
 using Util.Logs.Extensions;
 using Util.Webs.Extensions;
 
@@ -56,7 +58,8 @@ namespace UniversalSystemCenter
 
             //添加EasyCaching缓存
             // services.AddCache(options => options.UseInMemory());
-
+            //配制文件
+            services.Configure<AuthHostConfiguration>(Configuration.GetSection("AuthHost"));
             //添加业务锁
             // services.AddLock();
 
@@ -104,8 +107,21 @@ namespace UniversalSystemCenter
             //    options.UseRabbitMQ( "192.168.244.138" );
             //} );
 
+            //允许跨域访问
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAnyOrigin", builder =>
+                {
+                    builder.AllowAnyOrigin() //允许任何来源的主机访问
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();//指定处理cookie
+
+                });
+            });
+
             //添加Util基础设施服务
-            return services.AddUtil();
+            return services.AddUtil(new IConfig[] { new Service.Configs.IocConfig() });
         }
 
         /// <summary>
@@ -133,6 +149,8 @@ namespace UniversalSystemCenter
         /// </summary>
         private void CommonConfig(IApplicationBuilder app)
         {
+            //允许跨域访问
+            app.UseCors("AllowAnyOrigin");
             app.UseErrorLog();
             app.UseStaticFiles();
             app.UseAuthentication();
